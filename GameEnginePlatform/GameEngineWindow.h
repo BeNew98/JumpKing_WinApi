@@ -12,12 +12,24 @@ class GameEngineWindow
 {
 public:
 	// 윈도우를 만들어 주는 기능입니다.
-	static void WindowCreate(HINSTANCE _hInstance, const std::string_view& _TitleName);
+	static void WindowCreate(HINSTANCE _hInstance, const std::string_view& _TitleName, float4 _Size, float4 _Pos);
 
-	static void WindowSize(float4 _Size);
-	static void WindowPos(float4 _Pos);
+	static void SettingWindowSize(float4 _Size);
+	static void SettingWindowPos(float4 _Pos);
 
-	static int WindowLoop();
+	static HWND GetHWnd()
+	{
+		return HWnd;
+	}
+
+	static HDC GetDrawHdc()
+	{
+		return DrawHdc;
+	}
+
+	//다른 클래스와 단절시켜 시키는것만 하게함
+	//callback함수 : 함수포인터를 이용해 다른함수를 대신 실행시켜줌
+	static int WindowLoop(void(*Start)(), void(*Loop)(), void(*End)());
 
 	GameEngineWindow();
 	~GameEngineWindow();
@@ -31,6 +43,10 @@ public:
 protected:
 
 private:
-	static HWND hWnd;
+	static float4 WindowSize;
+	static float4 ScreenSize;
+	static float4 WindowPos;
+	static HWND HWnd;
+	static HDC DrawHdc; 
 };
 
