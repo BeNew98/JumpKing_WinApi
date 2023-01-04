@@ -21,7 +21,7 @@ LRESULT CALLBACK MessageFunction(HWND _hWnd, UINT _message, WPARAM _wParam, LPAR
         int a = 0;
         break;
     }
-    // 내 윈도우가 선택되었다.
+    // 내 윈도우가 선택됨.
     case WM_SETFOCUS:
     {
         int a = 0;
@@ -124,9 +124,9 @@ int GameEngineWindow::WindowLoop(void(*_Start)(), void(*_Loop)(), void(*_End)())
 
     // 동기 함수는 종료될때까지 프로그램이 멈춤
 
-    // 기본 메시지 루프입니다:
+    // 기본 메시지 루프
     // GetMessage는 내 윈도우에 무슨일이 생기는지 체크해줘.
-    // GetMessage는 윈도우의 특별한 일이 생길대까지 멈추는 함수인겁니다.
+    // GetMessage는 윈도우의 특별한 일이 생길때까지 멈추는 함수
     while (IsWindowUpdate)
     {
         //if (!TranslateAccelerator(msg.hwnd, nullptr, &msg))
@@ -136,9 +136,11 @@ int GameEngineWindow::WindowLoop(void(*_Start)(), void(*_Loop)(), void(*_End)())
         // 윈도우 메세지를 처리한다.
         // GetMessage는 동기함수이기 때문에 애초에 게임을 만들수 있는 메세지 방식이 아니다
         // => 게임은 쉴새없이 돌아야 하는데
-        // GetMessage라는 함수는 => 윈도우에 무슨일이 생기면 리턴되는 함수
+        // GetMessage : 메세지가 있어야 리턴되는 함수
         // 윈도우에 무슨일이 생기게 만들어야 한다.
-        if (GetMessage(&msg, nullptr, 0, 0))
+
+        //PeekMessage 메세지가 있던 없던 리턴한다.
+        if (PeekMessage(&msg, nullptr, 0, 0,PM_REMOVE))//PM_REMOVE : 쌓여있는 메세지 삭제하기
         {
             if (nullptr != _Loop)
             {
