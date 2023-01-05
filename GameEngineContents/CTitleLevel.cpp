@@ -8,3 +8,11 @@ CTitleLevel::~CTitleLevel()
 {
 }
 
+void CTitleLevel::Loading()
+{
+}
+
+void CTitleLevel::Update()
+{
+}
+

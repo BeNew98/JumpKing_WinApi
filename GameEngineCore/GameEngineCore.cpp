@@ -19,6 +19,9 @@ void GameEngineCore::GlobalUpdate()
 		return;
 	}
 
+	Core->MainLevel->ActorsUpdate();
+	Core->MainLevel->ActorsRender();
+
 }
 
 void GameEngineCore::GlobalEnd()
@@ -67,4 +70,15 @@ void GameEngineCore::ChangeLevel(const std::string_view& _Name)
 	}
 
 	MainLevel = FindIter->second;
+}
+
+void GameEngineCore::LevelLoading(GameEngineLevel* _Level)
+{
+	if (nullptr == _Level)
+	{
+		MsgAssert("nullptr 인 레벨을 로딩하려고 했습니다.");
+		return;
+	}
+
+	_Level->Loading();
 }

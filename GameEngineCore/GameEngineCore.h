@@ -39,7 +39,10 @@ protected:
 			return;
 		}
 
+		//업캐스팅
 		GameEngineLevel* Level = new LevelType();
+
+		LevelLoading(Level);
 		Levels.insert(std::make_pair(_Name.data(), Level));
 	}
 
@@ -53,5 +56,8 @@ private:
 	std::map<std::string, GameEngineLevel*> Levels;
 
 	GameEngineLevel* MainLevel = nullptr;
+
+	void LevelLoading(GameEngineLevel* _Level);
+
 };
 

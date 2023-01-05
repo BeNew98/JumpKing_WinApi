@@ -16,6 +16,8 @@ public:
 	CPlayLevel& operator=(CPlayLevel&& _Other) noexcept = delete;
 
 protected:
+	void Loading() override;
+	void Update() override;
 
 private:
 

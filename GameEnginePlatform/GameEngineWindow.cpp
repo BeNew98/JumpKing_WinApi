@@ -142,13 +142,22 @@ int GameEngineWindow::WindowLoop(void(*_Start)(), void(*_Loop)(), void(*_End)())
         //PeekMessage 메세지가 있던 없던 리턴한다.
         if (PeekMessage(&msg, nullptr, 0, 0,PM_REMOVE))//PM_REMOVE : 쌓여있는 메세지 삭제하기
         {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+
+            //메세지가 있을때도 게임을 돌리기
             if (nullptr != _Loop)
             {
                 _Loop();
             }
+            continue;
+        }
 
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+        //메세지가 없는 타임을 데드타임 이라고함
+        //이 시간에 게임을 돌리는것.
+        if (nullptr != _Loop)
+        {
+            _Loop();
         }
     }
 

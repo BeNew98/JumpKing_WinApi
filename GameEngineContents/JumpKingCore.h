@@ -1,7 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineCore.h>
 
-// 설명 :
+// 설명 : 
 class JumpKingCore :public GameEngineCore
 {
 public:

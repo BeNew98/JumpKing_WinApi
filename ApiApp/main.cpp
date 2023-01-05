@@ -7,6 +7,5 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ int       nCmdShow)
 {
 	JumpKingCore::GetInst()->CoreStart(hInstance);
-	JumpKingCore::GetInst();
 	return 1;
 }
