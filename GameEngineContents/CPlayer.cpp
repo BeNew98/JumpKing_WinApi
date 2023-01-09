@@ -1,5 +1,7 @@
 #include "CPlayer.h"
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEnginePlatform/GameEngineImage.h>
+#include <GameEngineCore/GameEngineResources.h>
 
 CPlayer::CPlayer() 
 {
@@ -24,12 +26,9 @@ void CPlayer::Render()
 {
 	float4 PlayerPos = GetPos();
 
-	Rectangle(
-		GameEngineWindow::GetDrawHdc(),
-		PlayerPos.ix() - 50,
-		PlayerPos.iy() - 50,
-		PlayerPos.ix() + 50,
-		PlayerPos.iy() + 50
-	);
+	GameEngineImage* pImage = GameEngineResources::GetInst().ImageFind("base.bmp");
+	
+	GameEngineWindow::GetBackBufferImage()->BitCopy(pImage, PlayerPos - float4{ 50, 50 }, { 100, 100 });
+	
 
 }

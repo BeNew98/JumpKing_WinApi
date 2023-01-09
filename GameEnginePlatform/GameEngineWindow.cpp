@@ -1,14 +1,15 @@
 #include "GameEngineWindow.h"
 #include <GameEngineBase/GameEngineDebug.h>
+#include <GameEnginePlatform/GameEngineImage.h>
 
 // LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM)
 
 HWND GameEngineWindow::HWnd = nullptr;
-HDC GameEngineWindow::DrawHdc = nullptr;
+HDC GameEngineWindow::WindowBackBufferHdc = nullptr;
 float4 GameEngineWindow::WindowSize = { 800, 600 };
 float4 GameEngineWindow::WindowPos = { 100, 100 };
 float4 GameEngineWindow::ScreenSize = { 800, 600 };
-
+GameEngineImage* GameEngineWindow::BackBufferImage = nullptr;
 
 bool IsWindowUpdate = true;
 
@@ -98,7 +99,10 @@ void GameEngineWindow::WindowCreate(HINSTANCE _hInstance, const std::string_view
         return;
     }
 
-    DrawHdc = GetDC(HWnd);
+    WindowBackBufferHdc = GetDC(HWnd);
+
+    BackBufferImage = new GameEngineImage();
+    BackBufferImage->ImageCreate(WindowBackBufferHdc);
 
     ShowWindow(HWnd, SW_SHOW);
     UpdateWindow(HWnd);

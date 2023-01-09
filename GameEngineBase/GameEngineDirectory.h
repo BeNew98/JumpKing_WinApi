@@ -19,6 +19,14 @@ public:
 	//현재 디렉토리에 파일이 있는가
 	bool IsFile(const std::string_view& _FileName);
 
+	bool MoveParent();
+
+	void MoveParentToDirectory(const std::string_view& _String);
+
+	bool Move(const std::string_view& _String);
+
+	GameEnginePath GetPlusFileName(const std::string_view& _String);
+
 protected:
 
 private:

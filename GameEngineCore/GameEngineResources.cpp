@@ -1,0 +1,64 @@
+#include "GameEngineResources.h"
+#include <GameEngineBase/GameEngineString.h>
+#include <GameEngineBase/GameEnginePath.h>
+#include <GameEngineBase/GameEngineDebug.h>
+
+GameEngineResources GameEngineResources::Inst;
+
+GameEngineResources::GameEngineResources()
+{
+}
+
+GameEngineResources::~GameEngineResources() 
+{
+}
+
+bool GameEngineResources::ImageLoad(const GameEnginePath& _Path)
+{
+	return ImageLoad(_Path.GetPathToString().c_str(),_Path.GetFileName().c_str());
+}
+
+bool GameEngineResources::ImageLoad(const std::string_view& _Path, const std::string_view& _Name)
+{
+	std::string UpperName = GameEngineString::ToUpper(_Name);
+
+	if (AllImage.end() != AllImage.find(UpperName))
+	{
+		MsgAssert("이미 로드한 이미지를 또 로드하려고 했습니다." + UpperName);
+		return false;
+	}
+
+	GameEngineImage* NewImage = new GameEngineImage();
+	NewImage->ImageLoad(_Path);
+	AllImage.insert(std::make_pair(UpperName, NewImage));
+
+	return true;
+}
+
+GameEngineImage* GameEngineResources::ImageFind(const std::string_view& _Name)
+{
+	std::string UpperName = GameEngineString::ToUpper(_Name);
+
+	std::map<std::string, GameEngineImage*>::iterator FindIter = AllImage.find(UpperName);
+
+	if (AllImage.end() == FindIter)
+	{
+		MsgAssert("로드하지 않은 이미지를 사용하려고 했습니다" + UpperName);
+		return nullptr;
+	}
+
+	return FindIter->second;
+}
+
+void GameEngineResources::Release()
+{
+	for (std::pair<std::string,GameEngineImage*> Pair : AllImage)
+	{
+		if (nullptr == Pair.second)
+		{
+			continue;
+		}
+		delete Pair.second;
+	}
+	AllImage.clear();
+}
