@@ -32,11 +32,14 @@ public:
 	{
 		return WindowBackBufferHdc;
 	}
-
-	static GameEngineImage* GetBackBufferImage()
+		
+	static GameEngineImage* GetDoubleBufferImage()
 	{
-		return BackBufferImage;
+		return DoubleBufferImage;
 	}
+
+	static void DoubleBufferClear();
+	static void DoubleBufferRender();
 
 	//다른 클래스와 단절시켜 시키는것만 하게함
 	//callback함수 : 함수포인터를 이용해 다른함수를 대신 실행시켜줌
@@ -60,5 +63,7 @@ private:
 	static HWND HWnd;
 	static HDC WindowBackBufferHdc;
 	static GameEngineImage* BackBufferImage;
+	static GameEngineImage* DoubleBufferImage;
+
 };
 

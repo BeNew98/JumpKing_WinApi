@@ -1,7 +1,8 @@
 #include "GameEngineImage.h"
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineBase/GameEnginePath.h>
-
+#include <GameEnginePlatform/GameEngineWindow.h>
+#pragma comment(lib, "msimg32.lib")
 
 GameEngineImage::GameEngineImage() 
 {
@@ -22,6 +23,38 @@ bool GameEngineImage::ImageCreate(HDC _Hdc)
 
 	ImageDC = _Hdc;
 	ImageScaleCheck();
+	return true;
+}
+
+bool GameEngineImage::ImageCreate(const float4& _Scale)
+{
+	if (true == _Scale.IsZero())
+	{
+		MsgAssert("크기가 0인 이미지를 만들 수는 없습니다");
+		return false;
+	}
+	BitMap = CreateCompatibleBitmap(GameEngineWindow::GetWindowBackBufferHdc(), _Scale.ix(), _Scale.iy());
+
+	if (nullptr== BitMap)
+	{
+		MsgAssert("이미지 생성에 실패했습니다.");
+		return false;
+	}
+
+	ImageDC = CreateCompatibleDC(nullptr);
+
+	if (nullptr == ImageDC)
+	{
+		MsgAssert("이미지 HDC 생성에 실패했습니다.");
+		return false;
+	}
+
+	OldBitMap = static_cast<HBITMAP>(SelectObject(ImageDC, BitMap)); 
+
+	ImageScaleCheck();
+
+	ImageClear();
+
 	return true;
 }
 
@@ -54,12 +87,18 @@ bool GameEngineImage::ImageLoad(const std::string_view& _Path)
 
 	ImageScaleCheck();
 
-	return false;
+	return true;
+}
+
+void GameEngineImage::ImageClear()
+{
+	Rectangle(ImageDC, 0, 0, Info.bmWidth, Info.bmHeight);
 }
 
 void GameEngineImage::ImageScaleCheck()
 {
-	GetObject(BitMap, sizeof(BITMAP), &Info);
+	HBITMAP CurrentBitMap = static_cast<HBITMAP>(GetCurrentObject(ImageDC, OBJ_BITMAP));
+	GetObject(CurrentBitMap, sizeof(BITMAP), &Info);
 }
 
 void GameEngineImage::BitCopy(GameEngineImage* _OtherImage, float4 _Pos, float4 _Scale)
@@ -72,5 +111,21 @@ void GameEngineImage::BitCopy(GameEngineImage* _OtherImage, float4 _Pos, float4 
 		, _OtherImage->GetImageDC()
 		, 0, 0
 		, SRCCOPY
+	);
+}
+
+void GameEngineImage::TransCopy(const GameEngineImage* _OtherImage, float4 _CopyPos, float4 _CopySize, float4 _OtherImagePos, float4 _OtherImageSize, int _Color)
+{
+	TransparentBlt(ImageDC
+		, _CopyPos.ix()
+		, _CopyPos.iy()
+		, _CopySize.ix()
+		, _CopySize.iy()
+		, _OtherImage->GetImageDC()
+		, _OtherImagePos.ix()
+		, _OtherImagePos.iy()
+		, _OtherImageSize.ix()
+		, _OtherImageSize.iy()
+		, _Color
 	);
 }

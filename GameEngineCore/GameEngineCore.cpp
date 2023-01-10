@@ -21,8 +21,9 @@ void GameEngineCore::GlobalUpdate()
 	}
 
 	Core->MainLevel->ActorsUpdate();
+	GameEngineWindow::DoubleBufferClear();
 	Core->MainLevel->ActorsRender();
-
+	GameEngineWindow::DoubleBufferRender();
 }
 
 void GameEngineCore::GlobalEnd()

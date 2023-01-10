@@ -28,7 +28,8 @@ void CPlayer::Render()
 
 	GameEngineImage* pImage = GameEngineResources::GetInst().ImageFind("base.bmp");
 	
-	GameEngineWindow::GetBackBufferImage()->BitCopy(pImage, PlayerPos - float4{ 50, 50 }, { 100, 100 });
-	
+	{
+		GameEngineWindow::GetDoubleBufferImage()->TransCopy(pImage, PlayerPos - float4{ 50, 50 }, { 100,100 }, {0,0}, { 100,100 });
+	}
 
 }

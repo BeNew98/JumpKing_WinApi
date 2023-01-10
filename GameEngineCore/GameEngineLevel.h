@@ -1,5 +1,6 @@
 #pragma once
 #include <list>
+#include <map>
 
 // Ό³Έν :
 class GameEngineCore;
@@ -21,25 +22,25 @@ public:
 	GameEngineLevel& operator=(GameEngineLevel&& _Other) noexcept = delete;
 
 	template<typename ActorType>
-	void CreateActor()
+	void CreateActor(int _Order = 0)
 	{
 		GameEngineActor* Actor = new ActorType();
 
-		ActorStart(Actor);
+		ActorStart(Actor, _Order);
 
-		Actors.push_back(Actor);
+		Actors[_Order].push_back(Actor);
 	}
 protected:
 	virtual void Loading() = 0;
 	virtual void Update() = 0;
 
 private:
-	std::list<GameEngineActor*> Actors;
+	std::map<int,std::list<GameEngineActor*>> Actors;
 
 	void ActorsUpdate();
 	void ActorsRender();
 
-	void ActorStart(GameEngineActor* _Actor);
+	void ActorStart(GameEngineActor* _Actor,int _Order);
 
 };
 

@@ -10,6 +10,7 @@ float4 GameEngineWindow::WindowSize = { 800, 600 };
 float4 GameEngineWindow::WindowPos = { 100, 100 };
 float4 GameEngineWindow::ScreenSize = { 800, 600 };
 GameEngineImage* GameEngineWindow::BackBufferImage = nullptr;
+GameEngineImage* GameEngineWindow::DoubleBufferImage = nullptr;
 
 bool IsWindowUpdate = true;
 
@@ -99,10 +100,7 @@ void GameEngineWindow::WindowCreate(HINSTANCE _hInstance, const std::string_view
         return;
     }
 
-    WindowBackBufferHdc = GetDC(HWnd);
-
-    BackBufferImage = new GameEngineImage();
-    BackBufferImage->ImageCreate(WindowBackBufferHdc);
+    WindowBackBufferHdc = GetDC(HWnd);    
 
     ShowWindow(HWnd, SW_SHOW);
     UpdateWindow(HWnd);
@@ -110,7 +108,20 @@ void GameEngineWindow::WindowCreate(HINSTANCE _hInstance, const std::string_view
     SettingWindowSize(_Size);
     SettingWindowPos(_Pos);
 
+    BackBufferImage = new GameEngineImage();
+    BackBufferImage->ImageCreate(WindowBackBufferHdc);
+
     return;
+}
+
+void GameEngineWindow::DoubleBufferClear()
+{
+    DoubleBufferImage->ImageClear();
+}
+
+void GameEngineWindow::DoubleBufferRender()
+{
+    BackBufferImage->BitCopy(DoubleBufferImage, { 0,0 }, ScreenSize);
 }
 
 int GameEngineWindow::WindowLoop(void(*_Start)(), void(*_Loop)(), void(*_End)())
@@ -133,10 +144,6 @@ int GameEngineWindow::WindowLoop(void(*_Start)(), void(*_Loop)(), void(*_End)())
     // GetMessage는 윈도우의 특별한 일이 생길때까지 멈추는 함수
     while (IsWindowUpdate)
     {
-        //if (!TranslateAccelerator(msg.hwnd, nullptr, &msg))
-        //{
-        //}
-
         // 윈도우 메세지를 처리한다.
         // GetMessage는 동기함수이기 때문에 애초에 게임을 만들수 있는 메세지 방식이 아니다
         // => 게임은 쉴새없이 돌아야 하는데
@@ -157,8 +164,6 @@ int GameEngineWindow::WindowLoop(void(*_Start)(), void(*_Loop)(), void(*_End)())
             continue;
         }
 
-        //메세지가 없는 타임을 데드타임 이라고함
-        //이 시간에 게임을 돌리는것.
         if (nullptr != _Loop)
         {
             _Loop();
@@ -168,6 +173,15 @@ int GameEngineWindow::WindowLoop(void(*_Start)(), void(*_Loop)(), void(*_End)())
     if (nullptr != _End)
     {
         _End();
+    }
+    
+    if (nullptr!= BackBufferImage)
+    {
+        delete BackBufferImage;
+        BackBufferImage = nullptr;
+
+        delete DoubleBufferImage;
+        DoubleBufferImage = nullptr;
     }
 
     return (int)msg.wParam;
@@ -189,6 +203,15 @@ void GameEngineWindow::SettingWindowSize(float4 _Size)
 
     WindowSize = { static_cast<float>(Rc.right - Rc.left), static_cast<float>(Rc.bottom - Rc.top) };
     SetWindowPos(HWnd, nullptr, WindowPos.ix(), WindowPos.iy(), WindowSize.ix(), WindowSize.iy(), SWP_NOZORDER);
+
+    if (nullptr!= DoubleBufferImage)
+    {
+        delete DoubleBufferImage;
+        DoubleBufferImage = nullptr;
+    }
+
+    DoubleBufferImage = new GameEngineImage();
+    DoubleBufferImage->ImageCreate(ScreenSize);
 }
 void GameEngineWindow::SettingWindowPos(float4 _Pos)
 {
