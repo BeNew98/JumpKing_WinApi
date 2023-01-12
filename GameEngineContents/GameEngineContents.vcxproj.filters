@@ -11,6 +11,7 @@
     <ClInclude Include="CPlayer.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="EnumHeader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JumpKingCore.cpp" />

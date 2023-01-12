@@ -23,8 +23,8 @@ public:
 		return Inst;
 	}
 
-	bool ImageLoad(const GameEnginePath& _Path);
-	bool ImageLoad(const std::string_view& _Path, const std::string_view& _Name);
+	GameEngineImage* ImageLoad(const GameEnginePath& _Path);
+	GameEngineImage* ImageLoad(const std::string_view& _Path, const std::string_view& _Name);
 
 	GameEngineImage* ImageFind(const std::string_view& _Name);
 

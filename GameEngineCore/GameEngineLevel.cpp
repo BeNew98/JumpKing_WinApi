@@ -1,14 +1,15 @@
 #include "GameEngineLevel.h"
 #include "GameEngineActor.h"
+#include "GameEngineRender.h"
 #include <GameEngineBase/GameEngineDebug.h>
 
-GameEngineLevel::GameEngineLevel() 
+GameEngineLevel::GameEngineLevel()
 {
 }
 
-GameEngineLevel::~GameEngineLevel() 
+GameEngineLevel::~GameEngineLevel()
 {
-	for (std::pair<int,std::list<GameEngineActor*>> UpdateGroup : Actors)
+	for (std::pair<int, std::list<GameEngineActor*>> UpdateGroup : Actors)
 	{
 		std::list<GameEngineActor*> ActorList = UpdateGroup.second;
 
@@ -32,11 +33,21 @@ void GameEngineLevel::ActorStart(GameEngineActor* _Actor, int _Order)
 		MsgAssert("nullptr 액터를 Start하려고 했습니다.");
 		return;
 	}
+	_Actor->Level = this;
 	_Actor->SetOrder(_Order);
 	_Actor->Start();
 }
 
-void GameEngineLevel::ActorsUpdate()
+void GameEngineLevel::PushRender(GameEngineRender* _Render)
+{
+	if (nullptr == _Render)
+	{
+		MsgAssert("nullptr인 랜더를 랜더링 그룹속에 넣으려고 했습니다.");
+	}
+	Renders[_Render->GetOrder()].push_back(_Render);
+}
+
+void GameEngineLevel::ActorsUpdate(float _DeltaTime)
 {
 	{
 		std::map<int, std::list<GameEngineActor*>>::iterator GroupStartIter = Actors.begin();
@@ -51,7 +62,8 @@ void GameEngineLevel::ActorsUpdate()
 				{
 					continue;
 				}
-				Actor->Update();
+				Actor->LiveTime += _DeltaTime;
+				Actor->Update(_DeltaTime);
 			}
 		}
 	}
@@ -73,30 +85,53 @@ void GameEngineLevel::ActorsUpdate()
 					continue;
 				}
 
-				Actor->LateUpdate();
+				Actor->LateUpdate(_DeltaTime);
 			}
 		}
 	}
 }
 
-void GameEngineLevel::ActorsRender()
+void GameEngineLevel::ActorsRender(float _DeltaTime)
 {
-	std::map<int, std::list<GameEngineActor*>>::iterator GroupStartIter = Actors.begin();
-	std::map<int, std::list<GameEngineActor*>>::iterator GroupEndIter = Actors.end();
-
-	for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
 	{
-		std::list<GameEngineActor*>& ActorList = GroupStartIter->second;
+		std::map<int, std::list<GameEngineRender*>>::iterator GroupStartIter = Renders.begin();
+		std::map<int, std::list<GameEngineRender*>>::iterator GroupEndIter = Renders.end();
 
-		for (GameEngineActor* Actor : ActorList)
+		for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
 		{
-			// Actors.erase()
-			if (nullptr == Actor)
-			{
-				continue;
-			}
+			std::list<GameEngineRender*>& RenderList = GroupStartIter->second;
 
-			Actor->Render();
+			for (GameEngineRender* Actor : RenderList)
+			{
+				// Actors.erase()
+				if (nullptr == Actor)
+				{
+					continue;
+				}
+
+				Actor->Render(_DeltaTime);
+			}
+		}
+	}
+
+	{
+		std::map<int, std::list<GameEngineActor*>>::iterator GroupStartIter = Actors.begin();
+		std::map<int, std::list<GameEngineActor*>>::iterator GroupEndIter = Actors.end();
+
+		for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
+		{
+			std::list<GameEngineActor*>& ActorList = GroupStartIter->second;
+
+			for (GameEngineActor* Actor : ActorList)
+			{
+				// Actors.erase()
+				if (nullptr == Actor)
+				{
+					continue;
+				}
+
+				Actor->Render(_DeltaTime);
+			}
 		}
 	}
 }

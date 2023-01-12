@@ -5,10 +5,12 @@
 // 설명 :
 class GameEngineCore;
 class GameEngineActor;
+class GameEngineRender;
 
 class GameEngineLevel
 {
 	friend GameEngineCore;
+	friend GameEngineRender;
 
 public:
 	// constrcuter destructer
@@ -21,6 +23,13 @@ public:
 	GameEngineLevel& operator=(const GameEngineLevel& _Other) = delete;
 	GameEngineLevel& operator=(GameEngineLevel&& _Other) noexcept = delete;
 
+	/// <summary>
+	/// Actor 생성 함수
+	/// </summary>
+	/// <typeparam name="ActorType">
+	/// GameEngineActor 상속받은 클래스 타입</typeparam>
+	/// <param name="_Order">
+	/// Order가 작을수록 먼저 업데이트</param>
 	template<typename ActorType>
 	void CreateActor(int _Order = 0)
 	{
@@ -37,10 +46,15 @@ protected:
 private:
 	std::map<int,std::list<GameEngineActor*>> Actors;
 
-	void ActorsUpdate();
-	void ActorsRender();
+	void ActorsUpdate(float _DeltaTime);
+	void ActorsRender(float _DeltaTime);
 
 	void ActorStart(GameEngineActor* _Actor,int _Order);
+
+	std::map<int, std::list<GameEngineRender*>> Renders;
+
+	void PushRender(GameEngineRender* _Render);
+	
 
 };
 

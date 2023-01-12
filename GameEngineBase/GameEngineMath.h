@@ -50,6 +50,25 @@ public:
 		return static_cast<int>(w);
 	}
 
+	int hix() const
+	{
+		return static_cast<int>(x * 0.5f);
+	}
+
+	int hiy() const
+	{
+		return static_cast<int>(y * 0.5f);
+	}
+
+	int hiz() const
+	{
+		return static_cast<int>(z * 0.5f);
+	}
+
+	int hiw() const
+	{
+		return static_cast<int>(w * 0.5f);
+	}
 
 	float4 half() const
 	{
@@ -67,6 +86,15 @@ public:
 		Return.x = x * _Value;
 		Return.y = y * _Value;
 		Return.z = z * _Value;
+		return Return;
+	}
+
+	float4 operator +(const float4 _Value) const
+	{
+		float4 Return;
+		Return.x = x + _Value.x;
+		Return.y = y + _Value.y;
+		Return.z = z + _Value.z;
 		return Return;
 	}
 
