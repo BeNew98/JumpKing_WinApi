@@ -101,15 +101,15 @@ void GameEngineLevel::ActorsRender(float _DeltaTime)
 		{
 			std::list<GameEngineRender*>& RenderList = GroupStartIter->second;
 
-			for (GameEngineRender* Actor : RenderList)
+			for (GameEngineRender* Renderer : RenderList)
 			{
 				// Actors.erase()
-				if (nullptr == Actor)
+				if (nullptr == Renderer)
 				{
 					continue;
 				}
 
-				Actor->Render(_DeltaTime);
+				Renderer->Render(_DeltaTime);
 			}
 		}
 	}

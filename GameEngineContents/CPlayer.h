@@ -5,6 +5,8 @@
 class CPlayer : public GameEngineActor
 {
 public:
+	static CPlayer* MainPlayer;
+
 	// constrcuter destructer
 	CPlayer();
 	~CPlayer();
@@ -22,5 +24,8 @@ protected:
 
 private:
 
+	float AccTime = 0.0f;
+	int StartFrame = 0;
+	float MoveSpeed = 100.0f;
 };
 

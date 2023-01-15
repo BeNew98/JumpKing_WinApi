@@ -41,9 +41,13 @@ public:
 	}
 protected:
 	virtual void Loading() = 0;
-	virtual void Update() = 0;
+	virtual void Update(float _DeltaTime) = 0;
 
-private:
+	virtual void LevelChangeStart(GameEngineLevel* _PrevLevel) = 0;
+	virtual void LevelChangeEnd(GameEngineLevel* _NextLevel) = 0;
+
+
+ private:
 	std::map<int,std::list<GameEngineActor*>> Actors;
 
 	void ActorsUpdate(float _DeltaTime);

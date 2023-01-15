@@ -76,6 +76,11 @@ protected:
 	// 화면에 그려지는 기능
 	virtual void Render(float _DeltaTime) {}
 
+	inline float GetLiveTime()
+	{
+		return LiveTime;
+	}
+
 private:
 	GameEngineLevel* Level = nullptr;
 	

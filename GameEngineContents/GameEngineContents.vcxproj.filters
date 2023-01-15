@@ -2,35 +2,44 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="JumpKingCore.h" />
-    <ClInclude Include="CTitleLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
     <ClInclude Include="CPlayLevel.h">
-      <Filter>Level</Filter>
+      <Filter>PlayLevel</Filter>
     </ClInclude>
     <ClInclude Include="CPlayer.h">
       <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="EnumHeader.h" />
+    <ClInclude Include="CTitleLevel.h">
+      <Filter>TitleLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CBackGround.h">
+      <Filter>TitleLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JumpKingCore.cpp" />
-    <ClCompile Include="CTitleLevel.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
     <ClCompile Include="CPlayLevel.cpp">
-      <Filter>Level</Filter>
+      <Filter>PlayLevel</Filter>
     </ClCompile>
     <ClCompile Include="CPlayer.cpp">
       <Filter>Object</Filter>
     </ClCompile>
+    <ClCompile Include="CTitleLevel.cpp">
+      <Filter>TitleLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CBackGround.cpp">
+      <Filter>TitleLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Level">
-      <UniqueIdentifier>{40cbfde8-9e35-41bd-83b8-5940034bf910}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object">
       <UniqueIdentifier>{c1e314d1-fee8-4997-9aed-5aaa683a9c6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayLevel">
+      <UniqueIdentifier>{40cbfde8-9e35-41bd-83b8-5940034bf910}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TitleLevel">
+      <UniqueIdentifier>{15735971-2b6c-4acc-86a2-3bfc174a338f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

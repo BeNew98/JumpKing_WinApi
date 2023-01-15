@@ -1,11 +1,18 @@
 #include "GameEngineCore.h"
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEngineBase/GameEngineTime.h> 
+#include <GameEnginePlatform/GameEngineInput.h>
+
 #include "GameEngineResources.h"
 #include "GameEngineLevel.h"
-#include <GameEngineBase/GameEngineTime.h> 
 
 GameEngineCore* Core;
+
+GameEngineCore* GameEngineCore::GetInst()
+{
+	return Core;
+}
 
 void GameEngineCore::GlobalStart()
 {
@@ -15,7 +22,28 @@ void GameEngineCore::GlobalStart()
 
 void GameEngineCore::GlobalUpdate()
 {
+	if ( nullptr != Core->NextLevel)
+	{
+		GameEngineLevel* PrevLevel = Core->MainLevel;
+		GameEngineLevel* NextLevel = Core->NextLevel;
+
+		if (nullptr!=PrevLevel)
+		{
+			PrevLevel->LevelChangeEnd(NextLevel);
+		}
+
+		Core->MainLevel = NextLevel;
+		Core->NextLevel = nullptr;
+
+		if (nullptr!=NextLevel)
+		{
+			NextLevel->LevelChangeStart(PrevLevel);
+		}
+	}
 	float TimeDeltaTime = GameEngineTime::GlobalTime.TimeCheck();
+
+	GameEngineInput::Update(TimeDeltaTime);
+
 	Core->Update();
 	if (nullptr == Core->MainLevel)
 	{
@@ -23,6 +51,7 @@ void GameEngineCore::GlobalUpdate()
 		return;
 	}
 
+	Core->MainLevel->Update(TimeDeltaTime);
 	Core->MainLevel->ActorsUpdate(TimeDeltaTime);
 	GameEngineWindow::DoubleBufferClear();
 	Core->MainLevel->ActorsRender(TimeDeltaTime);

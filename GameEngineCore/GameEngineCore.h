@@ -28,6 +28,10 @@ public:
 
 	void CoreStart(HINSTANCE _instance);
 
+	void ChangeLevel(const std::string_view& _Name);
+
+	static GameEngineCore* GetInst();
+
 protected:
 	template<typename LevelType>
 	void CreateLevel(const std::string_view& _Name)
@@ -46,7 +50,6 @@ protected:
 		Levels.insert(std::make_pair(_Name.data(), Level));
 	}
 
-	void ChangeLevel(const std::string_view& _Name);
 
 	virtual void Start() = 0;
 	virtual void Update() = 0;
@@ -54,6 +57,8 @@ protected:
 
 private:
 	std::map<std::string, GameEngineLevel*> Levels;
+
+	GameEngineLevel* NextLevel = nullptr;
 
 	GameEngineLevel* MainLevel = nullptr;
 

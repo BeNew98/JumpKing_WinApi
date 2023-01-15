@@ -19,6 +19,8 @@ void CPlayLevel::Loading()
 	Dir.MoveParentToDirectory("ContentsResources");
 	Dir.Move("ContentsResources");
 	Dir.Move("Image");
+	Dir.Move("Play");
+
 	GameEngineImage* pImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("basecut.bmp"));
 	pImage->Cut(4, 4);
 
@@ -26,7 +28,7 @@ void CPlayLevel::Loading()
 	CreateActor<CPlayer>();
 }
 
-void CPlayLevel::Update()
+void CPlayLevel::Update(float _DeltaTime)
 {
 
 }
