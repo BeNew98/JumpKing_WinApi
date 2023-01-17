@@ -46,7 +46,7 @@ void GameEngineRender::Render(float _DeltaTime)
 
 void GameEngineRender::FrameAnimation::Render(float _DeltaTime)
 {
-	CurrentTime = _DeltaTime;
+	CurrentTime -= _DeltaTime;
 
 	if (CurrentTime<=0.0f)
 	{
@@ -60,7 +60,7 @@ void GameEngineRender::FrameAnimation::Render(float _DeltaTime)
 			}
 			else
 			{
-				CurrentIndex = FrameIndex.size() - 1;
+				CurrentIndex = static_cast<int>(FrameIndex.size()) - 1;
 			}
 		}
 		CurrentTime = FrameTime[CurrentIndex];
@@ -93,13 +93,25 @@ void GameEngineRender::CreateAnimation(const FrameAnimationParameter& _Parameter
 
 	NewAnimation.Image = Image;
 
-	if (0!= _Parameter.FrameTime.size())
+	if (0 != _Parameter.FrameIndex.size())
+	{
+		NewAnimation.FrameIndex = _Parameter.FrameIndex;
+	}
+	else
+	{
+		for (int i = _Parameter.Start; i <= _Parameter.End; ++i)
+		{
+			NewAnimation.FrameIndex.push_back(i);
+		}
+	}
+
+	if (0 != _Parameter.FrameTime.size())
 	{
 		NewAnimation.FrameTime = _Parameter.FrameTime;
 	}
 	else
 	{
-		for (int i = 0; i < NewAnimation.FrameIndex.size(); i++)
+		for (int i = 0; i < NewAnimation.FrameIndex.size(); ++i)
 		{
 			NewAnimation.FrameTime.push_back(_Parameter.InterTime);
 		}

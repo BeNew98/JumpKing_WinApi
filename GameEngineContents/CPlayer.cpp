@@ -47,6 +47,8 @@ void CPlayer::Update(float _DeltaTime)
 
 	if (true == GameEngineInput::IsPress("RightMove"))
 	{
+		AnimationRender->ChangeAnimation("test0");
+
 		SetMove(float4::Right * MoveSpeed * _DeltaTime);
 	}
 
