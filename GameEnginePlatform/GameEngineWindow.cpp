@@ -1,6 +1,7 @@
 #include "GameEngineWindow.h"
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEnginePlatform/GameEngineImage.h>
+#include <GameEnginePlatform/GameEngineInput.h>
 
 // LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM)
 
@@ -11,10 +12,10 @@ float4 GameEngineWindow::WindowPos = { 100, 100 };
 float4 GameEngineWindow::ScreenSize = { 800, 600 };
 GameEngineImage* GameEngineWindow::BackBufferImage = nullptr;
 GameEngineImage* GameEngineWindow::DoubleBufferImage = nullptr;
+bool GameEngineWindow::IsWindowUpdate = true;
 
-bool IsWindowUpdate = true;
 
-LRESULT CALLBACK MessageFunction(HWND _hWnd, UINT _message, WPARAM _wParam, LPARAM _lParam)
+LRESULT CALLBACK GameEngineWindow::MessageFunction(HWND _hWnd, UINT _message, WPARAM _wParam, LPARAM _lParam)
 {
     switch (_message)
     {
@@ -39,9 +40,14 @@ LRESULT CALLBACK MessageFunction(HWND _hWnd, UINT _message, WPARAM _wParam, LPAR
         int a = 0;
         break;
     }
+    case WM_KEYDOWN:
+    {
+        GameEngineInput::IsAnyKeyOn();
+        break;
+    }
     case WM_DESTROY:
     {
-        // Message함수가 0을 리턴하게 만들어라.
+        // Message함수가 0을 리턴하게 만들기.
         PostQuitMessage(0);
         IsWindowUpdate = false;
         break;
@@ -70,7 +76,7 @@ void GameEngineWindow::WindowCreate(HINSTANCE _hInstance, const std::string_view
     wcex.cbSize = sizeof(WNDCLASSEX);
 
     wcex.style = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc = MessageFunction;
+    wcex.lpfnWndProc =  &GameEngineWindow::MessageFunction;
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = _hInstance;
@@ -160,6 +166,8 @@ int GameEngineWindow::WindowLoop(void(*_Start)(), void(*_Loop)(), void(*_End)())
             if (nullptr != _Loop)
             {
                 _Loop();
+
+                GameEngineInput::IsAnyKeyOff();
             }
             continue;
         }
@@ -168,6 +176,7 @@ int GameEngineWindow::WindowLoop(void(*_Start)(), void(*_Loop)(), void(*_End)())
         {
             _Loop();
         }
+        GameEngineInput::IsAnyKeyOff();
     }
 
     if (nullptr != _End)

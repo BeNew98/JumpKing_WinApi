@@ -4,8 +4,11 @@
 #include <string>
 
 // Ό³Έν :
+
+class GameEngineWindow;
 class GameEngineInput
 {
+	friend GameEngineWindow;
 	class GameEngineKey
 	{
 		friend GameEngineInput;
@@ -46,6 +49,11 @@ public:
 	static bool IsFree(const std::string_view& _Name);
 	static float GetPressTime(const std::string_view& _Name);
 
+	static bool IsAnyKey()
+	{
+		return IsAnyKeyValue;
+	}
+
 protected:
 
 private:
@@ -54,6 +62,17 @@ private:
 	~GameEngineInput();
 
 	static std::map<std::string, GameEngineKey> Keys;
+	static bool IsAnyKeyValue;
+
+	static void IsAnyKeyOn()
+	{
+		IsAnyKeyValue = true;
+	}
+
+	static void IsAnyKeyOff()
+	{
+		IsAnyKeyValue = false;
+	}
 
 };
 

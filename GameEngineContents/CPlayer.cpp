@@ -1,8 +1,6 @@
 #include "CPlayer.h"
 #include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineImage.h>
 #include <GameEngineCore/GameEngineResources.h>
-#include <GameEngineBase/GameEngineTime.h>
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include "EnumHeader.h"
@@ -29,15 +27,21 @@ void CPlayer::Start()
 	GameEngineInput::CreateKey("DownMove", 'S');
 	GameEngineInput::CreateKey("UpMove", 'W');
 
-	GameEngineRender* pRender = CreateRender("BASECUT.BMP", RenderOrder::PLAYER);
-	pRender->SetScale({ 100,100 });
-	pRender->SetPosition({ 0,0 });
+	AnimationRender = CreateRender(RenderOrder::PLAYER);
+	AnimationRender->SetScale({ 100,100 });
+
+	AnimationRender->CreateAnimation({ .AnimationName = "test0",.ImageName ="basecut.bmp",.Start = 0,.End = 5});
+	AnimationRender->CreateAnimation({ .AnimationName = "test1",.ImageName = "basecut.bmp",.Start = 6,.End = 10 });
+
+	AnimationRender->ChangeAnimation("test0");
+
 }
 
 void CPlayer::Update(float _DeltaTime)
 {
 	if (true == GameEngineInput::IsPress("LeftMove"))
 	{
+		AnimationRender->ChangeAnimation("test1");
 		SetMove(float4::Left * MoveSpeed * _DeltaTime);
 	}
 

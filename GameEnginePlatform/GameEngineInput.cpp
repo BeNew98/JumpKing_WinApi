@@ -3,6 +3,7 @@
 #include <GameEngineBase/GameEngineDebug.h>
 
 std::map<std::string, GameEngineInput::GameEngineKey> GameEngineInput::Keys;
+bool GameEngineInput::IsAnyKeyValue = false;
 
 GameEngineInput::GameEngineInput() 
 {
@@ -16,21 +17,21 @@ void GameEngineInput::GameEngineKey::Update(float _DeltaTime)
 {
 	if (true == KeyCheck())
 	{
+			PressTime += _DeltaTime;
 		if (true == Free)
 		{
 			Down = true;
 			Press = true;
 			Up = false;
 			Free = false;
-			PressTime = _DeltaTime;
 		}
+
 		else if (true == Down)
 		{
 			Down = false;
 			Press = true;
 			Up = false;
 			Free = false;
-			PressTime += _DeltaTime;
 		}
 	}
 	else
@@ -41,7 +42,7 @@ void GameEngineInput::GameEngineKey::Update(float _DeltaTime)
 			Down = false;
 			Press = false;
 			Up = true;
-			Free = false;
+			Free = true;
 		}
 		else if (true == Up)
 		{

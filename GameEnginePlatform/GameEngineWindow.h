@@ -12,7 +12,9 @@ class GameEngineImage;
 class GameEngineWindow
 {
 public:
-	// 윈도우를 만들어 주는 기능입니다.
+	static LRESULT CALLBACK MessageFunction(HWND _hWnd, UINT _message, WPARAM _wParam, LPARAM _lParam);
+
+	// 윈도우를 만들어 주는 기능
 	static void WindowCreate(HINSTANCE _hInstance, const std::string_view& _TitleName, float4 _Size, float4 _Pos);
 
 	static void SettingWindowSize(float4 _Size);
@@ -37,6 +39,12 @@ public:
 	{
 		return DoubleBufferImage;
 	}
+
+	static void AppOff()
+	{
+		IsWindowUpdate = false;
+	}
+
 
 	static void DoubleBufferClear();
 	static void DoubleBufferRender();
@@ -64,6 +72,6 @@ private:
 	static HDC WindowBackBufferHdc;
 	static GameEngineImage* BackBufferImage;
 	static GameEngineImage* DoubleBufferImage;
-
+	static bool IsWindowUpdate;
 };
 

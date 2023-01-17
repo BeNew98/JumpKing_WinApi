@@ -50,11 +50,11 @@ public:
 	{
 		return CreateRender(_Image, static_cast<int>(_Order));
 	}
-	//template<typename EnumType>
-	//GameEngineRender* CreateRender(EnumType _Order)
-	//{
-	//	return CreateRender(static_cast<int>(_Order));
-	//}
+	template<typename EnumType>
+	GameEngineRender* CreateRender(EnumType _Order)
+	{
+		return CreateRender(static_cast<int>(_Order));
+	}
 #pragma endregion
 
 
