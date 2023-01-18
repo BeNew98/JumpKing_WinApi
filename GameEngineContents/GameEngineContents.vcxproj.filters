@@ -5,9 +5,6 @@
     <ClInclude Include="CPlayLevel.h">
       <Filter>PlayLevel</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayer.h">
-      <Filter>Object</Filter>
-    </ClInclude>
     <ClInclude Include="EnumHeader.h" />
     <ClInclude Include="CTitleLevel.h">
       <Filter>TitleLevel</Filter>
@@ -15,14 +12,14 @@
     <ClInclude Include="CBackGround.h">
       <Filter>TitleLevel</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>PlayLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JumpKingCore.cpp" />
     <ClCompile Include="CPlayLevel.cpp">
       <Filter>PlayLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlayer.cpp">
-      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="CTitleLevel.cpp">
       <Filter>TitleLevel</Filter>
@@ -30,11 +27,14 @@
     <ClCompile Include="CBackGround.cpp">
       <Filter>TitleLevel</Filter>
     </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayState.cpp">
+      <Filter>PlayLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Object">
-      <UniqueIdentifier>{c1e314d1-fee8-4997-9aed-5aaa683a9c6e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="PlayLevel">
       <UniqueIdentifier>{40cbfde8-9e35-41bd-83b8-5940034bf910}</UniqueIdentifier>
     </Filter>

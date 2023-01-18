@@ -21,8 +21,12 @@ void CPlayLevel::Loading()
 	Dir.Move("Image");
 	Dir.Move("Play");
 
-	GameEngineImage* pImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("basecut.bmp"));
-	pImage->Cut(4, 4);
+	GameEngineImage* pImage_L = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("L_basecut.bmp"));
+	pImage_L->Cut(4, 4);
+
+
+	GameEngineImage* pImage_R = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("R_basecut.bmp"));
+	pImage_R->Cut(4, 4);
 
 
 	CreateActor<CPlayer>();

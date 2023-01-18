@@ -54,6 +54,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="CPlayState.cpp" />
     <ClCompile Include="CTitleLevel.cpp">
       <SubType>
       </SubType>

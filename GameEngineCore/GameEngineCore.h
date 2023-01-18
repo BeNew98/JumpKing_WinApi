@@ -50,6 +50,15 @@ protected:
 		Levels.insert(std::make_pair(_Name.data(), Level));
 	}
 
+	void DebugSwitch()
+	{
+		IsDebugValue = !IsDebugValue;
+	}
+
+	bool IsDebug()
+	{
+		return IsDebugValue;
+	}
 
 	virtual void Start() = 0;
 	virtual void Update() = 0;
@@ -64,5 +73,6 @@ private:
 
 	void LevelLoading(GameEngineLevel* _Level);
 
+	bool IsDebugValue = false;
 };
 

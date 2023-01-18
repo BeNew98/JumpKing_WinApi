@@ -28,42 +28,75 @@ void CPlayer::Start()
 	GameEngineInput::CreateKey("UpMove", 'W');
 
 	AnimationRender = CreateRender(RenderOrder::PLAYER);
-	AnimationRender->SetScale({ 100,100 });
+	
+	AnimationRender->SetScale({ 148,148 });
 
-	AnimationRender->CreateAnimation({ .AnimationName = "test0",.ImageName ="basecut.bmp",.Start = 0,.End = 5});
-	AnimationRender->CreateAnimation({ .AnimationName = "test1",.ImageName = "basecut.bmp",.Start = 6,.End = 10 });
+	AnimationRender->CreateAnimation({ .AnimationName = "L_Move",.ImageName = "L_basecut.bmp",.Start = 1,.End = 3, });
+	AnimationRender->CreateAnimation({ .AnimationName = "R_Move",.ImageName = "R_basecut.bmp",.Start = 1,.End = 3, });
 
-	AnimationRender->ChangeAnimation("test0");
+	AnimationRender->CreateAnimation({ .AnimationName = "L_Idle",.ImageName = "L_basecut.bmp",.Start = 0,.End = 0, });
+	AnimationRender->CreateAnimation({ .AnimationName = "R_Idle",.ImageName = "R_basecut.bmp",.Start = 0,.End = 0, });
+
+	ChangeState(PlayerState::IDLE);
 
 }
 
 void CPlayer::Update(float _DeltaTime)
 {
-	if (true == GameEngineInput::IsPress("LeftMove"))
-	{
-		AnimationRender->ChangeAnimation("test1");
-		SetMove(float4::Left * MoveSpeed * _DeltaTime);
-	}
+	DirCheck();
+	UpdateState(_DeltaTime);
 
-	if (true == GameEngineInput::IsPress("RightMove"))
-	{
-		AnimationRender->ChangeAnimation("test0");
 
-		SetMove(float4::Right * MoveSpeed * _DeltaTime);
-	}
+	//if (true == GameEngineInput::IsPress("LeftMove"))
+	//{
+	//	AnimationRender->ChangeAnimation("L_Move");
+	//	SetMove(float4::Left * MoveSpeed * _DeltaTime);
+	//}
+	//
+	//if (true == GameEngineInput::IsPress("RightMove"))
+	//{
+	//	AnimationRender->ChangeAnimation("R_Move");
+	//
+	//	SetMove(float4::Right * MoveSpeed * _DeltaTime);
+	//}
+	//
+	//if (true == GameEngineInput::IsPress("UpMove"))
+	//{
+	//	SetMove(float4::Up * MoveSpeed * _DeltaTime);
+	//}
+	//
+	//if (true == GameEngineInput::IsPress("DownMove"))
+	//{
+	//	SetMove(float4::Down * MoveSpeed * _DeltaTime);
+	//}
+}
 
-	if (true == GameEngineInput::IsPress("UpMove"))
+void CPlayer::DirCheck()
+{
+	if (true)
 	{
-		SetMove(float4::Up * MoveSpeed * _DeltaTime);
-	}
-
-	if (true == GameEngineInput::IsPress("DownMove"))
-	{
-		SetMove(float4::Down * MoveSpeed * _DeltaTime);
+		if (GameEngineInput::IsPress("LeftMove"))
+		{
+			DirString = "L_";
+		}
+		else if (GameEngineInput::IsPress("RightMove"))
+		{
+			DirString = "R_";
+		}
 	}
 }
 
 void CPlayer::Render(float _DeltaTime)
 {
-	
+	HDC DoubleDC = GameEngineWindow::GetWindowBackBufferHdc();
+
+	float4 fPos = GetPos();
+
+	Rectangle(DoubleDC,
+		fPos.ix() - 5,
+		fPos.iy() - 5,
+		fPos.ix() + 5,
+		fPos.iy() + 5
+	);
+
 }

@@ -1,6 +1,16 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+
+enum class PlayerState
+{
+	IDLE,
+	MOVE,
+	LOOKUP,
+	JUMP_READY,
+	JUMP,
+
+};
 // Ό³Έν :
 class CPlayer : public GameEngineActor
 {
@@ -28,6 +38,23 @@ private:
 	int StartFrame = 0;
 	float MoveSpeed = 100.0f;
 
+	std::string DirString = "R_";
+	PlayerState StateValue = PlayerState::IDLE;
+
 	GameEngineRender* AnimationRender = nullptr;
+
+	void DirCheck();
+	
+
+	void ChangeState(PlayerState _State);
+	void UpdateState(float _Time);
+
+	void IdleStart();
+	void IdleUpdate(float _Time);
+	void IdleEnd();
+
+	void MoveStart();
+	void MoveUpdate(float _Time);
+	void MoveEnd();
 };
 
