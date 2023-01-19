@@ -5,7 +5,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include "EnumHeader.h"
 
-CPlayer* CPlayer::MainPlayer;
+CPlayer* CPlayer::MainPlayer = nullptr;
 
 CPlayer::CPlayer() 
 {
@@ -88,10 +88,10 @@ void CPlayer::DirCheck()
 
 void CPlayer::Render(float _DeltaTime)
 {
-	HDC DoubleDC = GameEngineWindow::GetWindowBackBufferHdc();
-
+	HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
+	
 	float4 fPos = GetPos();
-
+	
 	Rectangle(DoubleDC,
 		fPos.ix() - 5,
 		fPos.iy() - 5,

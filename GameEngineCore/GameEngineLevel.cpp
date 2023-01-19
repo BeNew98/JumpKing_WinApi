@@ -11,8 +11,8 @@ GameEngineLevel::~GameEngineLevel()
 {
 	for (std::pair<int, std::list<GameEngineActor*>> UpdateGroup : Actors)
 	{
-		std::list<GameEngineActor*> ActorList = UpdateGroup.second;
-
+		std::list<GameEngineActor*>& ActorList = UpdateGroup.second;
+	
 		for (GameEngineActor* Actor : ActorList)
 		{
 			if (nullptr != Actor)
@@ -22,8 +22,8 @@ GameEngineLevel::~GameEngineLevel()
 			}
 		}
 	}
-
-	Actors.clear();
+	
+	Actors.clear();	
 }
 
 void GameEngineLevel::ActorStart(GameEngineActor* _Actor, int _Order)
@@ -54,7 +54,7 @@ void GameEngineLevel::ActorsUpdate(float _DeltaTime)
 		std::map<int, std::list<GameEngineActor*>>::iterator GroupEndIter = Actors.end();
 		for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
 		{
-			std::list<GameEngineActor*> ActorList = GroupStartIter->second;
+			std::list<GameEngineActor*>& ActorList = GroupStartIter->second;
 
 			for (GameEngineActor* Actor : ActorList)
 			{

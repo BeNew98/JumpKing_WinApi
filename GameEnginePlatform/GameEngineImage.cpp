@@ -10,6 +10,23 @@ GameEngineImage::GameEngineImage()
 
 GameEngineImage::~GameEngineImage() 
 {
+	if (nullptr != BitMap)
+	{
+		DeleteObject(BitMap);
+		BitMap = nullptr;
+	}
+
+	if (nullptr != OldBitMap)
+	{
+		DeleteObject(OldBitMap);
+		OldBitMap = nullptr;
+	}
+
+	if (nullptr != ImageDC)
+	{
+		DeleteDC(ImageDC);
+		ImageDC = nullptr;
+	}
 }
 
 

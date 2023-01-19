@@ -18,6 +18,26 @@ void GameEngineRender::SetImage(const std::string_view& _ImageName)
 	Image = GameEngineResources::GetInst().ImageFind(_ImageName);
 }
 
+void GameEngineRender::SetFrame(int _Frame)
+{
+	if (nullptr == Image)
+	{
+		MsgAssert("이미지가 존재하지 않는 Renderer에 프레임을 지정하려고 했습니다.");
+	}
+
+	if (false == Image->IsImageCutting())
+	{
+		MsgAssert("잘려있는 이미지만 프레임을 지정해줄 수 있습니다.");
+	}
+
+	if (false == Image->IsCutIndexValid(_Frame))
+	{
+		MsgAssert("유효하지 않은 이미지 인덱스 입니다.");
+	}
+
+	Frame = _Frame;
+}
+
 void GameEngineRender::SetOrder(int _Order)
 {
 	Order = _Order;

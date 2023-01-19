@@ -50,6 +50,8 @@ public:
 		Scale = _Scale;
 	}
 
+	void SetFrame(int _Frame);
+
 	inline int GetOrder()
 	{
 		return Order;
@@ -59,6 +61,7 @@ public:
 	{
 		return Frame;
 	}
+
 
 	void SetTransColor(int _Color)
 	{

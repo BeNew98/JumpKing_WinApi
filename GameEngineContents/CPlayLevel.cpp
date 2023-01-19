@@ -29,7 +29,7 @@ void CPlayLevel::Loading()
 	pImage_R->Cut(4, 4);
 
 
-	CreateActor<CPlayer>();
+	//CreateActor<CPlayer>();
 }
 
 void CPlayLevel::Update(float _DeltaTime)
