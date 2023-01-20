@@ -3,6 +3,7 @@
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEngineCore/GameEngineLevel.h>
 #include "EnumHeader.h"
 
 CPlayer* CPlayer::MainPlayer = nullptr;
@@ -43,54 +44,36 @@ void CPlayer::Start()
 
 void CPlayer::Update(float _DeltaTime)
 {
-	DirCheck();
 	UpdateState(_DeltaTime);
-
-
-	//if (true == GameEngineInput::IsPress("LeftMove"))
-	//{
-	//	AnimationRender->ChangeAnimation("L_Move");
-	//	SetMove(float4::Left * MoveSpeed * _DeltaTime);
-	//}
-	//
-	//if (true == GameEngineInput::IsPress("RightMove"))
-	//{
-	//	AnimationRender->ChangeAnimation("R_Move");
-	//
-	//	SetMove(float4::Right * MoveSpeed * _DeltaTime);
-	//}
-	//
-	//if (true == GameEngineInput::IsPress("UpMove"))
-	//{
-	//	SetMove(float4::Up * MoveSpeed * _DeltaTime);
-	//}
-	//
-	//if (true == GameEngineInput::IsPress("DownMove"))
-	//{
-	//	SetMove(float4::Down * MoveSpeed * _DeltaTime);
-	//}
 }
 
-void CPlayer::DirCheck()
+void CPlayer::DirCheck(const std::string_view& _AnimationName)
 {
-	if (true)
+	std::string sPrevDir = DirString;
+
+	AnimationRender->ChangeAnimation(DirString + _AnimationName.data());
+
+	if (GameEngineInput::IsPress("LeftMove"))
 	{
-		if (GameEngineInput::IsPress("LeftMove"))
-		{
-			DirString = "L_";
-		}
-		else if (GameEngineInput::IsPress("RightMove"))
-		{
-			DirString = "R_";
-		}
+		DirString = "L_";
 	}
+	else if (GameEngineInput::IsPress("RightMove"))
+	{
+		DirString = "R_";
+	}
+
+	if (sPrevDir != DirString)
+	{
+		AnimationRender->ChangeAnimation(DirString + _AnimationName.data());
+	}
+	
 }
 
 void CPlayer::Render(float _DeltaTime)
 {
 	HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
 	
-	float4 fPos = GetPos();
+	float4 fPos = GetPos() - GetLevel()->GetCameraPos();
 	
 	Rectangle(DoubleDC,
 		fPos.ix() - 5,

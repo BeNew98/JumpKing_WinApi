@@ -6,7 +6,7 @@ class GameEngineObject
 public:
 	// constrcuter destructer
 	GameEngineObject();
-	~GameEngineObject();
+	virtual ~GameEngineObject();
 
 	// delete Function
 	GameEngineObject(const GameEngineObject& _Other) = delete;
@@ -16,12 +16,12 @@ public:
 
 	bool IsUpdate()
 	{
-		return nullptr != Parent ? (ObjectUpdate && false == ObjectDeath && Parent->IsUpdate()) : (ObjectUpdate && false == ObjectDeath);
+		return nullptr != Parent ? ((true == ObjectUpdate && false == IsDeath()) && Parent->IsUpdate()) : (ObjectUpdate && false == ObjectDeath);
 	}
 
 	bool IsDeath()
 	{
-		return nullptr != Parent ? (true == ObjectDeath && Parent->IsDeath()) : (true == ObjectDeath);
+		return nullptr != Parent ? ((true == ObjectDeath && Parent->IsDeath())&& true == Parent->IsUpdate()) : (ObjectUpdate && false == IsDeath());
 	}
 
 	void On()
@@ -39,11 +39,21 @@ public:
 	}
 
 
-	void SetParent(GameEngineObject* _Parent)
+	void SetOwner(GameEngineObject* _Parent)
 	{
 		Parent = _Parent;
 	}
 
+	template<typename ConvertType>
+	ConvertType* GetOwner()
+	{
+		return dynamic_cast<ConvertType*>(Parent);
+	}
+
+	GameEngineObject* GetOwner()
+	{
+		return Parent;
+	}
 protected:
 
 private:

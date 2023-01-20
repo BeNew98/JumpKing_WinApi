@@ -33,7 +33,7 @@ void GameEngineLevel::ActorStart(GameEngineActor* _Actor, int _Order)
 		MsgAssert("nullptr 액터를 Start하려고 했습니다.");
 		return;
 	}
-	_Actor->Level = this;
+	_Actor->SetOwner(this);
 	_Actor->SetOrder(_Order);
 	_Actor->Start();
 }

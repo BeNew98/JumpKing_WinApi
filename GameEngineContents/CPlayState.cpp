@@ -61,7 +61,7 @@ void CPlayer::UpdateState(float _Time)
 
 void CPlayer::IdleStart()
 {
-	AnimationRender->ChangeAnimation(DirString + "Idle");
+	DirCheck("Idle");
 }
 
 void CPlayer::IdleUpdate(float _Time)
@@ -72,6 +72,7 @@ void CPlayer::IdleUpdate(float _Time)
 		return; 
 	}
 }
+
 void CPlayer::IdleEnd()
 {
 
@@ -79,7 +80,7 @@ void CPlayer::IdleEnd()
 
 void CPlayer::MoveStart()
 {
-	AnimationRender->ChangeAnimation(DirString + "Move");
+	DirCheck("Move");
 }
 
 void CPlayer::MoveUpdate(float _Time)
@@ -99,10 +100,12 @@ void CPlayer::MoveUpdate(float _Time)
 		SetMove(float4::Left * MoveSpeed * _Time);
 	}
 
-	if (true == GameEngineInput::IsPress("RightMove"))
+	else if (true == GameEngineInput::IsPress("RightMove"))
 	{
 		SetMove(float4::Right * MoveSpeed * _Time);
 	}
+	DirCheck("Move");
+
 }
 
 void CPlayer::MoveEnd() 

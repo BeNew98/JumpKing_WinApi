@@ -1,13 +1,15 @@
 #pragma once
 #include <list>
 #include <map>
+#include <GameEngineBase/GameEngineMath.h>
+#include <GameEngineCore/GameEngineObject.h>
 
 // 설명 :
 class GameEngineCore;
 class GameEngineActor;
 class GameEngineRender;
 
-class GameEngineLevel
+class GameEngineLevel : public GameEngineObject
 {
 	friend GameEngineCore;
 	friend GameEngineRender;
@@ -31,14 +33,32 @@ public:
 	/// <param name="_Order">
 	/// Order가 작을수록 먼저 업데이트</param>
 	template<typename ActorType>
-	void CreateActor(int _Order = 0)
+	ActorType* CreateActor(int _Order = 0)
 	{
 		GameEngineActor* Actor = new ActorType();
 
 		ActorStart(Actor, _Order);
 
 		Actors[_Order].push_back(Actor);
+
+		return dynamic_cast<ActorType*>(Actor);
 	}
+
+	void SetCameraMove(const float4& _MoveValue)
+	{
+		CameraPos += _MoveValue;
+	}
+
+	void SetCameraPos(const float4& _CameraPos)
+	{
+		CameraPos = _CameraPos;
+	}
+
+	float4 GetCameraPos()
+	{
+		return CameraPos;
+	}
+
 protected:
 	virtual void Loading() = 0;
 	virtual void Update(float _DeltaTime) = 0;
@@ -48,6 +68,8 @@ protected:
 
 
  private:
+	float4 CameraPos = float4::Zero;
+
 	std::map<int,std::list<GameEngineActor*>> Actors;
 
 	void ActorsUpdate(float _DeltaTime);

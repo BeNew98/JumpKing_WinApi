@@ -1,8 +1,9 @@
 #include "CPlayLevel.h"
-#include "CPlayer.h"
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineCore/GameEngineResources.h>
-#include <GameEngineBase/GameEngineTime.h>
+#include <GameEnginePlatform/GameEngineInput.h>
+#include "CPlayer.h"
+#include "CMidGround.h"
 
 CPlayLevel::CPlayLevel() 
 {
@@ -28,11 +29,24 @@ void CPlayLevel::Loading()
 	GameEngineImage* pImage_R = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("R_basecut.bmp"));
 	pImage_R->Cut(4, 4);
 
+	GameEngineImage* pMidGround_1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("1.bmp"));
 
-	//CreateActor<CPlayer>();
+
+	CPlayer* pActor = CreateActor<CPlayer>();
+
+	CMidGround* pMidGround = CreateActor<CMidGround>();
+
+
+	if (false == GameEngineInput::IsKey("PlayerOff"))
+	{
+		GameEngineInput::CreateKey("PlayerOff", 'R');
+	}
 }
 
 void CPlayLevel::Update(float _DeltaTime)
 {
-
+	if (GameEngineInput::IsDown("PlayerOff"))
+	{
+		CPlayer::MainPlayer->OnOffSwtich();
+	}	
 }

@@ -3,7 +3,8 @@
 enum class RenderOrder
 {
 	BACKGROUND,
-	MAP,
+	FOREGROUND,
+	MIDGROUND,
 	PLAYER,
 	MONSTER,
 };

@@ -15,6 +15,9 @@
     <ClInclude Include="CPlayer.h">
       <Filter>PlayLevel</Filter>
     </ClInclude>
+    <ClInclude Include="CMidGround.h">
+      <Filter>PlayLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JumpKingCore.cpp" />
@@ -31,6 +34,9 @@
       <Filter>PlayLevel</Filter>
     </ClCompile>
     <ClCompile Include="CPlayState.cpp">
+      <Filter>PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CMidGround.cpp">
       <Filter>PlayLevel</Filter>
     </ClCompile>
   </ItemGroup>

@@ -43,7 +43,7 @@ private:
 
 	GameEngineRender* AnimationRender = nullptr;
 
-	void DirCheck();
+	void DirCheck(const std::string_view& _AnimationName);
 	
 
 	void ChangeState(PlayerState _State);
