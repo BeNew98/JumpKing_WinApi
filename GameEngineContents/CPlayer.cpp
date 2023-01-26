@@ -32,8 +32,8 @@ void CPlayer::Start()
 	
 	AnimationRender->SetScale({ 148,148 });
 
-	AnimationRender->CreateAnimation({ .AnimationName = "L_Move",.ImageName = "L_basecut.bmp",.Start = 1,.End = 3, });
-	AnimationRender->CreateAnimation({ .AnimationName = "R_Move",.ImageName = "R_basecut.bmp",.Start = 1,.End = 3, });
+	AnimationRender->CreateAnimation({ .AnimationName = "L_Move",.ImageName = "L_basecut.bmp",.Start = 1,.End = 3,.InterTime = 0.1f });
+	AnimationRender->CreateAnimation({ .AnimationName = "R_Move",.ImageName = "R_basecut.bmp",.Start = 1,.End = 3,.InterTime = 0.1f });
 
 	AnimationRender->CreateAnimation({ .AnimationName = "L_Idle",.ImageName = "L_basecut.bmp",.Start = 0,.End = 0, });
 	AnimationRender->CreateAnimation({ .AnimationName = "R_Idle",.ImageName = "R_basecut.bmp",.Start = 0,.End = 0, });
@@ -45,6 +45,7 @@ void CPlayer::Start()
 void CPlayer::Update(float _DeltaTime)
 {
 	UpdateState(_DeltaTime);
+	Movecalculation(_DeltaTime);
 }
 
 void CPlayer::DirCheck(const std::string_view& _AnimationName)
@@ -82,4 +83,66 @@ void CPlayer::Render(float _DeltaTime)
 		fPos.iy() + 5
 	);
 
+}
+
+void CPlayer::Movecalculation(float _DeltaTime)
+{
+	if (true)
+	{
+		MoveDir += float4::Down * 200.0f * _DeltaTime;
+	}
+
+	if (100.0f <= abs(MoveDir.x))
+	{
+		if (0 > MoveDir.x)
+		{
+			MoveDir.x = -100.0f;
+		}
+		else {
+			MoveDir.x = 100.0f;
+		}
+	}
+
+	if (false == GameEngineInput::IsPress("LeftMove") && false == GameEngineInput::IsPress("RightMove"))
+	{
+		MoveDir.x *= 0.01f;
+	}
+
+	// ColMap.BMP 이걸 변수로하면 
+	GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind("1_col.BMP");
+	if (nullptr == ColImage)
+	{
+		MsgAssert("충돌용 맵 이미지가 없습니다.");
+	}
+
+
+	// 내 미래의 위치는 여기인데/.
+
+	bool Check = true;
+	float4 NextPos = GetPos() + MoveDir * _DeltaTime;
+
+	if (RGB(0, 0, 0) == ColImage->GetPixelColor(NextPos, RGB(0, 0, 0)))
+	{
+		Check = false;
+		// MoveDir = float4::Zero;
+	}
+
+	if (false == Check)
+	{
+		while (true)
+		{
+			MoveDir.y -= 1;
+		
+			//float4 NextPos = GetPos() + MoveDir * _DeltaTime;
+		
+			if (RGB(0, 0, 0) == ColImage->GetPixelColor(NextPos, RGB(0, 0, 0)))
+			{
+				continue;
+			}
+		
+			break;
+		}
+	}
+
+	SetMove(MoveDir * _DeltaTime);
 }

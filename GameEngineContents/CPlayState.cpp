@@ -104,6 +104,7 @@ void CPlayer::MoveUpdate(float _Time)
 	{
 		SetMove(float4::Right * MoveSpeed * _Time);
 	}
+
 	DirCheck("Move");
 
 }

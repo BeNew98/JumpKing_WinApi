@@ -1,5 +1,6 @@
 #include "CPlayLevel.h"
 #include <GameEngineBase/GameEngineDirectory.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include "CPlayer.h"
@@ -31,9 +32,11 @@ void CPlayLevel::Loading()
 
 	GameEngineImage* pMidGround_1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("1.bmp"));
 
+	GameEngineImage* pMidGround_1_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("1_col.bmp"));
+
 
 	CPlayer* pActor = CreateActor<CPlayer>();
-
+	pActor->SetPos({ static_cast<float>(GameEngineWindow::GetScreenSize().hix()),800});
 	CMidGround* pMidGround = CreateActor<CMidGround>();
 
 

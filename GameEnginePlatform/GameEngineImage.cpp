@@ -205,3 +205,30 @@ void GameEngineImage::TransCopy(const GameEngineImage* _OtherImage, int _CutInde
 
 	TransCopy(_OtherImage, _CopyCenterPos, _CopySize, Data.GetStartPos(), Data.GetScale());
 }
+
+DWORD GameEngineImage::GetPixelColor(float4 _Pos, DWORD _OutColor)
+{
+	return GetPixelColor(_Pos.ix(), _Pos.iy(), _OutColor);
+}
+
+DWORD GameEngineImage::GetPixelColor(int _X, int _Y, DWORD _OutColor)
+{
+	if (_X < 0)
+	{
+		return _OutColor;
+	}
+	if (_X >= GetImageScale().ix())
+	{
+		return _OutColor;
+	}
+	if (_Y < 0)
+	{
+		return _OutColor;
+	}
+	if (_Y >= GetImageScale().iy())
+	{
+		return _OutColor;
+	}
+
+	return GetPixel(ImageDC, _X, _Y);
+}
