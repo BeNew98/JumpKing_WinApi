@@ -87,20 +87,13 @@ void CPlayer::Render(float _DeltaTime)
 
 void CPlayer::Movecalculation(float _DeltaTime)
 {
-	if (true)
+	if (false == bGround)
 	{
-		MoveDir += float4::Down * 200.0f * _DeltaTime;
+		MoveDir += float4::Down * fGravity * _DeltaTime;
 	}
-
-	if (100.0f <= abs(MoveDir.x))
+	else
 	{
-		if (0 > MoveDir.x)
-		{
-			MoveDir.x = -100.0f;
-		}
-		else {
-			MoveDir.x = 100.0f;
-		}
+		MoveDir = float4::Zero;
 	}
 
 	if (false == GameEngineInput::IsPress("LeftMove") && false == GameEngineInput::IsPress("RightMove"))
@@ -117,32 +110,14 @@ void CPlayer::Movecalculation(float _DeltaTime)
 
 
 	// 내 미래의 위치는 여기인데/.
-
-	bool Check = true;
-	float4 NextPos = GetPos() + MoveDir * _DeltaTime;
+		
+	float4 NextPos =GetPos() + MoveDir * _DeltaTime;
 
 	if (RGB(0, 0, 0) == ColImage->GetPixelColor(NextPos, RGB(0, 0, 0)))
 	{
-		Check = false;
-		// MoveDir = float4::Zero;
-	}
+		bGround = true;
+		//MoveDir = float4::Zero;
+	}	
 
-	if (false == Check)
-	{
-		while (true)
-		{
-			MoveDir.y -= 1;
-		
-			//float4 NextPos = GetPos() + MoveDir * _DeltaTime;
-		
-			if (RGB(0, 0, 0) == ColImage->GetPixelColor(NextPos, RGB(0, 0, 0)))
-			{
-				continue;
-			}
-		
-			break;
-		}
-	}
-
-	SetMove(MoveDir * _DeltaTime);
+	//SetMove(MoveDir * _DeltaTime);
 }

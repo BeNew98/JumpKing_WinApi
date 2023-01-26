@@ -38,6 +38,8 @@ private:
 	int StartFrame = 0;
 	float MoveSpeed = 100.0f;
 
+	bool bGround = false;
+	float fGravity = 200.0f;
 
 	std::string DirString = "R_";
 	PlayerState StateValue = PlayerState::IDLE;

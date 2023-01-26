@@ -36,7 +36,7 @@ void CPlayLevel::Loading()
 
 
 	CPlayer* pActor = CreateActor<CPlayer>();
-	pActor->SetPos({ static_cast<float>(GameEngineWindow::GetScreenSize().hix()),800});
+	pActor->SetPos({ static_cast<float>(GameEngineWindow::GetScreenSize().hix()),600});
 	CMidGround* pMidGround = CreateActor<CMidGround>();
 
 
