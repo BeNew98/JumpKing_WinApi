@@ -119,5 +119,5 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		//MoveDir = float4::Zero;
 	}	
 
-	//SetMove(MoveDir * _DeltaTime);
+	SetMove(MoveDir * _DeltaTime);
 }

@@ -45,10 +45,17 @@ public:
 		Position = _Position;
 	}
 
+	inline void SetMove(float4 _Position)
+	{
+		Position += _Position;
+	}
+
 	inline void SetScale(float4 _Scale)
 	{
 		Scale = _Scale;
 	}
+
+	void SetScaleToImage();
 
 	void SetFrame(int _Frame);
 
