@@ -59,11 +59,6 @@ public:
 
 	void SetFrame(int _Frame);
 
-	inline int GetOrder()
-	{
-		return Order;
-	}
-
 	inline int GetFrame()
 	{
 		return Frame;
@@ -91,13 +86,14 @@ public:
 		IsEffectCamera = false;
 	}
 
+	bool IsAnimationEnd();
 	void CreateAnimation(const FrameAnimationParameter& _Parameter);
-	void ChangeAnimation(const std::string_view& _AnimationName);
+	void ChangeAnimation(const std::string_view& _AnimationName, bool _ForceChange = false);
 
+	void SetOrder(int _Order) override;
 protected:
 
 private:
-	int Order = 0;
 	float4 Position = float4::Zero;
 	float4 Scale = float4::Zero;
 	GameEngineImage* Image = nullptr;
@@ -107,8 +103,6 @@ private:
 
 	int Frame = 0;
 	
-	void SetOrder(int _Order);
-
 	void Render(float _DeltaTime);
 
 	class FrameAnimation
@@ -121,6 +115,8 @@ private:
 		int CurrentIndex = 0;
 		float CurrentTime = 0.0f;
 		bool Loop = true;
+
+		bool IsEnd();
 
 		void Render(float _DeltaTime);
 

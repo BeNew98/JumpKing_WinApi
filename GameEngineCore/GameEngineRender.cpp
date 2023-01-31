@@ -55,7 +55,7 @@ GameEngineActor* GameEngineRender::GetActor()
 
 void GameEngineRender::SetOrder(int _Order)
 {
-	Order = _Order;
+	GameEngineObject::SetOrder(_Order);
 	GetActor()->GetLevel()->PushRender(this);
 }
 
@@ -92,6 +92,12 @@ void GameEngineRender::Render(float _DeltaTime)
 	}
 }
 
+bool GameEngineRender::FrameAnimation::IsEnd()
+{
+	int Value = (static_cast<int>(FrameIndex.size()) - 1);
+	return CurrentIndex == Value;
+}
+
 void GameEngineRender::FrameAnimation::Render(float _DeltaTime)
 {
 	CurrentTime -= _DeltaTime;
@@ -115,6 +121,11 @@ void GameEngineRender::FrameAnimation::Render(float _DeltaTime)
 	}
 }
 
+
+bool GameEngineRender::IsAnimationEnd()
+{
+	return CurrentAnimation->IsEnd();
+}
 
 void GameEngineRender::CreateAnimation(const FrameAnimationParameter& _Parameter)
 {
@@ -168,7 +179,7 @@ void GameEngineRender::CreateAnimation(const FrameAnimationParameter& _Parameter
 	NewAnimation.Parent = this;
 }
 
-void GameEngineRender::ChangeAnimation(const std::string_view& _AnimationName)
+void GameEngineRender::ChangeAnimation(const std::string_view& _AnimationName, bool _ForceChange)
 {
 	std::string UpperName = GameEngineString::ToUpper(_AnimationName);
 
@@ -177,7 +188,7 @@ void GameEngineRender::ChangeAnimation(const std::string_view& _AnimationName)
 		MsgAssert("존재하지 않는 애니메이션으로 바꾸려고 했습니다." + UpperName);
 	}
 
-	if (CurrentAnimation == &Animation[UpperName])
+	if (false == _ForceChange && CurrentAnimation == &Animation[UpperName])
 	{
 		return;
 	}

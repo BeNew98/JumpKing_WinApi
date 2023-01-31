@@ -9,6 +9,8 @@ class GameEngineWindow;
 class GameEngineInput
 {
 	friend GameEngineWindow;
+
+private:
 	class GameEngineKey
 	{
 		friend GameEngineInput;
