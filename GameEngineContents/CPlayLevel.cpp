@@ -40,16 +40,16 @@ void CPlayLevel::Loading()
 	CMidGround* pMidGround = CreateActor<CMidGround>();
 
 
-	if (false == GameEngineInput::IsKey("PlayerOff"))
+	if (false == GameEngineInput::IsKey("DebugRenderSwitch"))
 	{
-		GameEngineInput::CreateKey("PlayerOff", 'R');
+		GameEngineInput::CreateKey("DebugRenderSwitch", 'R');
 	}
 }
 
 void CPlayLevel::Update(float _DeltaTime)
 {
-	if (GameEngineInput::IsDown("PlayerOff"))
+	if (GameEngineInput::IsDown("DebugRenderSwitch"))
 	{
-		CPlayer::MainPlayer->OnOffSwtich();
+		DebugRenderSwitch();
 	}	
 }

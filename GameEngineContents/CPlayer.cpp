@@ -3,6 +3,7 @@
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include "EnumHeader.h"
 
@@ -25,18 +26,26 @@ void CPlayer::Start()
 
 	GameEngineInput::CreateKey("LeftMove", 'A');
 	GameEngineInput::CreateKey("RightMove", 'D');
-	GameEngineInput::CreateKey("DownMove", 'S');
-	GameEngineInput::CreateKey("UpMove", 'W');
+	GameEngineInput::CreateKey("Jump", ' ');
 
-	AnimationRender = CreateRender(RenderOrder::PLAYER);
+
+	m_pAnimationRender = CreateRender(RenderOrder::PLAYER);
 	
-	AnimationRender->SetScale({ 148,148 });
+	m_pAnimationRender->SetScale({ 148,148 });
 
-	AnimationRender->CreateAnimation({ .AnimationName = "L_Move",.ImageName = "L_basecut.bmp",.Start = 1,.End = 3,.InterTime = 0.1f });
-	AnimationRender->CreateAnimation({ .AnimationName = "R_Move",.ImageName = "R_basecut.bmp",.Start = 1,.End = 3,.InterTime = 0.1f });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "L_Move",.ImageName = "L_basecut.bmp",.Start = 1,.End = 3,.InterTime = 0.1f });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "R_Move",.ImageName = "R_basecut.bmp",.Start = 1,.End = 3,.InterTime = 0.1f });
 
-	AnimationRender->CreateAnimation({ .AnimationName = "L_Idle",.ImageName = "L_basecut.bmp",.Start = 0,.End = 0, });
-	AnimationRender->CreateAnimation({ .AnimationName = "R_Idle",.ImageName = "R_basecut.bmp",.Start = 0,.End = 0, });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "L_Idle",.ImageName = "L_basecut.bmp",.Start = 0,.End = 0, });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "R_Idle",.ImageName = "R_basecut.bmp",.Start = 0,.End = 0, });
+
+
+	{
+		m_pBodyCollision = CreateCollision(RenderOrder::PLAYER);
+		m_pBodyCollision->SetScale({ 40, 40 });
+		m_pBodyCollision->SetPosition({ 0,-25 });
+		m_pBodyCollision->SetDebugRenderType(CT_Rect);
+	}
 
 	ChangeState(PlayerState::IDLE);
 
@@ -50,22 +59,22 @@ void CPlayer::Update(float _DeltaTime)
 
 void CPlayer::DirCheck(const std::string_view& _AnimationName)
 {
-	std::string sPrevDir = DirString;
+	std::string sPrevDir = m_DirString;
 
-	AnimationRender->ChangeAnimation(DirString + _AnimationName.data());
+	m_pAnimationRender->ChangeAnimation(m_DirString + _AnimationName.data());
 
 	if (GameEngineInput::IsPress("LeftMove"))
 	{
-		DirString = "L_";
+		m_DirString = "L_";
 	}
 	else if (GameEngineInput::IsPress("RightMove"))
 	{
-		DirString = "R_";
+		m_DirString = "R_";
 	}
 
-	if (sPrevDir != DirString)
+	if (sPrevDir != m_DirString)
 	{
-		AnimationRender->ChangeAnimation(DirString + _AnimationName.data());
+		m_pAnimationRender->ChangeAnimation(m_DirString + _AnimationName.data());
 	}
 	
 }
@@ -87,18 +96,18 @@ void CPlayer::Render(float _DeltaTime)
 
 void CPlayer::Movecalculation(float _DeltaTime)
 {
-	if (false == bGround)
+	if (false == m_bGround)
 	{
-		MoveDir += float4::Down * fGravity * _DeltaTime;
+		m_MoveDir += float4::Down * m_fGravity * _DeltaTime;
 	}
 	else
 	{
-		MoveDir = float4::Zero;
+		m_MoveDir = float4::Zero;
 	}
 
 	if (false == GameEngineInput::IsPress("LeftMove") && false == GameEngineInput::IsPress("RightMove"))
 	{
-		MoveDir.x *= 0.01f;
+		m_MoveDir.x *= 0.01f;
 	}
 
 	// ColMap.BMP 이걸 변수로하면 
@@ -111,13 +120,13 @@ void CPlayer::Movecalculation(float _DeltaTime)
 
 	// 내 미래의 위치는 여기인데/.
 		
-	float4 NextPos =GetPos() + MoveDir * _DeltaTime;
+	float4 NextPos =GetPos() + m_MoveDir * _DeltaTime;
 
 	if (RGB(0, 0, 0) == ColImage->GetPixelColor(NextPos, RGB(0, 0, 0)))
 	{
-		bGround = true;
+		m_bGround = true;
 		//MoveDir = float4::Zero;
 	}	
 
-	SetMove(MoveDir * _DeltaTime);
+	SetMove(m_MoveDir * _DeltaTime);
 }

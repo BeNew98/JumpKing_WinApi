@@ -11,11 +11,13 @@
 class GameEngineCore;
 class GameEngineActor;
 class GameEngineRender;
+class GameEngineCollision;
 
 class GameEngineLevel : public GameEngineObject
 {
 	friend GameEngineCore;
 	friend GameEngineRender;
+	friend GameEngineCollision;
 
 public:
 	// constrcuter destructer
@@ -27,6 +29,14 @@ public:
 	GameEngineLevel(GameEngineLevel&& _Other) noexcept = delete;
 	GameEngineLevel& operator=(const GameEngineLevel& _Other) = delete;
 	GameEngineLevel& operator=(GameEngineLevel&& _Other) noexcept = delete;
+
+	static void DebugRenderSwitch()
+	{
+		IsDebugRender = !IsDebugRender;
+	}
+
+	float4 GetMousePos();
+	float4 GetMousePosToCamera();
 
 	/// <summary>
 	/// Actor 생성 함수
@@ -91,6 +101,11 @@ public:
 		return Result;
 	}
 
+	static void DebugTextPush(const std::string& _DebugText)
+	{
+		DebugTexts.push_back(_DebugText);
+	}
+
 	std::vector<GameEngineActor*> GetActors(int _GroupIndex)
 	{
 		std::vector<GameEngineActor*> Result;
@@ -115,7 +130,13 @@ protected:
 
 
  private:
+	 static bool IsDebugRender;
+
 	float4 CameraPos = float4::Zero;
+
+	static float4 TextOutStart;
+	static std::vector<std::string> DebugTexts;
+
 
 	std::map<int,std::list<GameEngineActor*>> Actors;
 
@@ -127,7 +148,11 @@ protected:
 	std::map<int, std::list<GameEngineRender*>> Renders;
 
 	void PushRender(GameEngineRender* _Render);
-	
+
+	std::map<int, std::list<GameEngineCollision*>> Collisions;
+	void PushCollision(GameEngineCollision* _Collision);
+
+	void Release();
 
 };
 

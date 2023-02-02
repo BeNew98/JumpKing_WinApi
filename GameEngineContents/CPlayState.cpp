@@ -9,9 +9,9 @@
 void CPlayer::ChangeState(PlayerState _State)
 {
 	PlayerState NextState = _State;
-	PlayerState PrevState = StateValue;
+	PlayerState PrevState = m_StateValue;
 
-	StateValue = NextState;
+	m_StateValue = NextState;
 
 	switch (NextState)
 	{
@@ -26,6 +26,7 @@ void CPlayer::ChangeState(PlayerState _State)
 	case PlayerState::JUMP_READY:
 		break;
 	case PlayerState::JUMP:
+		JumpStart();
 		break;	
 	}
 
@@ -42,7 +43,7 @@ void CPlayer::ChangeState(PlayerState _State)
 
 void CPlayer::UpdateState(float _Time)
 {
-	switch (StateValue)
+	switch (m_StateValue)
 	{
 	case PlayerState::IDLE:
 		IdleUpdate(_Time);
@@ -55,6 +56,7 @@ void CPlayer::UpdateState(float _Time)
 	case PlayerState::JUMP_READY:
 		break;
 	case PlayerState::JUMP:
+		JumpUpdate(_Time);
 		break;
 	}
 }
@@ -70,6 +72,12 @@ void CPlayer::IdleUpdate(float _Time)
 	{
 		ChangeState(PlayerState::MOVE);
 		return; 
+	}
+
+	if (GameEngineInput::IsPress("Jump"))
+	{
+		ChangeState(PlayerState::JUMP);
+		return;
 	}
 }
 
@@ -97,12 +105,12 @@ void CPlayer::MoveUpdate(float _Time)
 
 	if (true == GameEngineInput::IsPress("LeftMove"))
 	{
-		SetMove(float4::Left * MoveSpeed * _Time);
+		SetMove(float4::Left * m_fMoveSpeed * _Time);
 	}
 
 	else if (true == GameEngineInput::IsPress("RightMove"))
 	{
-		SetMove(float4::Right * MoveSpeed * _Time);
+		SetMove(float4::Right * m_fMoveSpeed * _Time);
 	}
 
 	DirCheck("Move");
@@ -110,6 +118,24 @@ void CPlayer::MoveUpdate(float _Time)
 }
 
 void CPlayer::MoveEnd() 
+{
+
+}
+
+
+void  CPlayer::JumpStart()
+{
+}
+
+void  CPlayer::JumpUpdate(float _Time)
+{
+	if (true==GameEngineInput::IsUp("Jump"))
+	{
+		SetMove(float4::Up * m_fJumpSpeed);
+	}
+}
+
+void  CPlayer::JumpEnd()
 {
 
 }

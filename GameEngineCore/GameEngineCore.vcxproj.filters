@@ -12,13 +12,16 @@
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineRender.h">
-      <Filter>Rendering</Filter>
+      <Filter>Object\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineObject.h">
       <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineCollision.h">
       <Filter>Object\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineComponent.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -33,13 +36,16 @@
       <Filter>Resources</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineRender.cpp">
-      <Filter>Rendering</Filter>
+      <Filter>Object\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineObject.cpp">
       <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineCollision.cpp">
       <Filter>Object\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineComponent.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -49,11 +55,11 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{d0660f57-aa61-404d-88c1-1093ddcd9bbd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Rendering">
-      <UniqueIdentifier>{56d86e76-61e1-4867-b35a-8569635d961a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Collision">
       <UniqueIdentifier>{bbac4237-b16e-495f-b0a4-314d1bb52f26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Rendering">
+      <UniqueIdentifier>{56d86e76-61e1-4867-b35a-8569635d961a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

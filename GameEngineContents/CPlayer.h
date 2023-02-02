@@ -33,19 +33,22 @@ protected:
 	void Render(float _DeltaTime) override;
 
 private:
+	float m_fAccTime = 0.0f;
+	int m_iStartFrame = 0;
+	float m_fMoveSpeed = 100.0f;
 
-	float AccTime = 0.0f;
-	int StartFrame = 0;
-	float MoveSpeed = 100.0f;
+	bool m_bGround = false;
+	float m_fGravity = 200.0f;
 
-	bool bGround = false;
-	float fGravity = 200.0f;
+	float m_fJumpSpeed = 1500.0f;
+	float m_fJumpPress = 0.f;;
 
-	std::string DirString = "R_";
-	PlayerState StateValue = PlayerState::IDLE;
-	float4 MoveDir = float4::Zero;
+	std::string m_DirString = "R_";
+	PlayerState m_StateValue = PlayerState::IDLE;
+	float4 m_MoveDir = float4::Zero;
 
-	GameEngineRender* AnimationRender = nullptr;
+	GameEngineRender* m_pAnimationRender = nullptr;
+	GameEngineCollision* m_pBodyCollision = nullptr;
 
 	void DirCheck(const std::string_view& _AnimationName);
 	
@@ -60,6 +63,11 @@ private:
 	void MoveStart();
 	void MoveUpdate(float _Time);
 	void MoveEnd();
+
+
+	void JumpStart();
+	void JumpUpdate(float _Time);
+	void JumpEnd();
 
 	void Movecalculation(float _DeltaTime);
 

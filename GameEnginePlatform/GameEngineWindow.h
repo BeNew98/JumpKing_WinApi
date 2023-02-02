@@ -53,6 +53,8 @@ public:
 	//callback함수 : 함수포인터를 이용해 다른함수를 대신 실행시켜줌
 	static int WindowLoop(void(*Start)(), void(*Loop)(), void(*End)());
 
+	static float4 GetMousePosition();
+
 	GameEngineWindow();
 	~GameEngineWindow();
 

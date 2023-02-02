@@ -15,7 +15,7 @@ void CMidGround::Start()
 {
 	GameEngineRender* AnimationRender = CreateRender(RenderOrder::MIDGROUND);
 	AnimationRender->SetPosition(GameEngineWindow::GetScreenSize().half());
-	AnimationRender->SetScale(GameEngineWindow::GetScreenSize());
+	//AnimationRender->SetScale(GameEngineWindow::GetScreenSize());
 	AnimationRender->SetImage("1.Bmp");
 }
 
