@@ -66,10 +66,6 @@ void CPlayLevel::Loading()
 		GameEngineInput::CreateKey("DownArrow", VK_DOWN);
 	}
 
-	if (false == GameEngineInput::IsKey("ShowColMap"))
-	{
-		GameEngineInput::CreateKey("ShowColMap", 'B');
-	}
 }
 
 void CPlayLevel::Update(float _DeltaTime)
@@ -96,15 +92,7 @@ void CPlayLevel::Update(float _DeltaTime)
 			SetCameraMove(float4{ 0,300.f }*_DeltaTime);
 		}
 
-		if (GameEngineInput::IsDown("ShowColMap"))
-		{
-			std::vector<GameEngineActor*> vMidground = GetActors(static_cast<int>(RenderOrder::MIDGROUND));
-
-			for(GameEngineActor* pMidground : vMidground)
-			{
-				pMidground->SetOrder(static_cast<int>(RenderOrder::DEBUG));
-			}
-		}
+		
 	}
 
 }

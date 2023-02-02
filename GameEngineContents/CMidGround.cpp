@@ -29,10 +29,25 @@ void CMidGround::Start()
 	std::string Name = "0";
 	std::string BMP = ".Bmp";
 	std::string FullName;
-	BGPos.y += GameEngineWindow::GetScreenSize().y;
+	BGPos.y -= GameEngineWindow::GetScreenSize().y;
 
 	//나중에 전부 로드하기
 	BGRender;
 	BGRender;
+
+	//{
+	//	GameEngineRender* pBGRender = nullptr;
+	//	float4 BGPos = GameEngineWindow::GetScreenSize().half();
+	//	int ImageNum = 48;
+	//	std::string Name = "0";
+	//	std::string BMP = "_COL.Bmp";
+	//	std::string FullName;
+	//	BGPos.y += GameEngineWindow::GetScreenSize().y;
+	//
+	//	//나중에 전부 로드하기
+	//	BGRender;
+	//	BGRender;
+	//
+	//}
 }
 
