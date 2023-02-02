@@ -29,7 +29,7 @@ void CMidGround::Start()
 	std::string Name = "0";
 	std::string BMP = ".Bmp";
 	std::string FullName;
-	BGPos.y -= GameEngineWindow::GetScreenSize().y;
+	BGPos.y += GameEngineWindow::GetScreenSize().y;
 
 	//나중에 전부 로드하기
 	BGRender;
