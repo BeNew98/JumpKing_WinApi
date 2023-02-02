@@ -5,6 +5,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include "CPlayer.h"
 #include "CMidGround.h"
+#include "EnumHeader.h"
 
 CPlayLevel::CPlayLevel() 
 {
@@ -32,7 +33,12 @@ void CPlayLevel::Loading()
 
 	GameEngineImage* pMidGround_1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("1.bmp"));
 
+	GameEngineImage* pMidGround_2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("2.bmp"));
+
 	GameEngineImage* pMidGround_1_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("1_col.bmp"));
+
+	GameEngineImage* pMidGround_2_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("2_col.bmp"));
+
 
 
 	CPlayer* pActor = CreateActor<CPlayer>();
@@ -59,6 +65,11 @@ void CPlayLevel::Loading()
 	{
 		GameEngineInput::CreateKey("DownArrow", VK_DOWN);
 	}
+
+	if (false == GameEngineInput::IsKey("ShowColMap"))
+	{
+		GameEngineInput::CreateKey("ShowColMap", 'B');
+	}
 }
 
 void CPlayLevel::Update(float _DeltaTime)
@@ -72,7 +83,7 @@ void CPlayLevel::Update(float _DeltaTime)
 	{
 		if (GameEngineInput::IsDown("PlayerSetOn"))
 		{
-			CPlayer::MainPlayer->SetPos(GetMousePos());
+			CPlayer::MainPlayer->SetPos(GetMousePosToCamera());
 		}
 
 		if (GameEngineInput::IsPress("UpArrow"))
@@ -84,6 +95,16 @@ void CPlayLevel::Update(float _DeltaTime)
 		{			
 			SetCameraMove(float4{ 0,300.f }*_DeltaTime);
 		}
+
+		if (GameEngineInput::IsDown("ShowColMap"))
+		{
+			std::vector<GameEngineActor*> vMidground = GetActors(static_cast<int>(RenderOrder::MIDGROUND));
+
+			for(GameEngineActor* pMidground : vMidground)
+			{
+				pMidground->SetOrder(static_cast<int>(RenderOrder::DEBUG));
+			}
+		}
 	}
-	
+
 }

@@ -110,6 +110,25 @@ void CPlayer::Render(float _DeltaTime)
 		fPos.iy() + 5
 	);
 
+	std::string Ground = "Ground : ";
+	if (m_bGround)
+	{
+		Ground += "true";
+	}
+	else
+	{
+		Ground += "false";
+	}
+	std::string CameraMouseText = "MouseCameraPos : ";
+	CameraMouseText += GetLevel()->GetMousePosToCamera().ToString();
+
+	std::string PlayerPos = "PlayerPos : ";
+	PlayerPos += GetPos().ToString();
+
+	GameEngineLevel::DebugTextPush(Ground);
+	GameEngineLevel::DebugTextPush(CameraMouseText);
+	GameEngineLevel::DebugTextPush(PlayerPos);
+
 }
 
 void CPlayer::Movecalculation(float _DeltaTime)
