@@ -131,7 +131,7 @@ void  CPlayer::JumpUpdate(float _Time)
 {
 	if (true==GameEngineInput::IsUp("Jump"))
 	{
-		SetMove(float4::Up * m_fJumpSpeed);
+		SetMove(float4::Up * m_fJumpSpeed * _Time);
 	}
 }
 

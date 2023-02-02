@@ -110,7 +110,6 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		m_MoveDir.x *= 0.01f;
 	}
 
-	// ColMap.BMP 이걸 변수로하면 
 	GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind("1_col.BMP");
 	if (nullptr == ColImage)
 	{
@@ -118,14 +117,12 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	}
 
 
-	// 내 미래의 위치는 여기인데/.
-		
+	//예상위치
 	float4 NextPos =GetPos() + m_MoveDir * _DeltaTime;
 
 	if (RGB(0, 0, 0) == ColImage->GetPixelColor(NextPos, RGB(0, 0, 0)))
 	{
 		m_bGround = true;
-		//MoveDir = float4::Zero;
 	}	
 
 	SetMove(m_MoveDir * _DeltaTime);
