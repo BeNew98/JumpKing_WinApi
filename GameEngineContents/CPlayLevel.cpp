@@ -49,6 +49,12 @@ void CPlayLevel::Loading()
 	{
 		GameEngineInput::CreateKey("PlayerSetOn", 'D');
 	}
+
+	if (false == GameEngineInput::IsKey("MouseLBTN"))
+	{
+		GameEngineInput::CreateKey("MouseLBTN", VK_LBUTTON);
+	}
+
 }
 
 void CPlayLevel::Update(float _DeltaTime)
@@ -56,10 +62,28 @@ void CPlayLevel::Update(float _DeltaTime)
 	if (GameEngineInput::IsDown("DebugRenderSwitch"))
 	{
 		DebugRenderSwitch();
-	}
-
-	if (GameEngineInput::IsDown("PlayerSetOn"))
+		DebugMode();
+	}	
+	if (m_DebugOn)
 	{
-		CPlayer::MainPlayer->SetPos( GetMousePos());
+		if (GameEngineInput::IsDown("PlayerSetOn"))
+		{
+			CPlayer::MainPlayer->SetPos(GetMousePos());
+		}
+
+		float4 PrevMousePos;
+		float4 CurMousePos;
+		if (GameEngineInput::IsDown("MouseLBTN"))
+		{
+			PrevMousePos = GetMousePosToCamera();
+		}
+
+		if (GameEngineInput::IsPress("MouseLBTN"))
+		{
+			CurMousePos = GetMousePosToCamera();
+			float4 FinalPos = GetCameraPos() + CurMousePos - PrevMousePos;
+			SetCameraPos(float4{ 0,FinalPos.y});
+		}
 	}
+	
 }
