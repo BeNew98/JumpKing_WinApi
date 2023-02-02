@@ -50,11 +50,15 @@ void CPlayLevel::Loading()
 		GameEngineInput::CreateKey("PlayerSetOn", 'D');
 	}
 
-	if (false == GameEngineInput::IsKey("MouseLBTN"))
+	if (false == GameEngineInput::IsKey("UpArrow"))
 	{
-		GameEngineInput::CreateKey("MouseLBTN", VK_LBUTTON);
+		GameEngineInput::CreateKey("UpArrow", VK_UP);
 	}
 
+	if (false == GameEngineInput::IsKey("DownArrow"))
+	{
+		GameEngineInput::CreateKey("DownArrow", VK_DOWN);
+	}
 }
 
 void CPlayLevel::Update(float _DeltaTime)
@@ -71,18 +75,14 @@ void CPlayLevel::Update(float _DeltaTime)
 			CPlayer::MainPlayer->SetPos(GetMousePos());
 		}
 
-		float4 PrevMousePos;
-		float4 CurMousePos;
-		if (GameEngineInput::IsDown("MouseLBTN"))
+		if (GameEngineInput::IsPress("UpArrow"))
 		{
-			PrevMousePos = GetMousePosToCamera();
+			SetCameraMove(float4{ 0.f,-300.f }*_DeltaTime);
 		}
 
-		if (GameEngineInput::IsPress("MouseLBTN"))
-		{
-			CurMousePos = GetMousePosToCamera();
-			float4 FinalPos = GetCameraPos() + CurMousePos - PrevMousePos;
-			SetCameraPos(float4{ 0,FinalPos.y});
+		if (GameEngineInput::IsPress("DownArrow"))
+		{			
+			SetCameraMove(float4{ 0,300.f }*_DeltaTime);
 		}
 	}
 	

@@ -171,7 +171,7 @@ CollisionData GameEngineCollision::GetCollisionData()
 void GameEngineCollision::DebugRender()
 {
 	HDC BackBufferDc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
-	float4 DebugRenderPos = GetActorPlusPos() + GetActor()->GetLevel()->GetCameraPos();
+	float4 DebugRenderPos = GetActorPlusPos() - GetActor()->GetLevel()->GetCameraPos();
 	switch (DebugRenderType)
 	{
 	case CT_Point:
