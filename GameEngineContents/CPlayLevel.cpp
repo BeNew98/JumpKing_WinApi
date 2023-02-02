@@ -44,6 +44,11 @@ void CPlayLevel::Loading()
 	{
 		GameEngineInput::CreateKey("DebugRenderSwitch", 'R');
 	}
+
+	if (false == GameEngineInput::IsKey("PlayerSetOn"))
+	{
+		GameEngineInput::CreateKey("PlayerSetOn", 'D');
+	}
 }
 
 void CPlayLevel::Update(float _DeltaTime)
@@ -51,5 +56,10 @@ void CPlayLevel::Update(float _DeltaTime)
 	if (GameEngineInput::IsDown("DebugRenderSwitch"))
 	{
 		DebugRenderSwitch();
-	}	
+	}
+
+	if (GameEngineInput::IsDown("PlayerSetOn"))
+	{
+		CPlayer::MainPlayer->SetPos( GetMousePos());
+	}
 }

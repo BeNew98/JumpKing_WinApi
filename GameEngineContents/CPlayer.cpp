@@ -24,20 +24,38 @@ void CPlayer::Start()
 
 	SetMove(GameEngineWindow::GetScreenSize().half());
 
-	GameEngineInput::CreateKey("LeftMove", 'A');
-	GameEngineInput::CreateKey("RightMove", 'D');
-	GameEngineInput::CreateKey("Jump", ' ');
+	GameEngineInput::CreateKey("LeftMove", VK_LEFT);
+	GameEngineInput::CreateKey("RightMove", VK_RIGHT);
+	GameEngineInput::CreateKey("Jump", VK_SPACE);
 
 
 	m_pAnimationRender = CreateRender(RenderOrder::PLAYER);
 	
 	m_pAnimationRender->SetScale({ 148,148 });
 
-	m_pAnimationRender->CreateAnimation({ .AnimationName = "L_Move",.ImageName = "L_basecut.bmp",.Start = 1,.End = 3,.InterTime = 0.1f });
-	m_pAnimationRender->CreateAnimation({ .AnimationName = "R_Move",.ImageName = "R_basecut.bmp",.Start = 1,.End = 3,.InterTime = 0.1f });
+	//move
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "L_Move",.ImageName = "L_basecut.bmp",.Start = 1,.End = 3,.InterTime = 0.08f, });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "R_Move",.ImageName = "R_basecut.bmp",.Start = 1,.End = 3,.InterTime = 0.08f });
 
+	//idle
 	m_pAnimationRender->CreateAnimation({ .AnimationName = "L_Idle",.ImageName = "L_basecut.bmp",.Start = 0,.End = 0, });
 	m_pAnimationRender->CreateAnimation({ .AnimationName = "R_Idle",.ImageName = "R_basecut.bmp",.Start = 0,.End = 0, });
+
+	//jumpready
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "L_JumpReady",.ImageName = "L_basecut.bmp",.Start = 4,.End = 4, });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "R_JumpReady",.ImageName = "R_basecut.bmp",.Start = 4,.End = 4, });
+
+	//jump
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "L_Jump",.ImageName = "L_basecut.bmp",.Start = 5,.End = 5, });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "R_Jump",.ImageName = "R_basecut.bmp",.Start = 5,.End = 5, });
+
+	//down
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "L_down",.ImageName = "L_basecut.bmp",.Start = 6,.End = 6, });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "R_down",.ImageName = "R_basecut.bmp",.Start = 6,.End = 6, });
+
+	//Collide
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "L_Collide",.ImageName = "L_basecut.bmp",.Start = 8,.End = 8, });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "R_Collide",.ImageName = "R_basecut.bmp",.Start = 8,.End = 8, });
 
 
 	{
@@ -102,7 +120,21 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	}
 	else
 	{
-		m_MoveDir = float4::Zero;
+		if (m_MoveDir.y > 0.f)
+		{
+			m_MoveDir.y = 0.f;
+		}
+	}
+
+	if (100.0f <= abs(m_MoveDir.x))
+	{
+		if (0 > m_MoveDir.x)
+		{
+			m_MoveDir.x = -100.0f;
+		}
+		else {
+			m_MoveDir.x = 100.0f;
+		}
 	}
 
 	if (false == GameEngineInput::IsPress("LeftMove") && false == GameEngineInput::IsPress("RightMove"))
@@ -117,13 +149,18 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	}
 
 
-	//예상위치
-	float4 NextPos =GetPos() + m_MoveDir * _DeltaTime;
+	//내 1픽셀 아래
+	float4 fDownPos = GetPos() + float4::Down;
 
-	if (RGB(0, 0, 0) == ColImage->GetPixelColor(NextPos, RGB(0, 0, 0)))
+	//1픽셀 아래가 검은색이면 땅에 닿아있는것.
+	if (RGB(0, 0, 0) == ColImage->GetPixelColor(fDownPos, RGB(0, 0, 0)))
 	{
 		m_bGround = true;
-	}	
+	}
+	else
+	{
+		m_bGround = false;
+	}
 
 	SetMove(m_MoveDir * _DeltaTime);
 }

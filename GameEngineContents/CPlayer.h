@@ -6,9 +6,10 @@ enum class PlayerState
 {
 	IDLE,
 	MOVE,
-	LOOKUP,
 	JUMP_READY,
 	JUMP,
+	DOWN,
+	COLLIDE
 
 };
 // Ό³Έν :
@@ -35,13 +36,13 @@ protected:
 private:
 	float m_fAccTime = 0.0f;
 	int m_iStartFrame = 0;
-	float m_fMoveSpeed = 100.0f;
+	float m_fMoveSpeed = 200.0f;
 
 	bool m_bGround = false;
-	float m_fGravity = 200.0f;
+	float m_fGravity = 700.0f;
 
-	float m_fJumpSpeed = 1500.0f;
-	float m_fJumpPress = 0.f;;
+	float m_fJumpSpeed = 600.0f;
+	float m_fJumpPressTime = 0.f;;
 
 	std::string m_DirString = "R_";
 	PlayerState m_StateValue = PlayerState::IDLE;
@@ -64,10 +65,21 @@ private:
 	void MoveUpdate(float _Time);
 	void MoveEnd();
 
+	void JumpReadyStart();
+	void JumpReadyUpdate(float _Time);
+	void JumpReadyEnd();
 
 	void JumpStart();
 	void JumpUpdate(float _Time);
 	void JumpEnd();
+
+	void DownStart();
+	void DownUpdate(float _Time);
+	void DownEnd();
+
+	void CollideStart();
+	void CollideUpdate(float _Time);
+	void CollideEnd();
 
 	void Movecalculation(float _DeltaTime);
 
