@@ -180,7 +180,6 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		while (RGB(255, 255, 255) == ColImage->GetPixelColor(fMyPos, RGB(255, 255, 255)))
 		{
 		SetMove(float4::Up);
-
 		}
 	}
 
