@@ -39,7 +39,7 @@ private:
 	float m_fMoveSpeed = 500.0f;
 
 	bool m_bGround = false;
-	float m_fGravity = 9000.0f;
+	float m_fGravity = 900.0f;
 
 	bool m_bWall = false;
 
