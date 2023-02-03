@@ -177,7 +177,7 @@ void CPlayer::Movecalculation(float _DeltaTime)
 
 	if (RGB(0, 0, 0) == ColImage->GetPixelColor(fMyPos, RGB(0, 0, 0)))
 	{
-		while (RGB(255, 255, 255) == ColImage->GetPixelColor(fMyPos, RGB(255, 255, 255)))
+		while (RGB(0, 0, 0) == ColImage->GetPixelColor(fMyPos, RGB(0, 0, 0)))
 		{
 		SetMove(float4::Up);
 		}
@@ -195,7 +195,8 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	}
 
 	if ((RGB(0, 0, 0) == ColImage->GetPixelColor(fRightPos, RGB(0, 0, 0))||
-		RGB(0, 0, 0) == ColImage->GetPixelColor(fLeftPos, RGB(0, 0, 0)))
+		RGB(0, 0, 0) == ColImage->GetPixelColor(fLeftPos, RGB(0, 0, 0))|| 
+		RGB(0, 0, 0) == ColImage->GetPixelColor(fUpPos, RGB(0, 0, 0)))
 		&&true == m_bGround)
 	{
 		m_bWall = true;
