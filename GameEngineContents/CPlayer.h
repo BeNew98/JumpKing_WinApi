@@ -36,10 +36,12 @@ protected:
 private:
 	float m_fAccTime = 0.0f;
 	int m_iStartFrame = 0;
-	float m_fMoveSpeed = 200.0f;
+	float m_fMoveSpeed = 500.0f;
 
 	bool m_bGround = false;
 	float m_fGravity = 700.0f;
+
+	bool m_bWall = false;
 
 	float m_fJumpSpeed = 600.0f;
 	float m_fJumpPressTime = 0.f;;

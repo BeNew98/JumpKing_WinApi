@@ -145,18 +145,18 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		}
 	}
 
-	if (100.0f <= abs(m_MoveDir.x))
+	if (200.0f <= abs(m_MoveDir.x))
 	{
 		if (0 > m_MoveDir.x)
 		{
-			m_MoveDir.x = -100.0f;
+			m_MoveDir.x = -200.0f;
 		}
 		else {
-			m_MoveDir.x = 100.0f;
+			m_MoveDir.x = 200.0f;
 		}
 	}
 
-	if (false == GameEngineInput::IsPress("LeftMove") && false == GameEngineInput::IsPress("RightMove"))
+	if (false == GameEngineInput::IsPress("LeftMove") && false == GameEngineInput::IsPress("RightMove")||m_bWall)
 	{
 		m_MoveDir.x *= 0.01f;
 	}
@@ -170,6 +170,10 @@ void CPlayer::Movecalculation(float _DeltaTime)
 
 	//내 1픽셀 아래
 	float4 fDownPos = GetPos() + float4::Down;
+	float4 fUpPos = GetPos() + float4::Up;
+	float4 fRightPos = GetPos() + float4::Right;
+	float4 fLeftPos = GetPos() + float4::Left;
+
 
 	//1픽셀 아래가 검은색이면 땅에 닿아있는것.
 	if (RGB(0, 0, 0) == ColImage->GetPixelColor(fDownPos, RGB(0, 0, 0)))
@@ -179,6 +183,17 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	else
 	{
 		m_bGround = false;
+	}
+
+	if ((RGB(0, 0, 0) == ColImage->GetPixelColor(fRightPos, RGB(0, 0, 0))||
+		RGB(0, 0, 0) == ColImage->GetPixelColor(fLeftPos, RGB(0, 0, 0)))
+		&&true == m_bGround)
+	{
+		m_bWall = true;
+	}
+	else
+	{
+		m_bWall = false;
 	}
 
 	SetMove(m_MoveDir * _DeltaTime);
