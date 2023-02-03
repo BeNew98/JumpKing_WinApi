@@ -173,6 +173,16 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	float4 fUpPos = GetPos() + float4::Up;
 	float4 fRightPos = GetPos() + float4::Right;
 	float4 fLeftPos = GetPos() + float4::Left;
+	float4 fMyPos = GetPos();
+
+	if (RGB(0, 0, 0) == ColImage->GetPixelColor(fMyPos, RGB(0, 0, 0)))
+	{
+		while (RGB(255, 255, 255) == ColImage->GetPixelColor(fMyPos, RGB(255, 255, 255)))
+		{
+		SetMove(float4::Up);
+
+		}
+	}
 
 
 	//1픽셀 아래가 검은색이면 땅에 닿아있는것.
