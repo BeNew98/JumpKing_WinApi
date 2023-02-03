@@ -166,6 +166,14 @@ void  CPlayer::JumpStart()
 	{
 		m_fJumpPressTime = 0.1f;
 	}
+	if (true == GameEngineInput::IsPress("LeftMove") && true == m_bGround)
+	{
+		m_MoveDir += float4::Left * m_fMoveSpeed;
+	}
+	else if (true == GameEngineInput::IsPress("RightMove") && true == m_bGround)
+	{
+		m_MoveDir += float4::Right * m_fMoveSpeed;
+	}
 	m_MoveDir += float4::Up * m_fJumpSpeed * m_fJumpPressTime;
 }
 
