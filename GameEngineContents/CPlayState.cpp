@@ -179,11 +179,18 @@ void  CPlayer::JumpStart()
 
 void  CPlayer::JumpUpdate(float _Time)
 {
+	if (m_bWall&& m_iCollide == 0)
+	{
+		m_MoveDir.x *= -1;
+		++m_iCollide;
+	}
+
 	if (m_MoveDir.y > 0)
 	{
 		ChangeState(PlayerState::DOWN);
 		return;
 	}
+
 }
 
 void  CPlayer::JumpEnd()

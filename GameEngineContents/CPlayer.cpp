@@ -119,14 +119,26 @@ void CPlayer::Render(float _DeltaTime)
 	{
 		Ground += "false";
 	}
-	std::string CameraMouseText = "MouseCameraPos : ";
-	CameraMouseText += GetLevel()->GetMousePosToCamera().ToString();
+	
+	std::string Wall = "Wall : ";
+	if (m_bWall)
+	{
+		Wall += "true";
+	}
+	else
+	{
+		Wall += "false";
+	}
+
+	std::string Dir = "Dir : ";
+	Dir += m_MoveDir.ToString();
 
 	std::string PlayerPos = "PlayerPos : ";
 	PlayerPos += GetPos().ToString();
 
 	GameEngineLevel::DebugTextPush(Ground);
-	GameEngineLevel::DebugTextPush(CameraMouseText);
+	GameEngineLevel::DebugTextPush(Wall);
+	GameEngineLevel::DebugTextPush(Dir);
 	GameEngineLevel::DebugTextPush(PlayerPos);
 
 }
@@ -156,10 +168,12 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		}
 	}
 
-	if (false == GameEngineInput::IsPress("LeftMove") && false == GameEngineInput::IsPress("RightMove")||m_bWall)
+	if (false == GameEngineInput::IsPress("LeftMove") && false == GameEngineInput::IsPress("RightMove") && m_bGround)
 	{
-		m_MoveDir.x *= 0.01f;
+		m_MoveDir.x = 0.f;
 	}
+
+	
 
 	GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind("1_col.BMP");
 	if (nullptr == ColImage)
@@ -167,27 +181,39 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		MsgAssert("충돌용 맵 이미지가 없습니다.");
 	}
 
-
+	float4 NextPos = GetPos() + m_MoveDir;
 	//내 1픽셀 아래
 	float4 fDownPos = GetPos() + float4::Down;
-	float4 fUpPos = GetPos() + float4::Up;
-	float4 fRightPos = GetPos() + float4::Right;
-	float4 fLeftPos = GetPos() + float4::Left;
+	float4 fUpPos = GetPos() + float4::Up + float4{0,-40};
+	float4 fRightPos = GetPos() + float4::Right+float4{ 20,0 };
+	float4 fLeftPos = GetPos() + float4::Left + float4{ -20,0 };
 	float4 fMyPos = GetPos();
 
-	//if (RGB(0, 0, 0) == ColImage->GetPixelColor(fMyPos, RGB(0, 0, 0)))
-	//{
-	//	while (RGB(0, 0, 0) == ColImage->GetPixelColor(fMyPos, RGB(0, 0, 0)))
-	//	{
-	//	SetMove(float4::Up);
-	//	}
-	//}
+	if (true == GameEngineInput::IsPress("LeftMove") && (RGB(0, 0, 0) == ColImage->GetPixelColor(fLeftPos, RGB(0, 0, 0) && m_MoveDir.x < 0)) && m_bGround)
+	{
+		m_MoveDir.x = 0.f;
+	}
+
+	if (true == GameEngineInput::IsPress("RightMove") && (RGB(0, 0, 0) == ColImage->GetPixelColor(fRightPos, RGB(0, 0, 0) && m_MoveDir.x > 0))&&m_bGround)
+	{
+		m_MoveDir.x = 0.f;
+	}
+
+	if (RGB(0, 0, 0) == ColImage->GetPixelColor(fMyPos, RGB(0, 0, 0)))
+	{
+		while (RGB(0, 0, 0) == ColImage->GetPixelColor(fMyPos, RGB(0, 0, 0)))
+		{
+		SetPos(GetPos()+float4::Up);
+		}
+		SetPos(GetPos() + float4::Up);
+	}
 
 
 	//1픽셀 아래가 검은색이면 땅에 닿아있는것.
 	if (RGB(0, 0, 0) == ColImage->GetPixelColor(fDownPos, RGB(0, 0, 0)))
 	{
 		m_bGround = true;
+		m_iCollide = 0;
 	}
 	else
 	{
@@ -197,7 +223,7 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	if ((RGB(0, 0, 0) == ColImage->GetPixelColor(fRightPos, RGB(0, 0, 0))||
 		RGB(0, 0, 0) == ColImage->GetPixelColor(fLeftPos, RGB(0, 0, 0))|| 
 		RGB(0, 0, 0) == ColImage->GetPixelColor(fUpPos, RGB(0, 0, 0)))
-		&&true == m_bGround)
+		&&false == m_bGround)
 	{
 		m_bWall = true;
 	}

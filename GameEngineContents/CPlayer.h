@@ -39,11 +39,12 @@ private:
 	float m_fMoveSpeed = 500.0f;
 
 	bool m_bGround = false;
-	float m_fGravity = 900.0f;
+	float m_fGravity = 1000.0f;
 
 	bool m_bWall = false;
+	UINT m_iCollide = 0;
 
-	float m_fJumpSpeed = 700.0f;
+	float m_fJumpSpeed = 900.0f;
 	float m_fJumpPressTime = 0.f;;
 
 	std::string m_DirString = "R_";
