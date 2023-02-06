@@ -87,6 +87,9 @@ protected:
 		return LiveTime;
 	}
 
+	virtual void LevelChangeEnd(GameEngineLevel* _PrevLevel);
+	virtual void LevelChangeStart(GameEngineLevel* _PrevLevel);
+
 private:
 	GameEngineLevel* Level = nullptr;
 	

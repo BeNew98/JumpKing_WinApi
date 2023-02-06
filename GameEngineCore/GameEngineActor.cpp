@@ -63,6 +63,14 @@ GameEngineCollision* GameEngineActor::CreateCollision(int _GroupIndex)
 }
 
 
+void GameEngineActor::LevelChangeEnd(GameEngineLevel* _PrevLevel)
+{
+}
+
+void GameEngineActor::LevelChangeStart(GameEngineLevel* _PrevLevel)
+{
+}
+
 void GameEngineActor::Release()
 {
 	{

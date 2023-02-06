@@ -143,6 +143,10 @@ protected:
 	void ActorsUpdate(float _DeltaTime);
 	void ActorsRender(float _DeltaTime);
 
+	void ActorLevelChangeEnd(GameEngineLevel* _NextLevel);
+	void ActorLevelChangeStart(GameEngineLevel* _PrevLevel);
+
+
 	void ActorStart(GameEngineActor* _Actor,int _Order);
 
 	std::map<int, std::list<GameEngineRender*>> Renders;

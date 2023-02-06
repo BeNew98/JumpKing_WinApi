@@ -3,12 +3,16 @@
 #include <math.h>
 #include <cmath>
 #include <string>
+#include <vector>
 
 //final은 더이상 상속을 못내리게함.
 //순수 가상함수로 생성도 불가
 class GameEngineMath final
 {
 public:
+	static std::vector<unsigned int> GetDigits(int _Value);
+	static unsigned int GetLenth(int _Value);
+
 	static const float PIE;
 	static const float PIE2;
 

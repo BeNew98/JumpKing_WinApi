@@ -44,7 +44,7 @@ private:
 	bool m_bWall = false;
 	UINT m_iCollide = 0;
 
-	float m_fJumpSpeed = 900.0f;
+	float m_fJumpSpeed = 850.0f;
 	float m_fJumpPressTime = 0.f;;
 
 	std::string m_DirString = "R_";
