@@ -185,8 +185,8 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	//³» 1ÇÈ¼¿ ¾Æ·¡
 	float4 fDownPos = GetPos() + float4::Down;
 	float4 fUpPos = GetPos() + float4::Up + float4{0,-40};
-	float4 fRightPos = GetPos() + float4::Right+float4{ 20,0 };
-	float4 fLeftPos = GetPos() + float4::Left + float4{ -20,0 };
+	float4 fRightPos = GetPos() + float4::Right+float4{ 20,-10 };
+	float4 fLeftPos = GetPos() + float4::Left + float4{ -20,-10 };
 	float4 fMyPos = GetPos();
 
 	if (true == GameEngineInput::IsPress("LeftMove") && (RGB(0, 0, 0) == ColImage->GetPixelColor(fLeftPos, RGB(0, 0, 0) && m_MoveDir.x < 0)) && m_bGround)
@@ -204,8 +204,8 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		while (RGB(0, 0, 0) == ColImage->GetPixelColor(fMyPos, RGB(0, 0, 0)))
 		{
 		SetPos(GetPos()+float4::Up);
+		fMyPos = GetPos();
 		}
-		SetPos(GetPos() + float4::Up);
 	}
 
 
