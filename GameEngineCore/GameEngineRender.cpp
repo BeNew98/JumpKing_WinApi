@@ -51,8 +51,7 @@ void GameEngineRender::SetFrame(int _Frame)
 
 void GameEngineRender::SetOrder(int _Order)
 {
-	GameEngineObject::SetOrder(_Order);
-	GetActor()->GetLevel()->PushRender(this);
+	GetActor()->GetLevel()->PushRender(this,_Order);
 }
 
 void GameEngineRender::SetText(const std::string_view& _Text)

@@ -54,8 +54,12 @@ void GameEngineLevel::ActorStart(GameEngineActor* _Actor, int _Order)
 	_Actor->Start();
 }
 
-void GameEngineLevel::PushRender(GameEngineRender* _Render)
+void GameEngineLevel::PushRender(GameEngineRender* _Render, int _ChangeOrder)
 {
+	Renders[_Render->GetOrder()].remove(_Render);
+
+	_Render->GameEngineObject::SetOrder(_ChangeOrder);
+
 	if (nullptr == _Render)
 	{
 		MsgAssert("nullptr인 랜더를 랜더링 그룹속에 넣으려고 했습니다.");
