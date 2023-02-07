@@ -74,7 +74,6 @@ void CPlayLevel::Loading()
 
 	CPlayer* pActor = CreateActor<CPlayer>();
 	CMidGround* pMidGround = CreateActor<CMidGround>();
-	pMidGround->SetMove(float4{ 0,-GameEngineWindow::GetScreenSize().y });
 
 	if (false == GameEngineInput::IsKey("DebugRenderSwitch"))
 	{
