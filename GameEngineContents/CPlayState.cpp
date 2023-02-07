@@ -73,35 +73,33 @@ void CPlayer::UpdateState(float _Time)
 
 void CPlayer::IdleStart()
 {
-	// 바닥에 박힌거 올리기
-	while (RGB(0, 0, 0) == ColCur())
-	{
-		SetPos(GetPos() + float4::Up);
-		pPos.fMyPos = GetPos();
-	}
-	DirCheck("Idle");
+	
 }
 
 void CPlayer::IdleUpdate(float _Time)
 {
+	//방향키 누르면 move로 전환
 	if (GameEngineInput::IsPress("LeftMove") || GameEngineInput::IsPress("RightMove"))
 	{
 		ChangeState(PlayerState::MOVE);
 		return; 
 	}
 
+	// 스페이스 누르면 jump ready로 전환
 	if (GameEngineInput::IsDown("Jump"))
 	{
 		ChangeState(PlayerState::JUMP_READY);
 		return;
 	}
 
+	// 방향키 누르지 않았을때 x값 0으로 변경해서 바로 멈추기
 	if (false == GameEngineInput::IsPress("LeftMove") || false == GameEngineInput::IsPress("RightMove"))
 	{
 		m_MoveDir.x = 0;
 		return;
 	}
 
+	// idle 상태에서 떨어지게 되었을때 down으로 전환
 	if (m_MoveDir.y > 0)
 	{
 		ChangeState(PlayerState::DOWN);
@@ -121,43 +119,43 @@ void CPlayer::MoveStart()
 
 void CPlayer::MoveUpdate(float _Time)
 {
-	if (
-		false == GameEngineInput::IsPress("LeftMove") &&
-		false == GameEngineInput::IsPress("RightMove")
-		)
+	// move에서 방향키가 눌리지 않게 되었다면 idle로 전환
+	if (false == GameEngineInput::IsPress("LeftMove") && false == GameEngineInput::IsPress("RightMove"))
 	{
-		// 
 		ChangeState(PlayerState::IDLE);
 		return;
 	}
 
+	// 움직이다 점프키가 눌렸다면 jump ready로 전환
 	if (GameEngineInput::IsDown("Jump"))
 	{
 		ChangeState(PlayerState::JUMP_READY);
 		return;
 	}
 
+	//왼쪽 방향키를 누르면 왼쪽으로
 	if (true == GameEngineInput::IsPress("LeftMove"))
 	{
 		m_MoveDir += float4::Left * m_fMoveSpeed;
 	}
-
+	//오른쪽 방향키를 누르면 오른쪽으로
 	else if (true == GameEngineInput::IsPress("RightMove"))
 	{
 		m_MoveDir += float4::Right * m_fMoveSpeed;
 	}
 
-	//벽
+	//왼쪽 방향키를 눌렀으면서 왼쪽 벽 체크해서 true시 x값 0으로 못가게하기
 	if ((true == GameEngineInput::IsPress("LeftMove") && ColLeft() && m_MoveDir.x < 0))
 	{
 		m_MoveDir.x = 0.f;
 	}
-
+	//오른쪽 방향키를 눌렀으면서 오른쪽 벽 체크해서 true시 x값 0으로 못가게하기
 	if ((true == GameEngineInput::IsPress("RightMove") && ColRight() && m_MoveDir.x > 0))
 	{
 		m_MoveDir.x = 0.f;
 	}
 
+	// 좌우 이동 최대 속도 제한
 	if (170.0f <= abs(m_MoveDir.x))
 	{
 		if (0 > m_MoveDir.x)
@@ -169,6 +167,7 @@ void CPlayer::MoveUpdate(float _Time)
 		}
 	}
 
+	// move 상태에서 떨어지게 되었을때 down으로 전환
 	if (m_MoveDir.y > 0)
 	{
 		ChangeState(PlayerState::DOWN);

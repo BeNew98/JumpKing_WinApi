@@ -164,19 +164,7 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		{
 			m_MoveDir.y = 0.f;
 		}
-	}
-
-	//// 가로 최대속도 제한
-	//if (300.0f <= abs(m_MoveDir.x))
-	//{
-	//	if (0 > m_MoveDir.x)
-	//	{
-	//		m_MoveDir.x = -300.0f;
-	//	}
-	//	else {
-	//		m_MoveDir.x = 300.0f;
-	//	}
-	//}	
+	}	
 
 	m_pColImage = GameEngineResources::GetInst().ImageFind("1_col.BMP");
 	if (nullptr == m_pColImage)
@@ -191,11 +179,17 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	pPos.fLeftPos = GetPos() + float4::Left + float4{ -20,0 };
 	pPos.fMyPos = GetPos();
 	
-
+	// 바닥에 박힌거 올리기
+	while (RGB(0, 0, 0) == ColCur())
+	{
+		SetPos(GetPos() + float4::Up);
+		pPos.fMyPos = GetPos();
+	}
+	DirCheck("Idle");
 	
 
 	//1픽셀 아래가 검은색이면 땅에 닿아있는것.
-	if (RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fDownPos, RGB(0, 0, 0)))
+	if (ColDown())
 	{
 		m_bGround = true;
 		m_iCollide = 0;
