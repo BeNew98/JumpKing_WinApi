@@ -22,7 +22,7 @@ void CPlayer::Start()
 {
 	MainPlayer = this;
 
-	SetMove(GameEngineWindow::GetScreenSize().half());
+	SetMove(float4{480,650});
 
 	GameEngineInput::CreateKey("LeftMove", VK_LEFT);
 	GameEngineInput::CreateKey("RightMove", VK_RIGHT);
@@ -180,13 +180,11 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	pPos.fMyPos = GetPos();
 	
 	// 바닥에 박힌거 올리기
-	while (RGB(0, 0, 0) == ColCur())
+	while (ColCur())
 	{
 		SetPos(GetPos() + float4::Up);
 		pPos.fMyPos = GetPos();
 	}
-	DirCheck("Idle");
-	
 
 	//1픽셀 아래가 검은색이면 땅에 닿아있는것.
 	if (ColDown())
