@@ -103,10 +103,6 @@ void CPlayer::DirCheck(const std::string_view& _AnimationName)
 
 void CPlayer::Render(float _DeltaTime)
 {
-#ifdef DEBUG
-
-
-#endif
 	HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
 	
 	float4 fPos = GetPos() - GetLevel()->GetCameraPos();
