@@ -221,6 +221,11 @@ void CPlayer::DownUpdate(float _Time)
 		DirCheck("Collide");
 	}
 
+	if (m_bWall)
+	{
+		m_MoveDir.x =0.f;
+	}
+
 	if (m_bGround)
 	{	
 		//if ((m_HighestPos - GetPos()).Size() > GameEngineWindow::GetScreenSize().hy())
