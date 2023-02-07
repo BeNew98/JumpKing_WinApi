@@ -115,7 +115,6 @@ void CPlayer::Render(float _DeltaTime)
 	);
 	
 	{
-
 		Rectangle(DoubleDC,
 			pPos.fRightUpPos.ix() - 2,
 			pPos.fRightUpPos.iy() - 2,
@@ -240,7 +239,7 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	}
 
 
-	//디버깅용 땅에 닿았는지 확인
+	//디버깅용화면 출력 땅에 닿았는지 확인
 	if (ColDownAll())
 	{
 		m_bGround = true;
