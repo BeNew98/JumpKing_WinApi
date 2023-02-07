@@ -108,6 +108,11 @@ void GameEngineCollision::SetOrder(int _Order)
 
 bool GameEngineCollision::Collision(const CollisionCheckParameter& _Parameter)
 {
+	if (OtherCollision == this)
+	{
+		continue;
+	}
+
 	if (false == IsUpdate())
 	{
 		return false;
