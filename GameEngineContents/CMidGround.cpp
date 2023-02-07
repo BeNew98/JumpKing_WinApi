@@ -25,6 +25,22 @@ void CMidGround::Start()
 		m_pRenderMap0->SetScaleToImage();
 	}
 
+	{
+		StartPos.y -= GameEngineWindow::GetScreenSize().y;
+		m_pRenderMap1 = CreateRender(RenderOrder::MIDGROUND);
+		m_pRenderMap1->SetImage("2.Bmp");
+		m_pRenderMap1->SetPosition(StartPos);
+		m_pRenderMap1->SetScaleToImage();
+	}
+
+	{
+		StartPos.y -= GameEngineWindow::GetScreenSize().y;
+		m_pRenderMap2 = CreateRender(RenderOrder::MIDGROUND);
+		m_pRenderMap2->SetImage("3.Bmp");
+		m_pRenderMap2->SetPosition(StartPos);
+		m_pRenderMap2->SetScaleToImage();
+	}
+
 	/*{
 		m_pColMap0 = CreateRender(RenderOrder::DEBUG);
 		m_pColMap0->SetImage("1_Col.Bmp");
