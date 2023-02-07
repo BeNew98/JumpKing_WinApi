@@ -268,7 +268,7 @@ void  CPlayer::JumpUpdate(float _Time)
 	if (m_MoveDir.x > 0 && ColRightAll())
 	{
 		m_MoveDir.x *= -0.475f;
-
+		m_iCollide = true;
 		DirCheck("Collide");
 	}
 	//왼쪽으로 점프중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
@@ -305,7 +305,7 @@ void  CPlayer::JumpEnd()
 
 void CPlayer::DownStart()
 {
-	//이미 충돌한적이 있을 시 충돌이미지 유지
+	//이전에 충돌한적 없으면 Down으로 이미지 전환
 	if (m_iCollide)
 	{
 		DirCheck("Collide");
@@ -314,6 +314,7 @@ void CPlayer::DownStart()
 	{
 		DirCheck("Down");
 	}
+
 }
 
 void CPlayer::DownUpdate(float _Time)
