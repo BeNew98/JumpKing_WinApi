@@ -75,8 +75,8 @@ void CPlayer::Start()
 
 void CPlayer::Update(float _DeltaTime)
 {
-	UpdateState(_DeltaTime);
 	Movecalculation(_DeltaTime);
+	UpdateState(_DeltaTime);
 }
 
 void CPlayer::DirCheck(const std::string_view& _AnimationName)
@@ -206,14 +206,12 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		m_MoveDir.x = 0.f;
 	}
 
-	if (RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fMyPos, RGB(0, 0, 0)))
+	while (RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fMyPos, RGB(0, 0, 0)))
 	{
-		while (RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fMyPos, RGB(0, 0, 0)))
-		{
-		SetPos(GetPos()+float4::Up);
-		pPos.fMyPos = GetPos();
-		}
+	SetPos(GetPos()+float4::Up);
+	pPos.fMyPos = GetPos();
 	}
+
 
 
 	//1픽셀 아래가 검은색이면 땅에 닿아있는것.
