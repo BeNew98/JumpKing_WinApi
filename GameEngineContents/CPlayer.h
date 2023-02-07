@@ -1,6 +1,15 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+struct PlayerPos
+{
+	float4 NextPos = float4::Zero;
+	float4 fDownPos = float4::Zero;
+	float4 fUpPos = float4::Zero;
+	float4 fRightPos = float4::Zero;
+	float4 fLeftPos = float4::Zero;
+	float4 fMyPos = float4::Zero;
+};
 
 enum class PlayerState
 {
@@ -34,6 +43,8 @@ protected:
 	void Render(float _DeltaTime) override;
 
 private:
+	PlayerPos pPos;
+
 	float m_fAccTime = 0.0f;
 	int m_iStartFrame = 0;
 	float m_fMoveSpeed = 500.0f;

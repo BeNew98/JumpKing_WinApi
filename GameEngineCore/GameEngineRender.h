@@ -44,6 +44,11 @@ public:
 
 	void SetFrame(int _Frame);
 
+	inline GameEngineImage* GetImage()
+	{
+		return Image;
+	}
+
 	inline int GetFrame()
 	{
 		return Frame;
@@ -64,6 +69,9 @@ public:
 	void ChangeAnimation(const std::string_view& _AnimationName, bool _ForceChange = false);
 
 	void SetOrder(int _Order) override;
+
+	void SetText(const std::string_view& _Text);
+
 protected:
 
 private:
@@ -75,6 +83,9 @@ private:
 	int Frame = 0;
 	
 	void Render(float _DeltaTime);
+
+	void TextRender(float _DeltaTime);
+	void ImageRender(float _DeltaTime);
 
 	class FrameAnimation
 	{
@@ -102,5 +113,8 @@ private:
 
 	std::map<std::string, FrameAnimation> Animation;
 	FrameAnimation* CurrentAnimation = nullptr;
+
+	std::string RenderText;
+
 };
 

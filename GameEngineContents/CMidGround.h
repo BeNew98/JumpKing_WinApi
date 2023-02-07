@@ -19,6 +19,9 @@ protected:
 	virtual void Start() override;
 
 private:
+	GameEngineRender* m_pRenderMap0 = nullptr;
+	GameEngineRender* m_pRenderMap1 = nullptr;
+	GameEngineRender* m_pRenderMap2 = nullptr;
 
 };
 

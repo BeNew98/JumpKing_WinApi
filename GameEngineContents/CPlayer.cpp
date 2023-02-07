@@ -181,36 +181,35 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		MsgAssert("충돌용 맵 이미지가 없습니다.");
 	}
 
-	float4 NextPos = GetPos() + m_MoveDir;
-	//내 1픽셀 아래
-	float4 fDownPos = GetPos() + float4::Down;
-	float4 fUpPos = GetPos() + float4::Up + float4{0,-40};
-	float4 fRightPos = GetPos() + float4::Right+float4{ 20,0 };
-	float4 fLeftPos = GetPos() + float4::Left + float4{ -20,0 };
-	float4 fMyPos = GetPos();
+	pPos.NextPos = GetPos() + m_MoveDir;	
+	pPos.fDownPos = GetPos() + float4::Down;
+	pPos.fUpPos = GetPos() + float4::Up + float4{0,-40};
+	pPos.fRightPos = GetPos() + float4::Right+float4{ 20,0 };
+	pPos.fLeftPos = GetPos() + float4::Left + float4{ -20,0 };
+	pPos.fMyPos = GetPos();
 
-	if (true == GameEngineInput::IsPress("LeftMove") && (RGB(0, 0, 0) == ColImage->GetPixelColor(fLeftPos, RGB(0, 0, 0) && m_MoveDir.x < 0)) && m_bGround)
+	if (true == GameEngineInput::IsPress("LeftMove") && (RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fLeftPos, RGB(0, 0, 0) && m_MoveDir.x < 0)) && m_bGround)
 	{
 		m_MoveDir.x = 0.f;
 	}
 
-	if (true == GameEngineInput::IsPress("RightMove") && (RGB(0, 0, 0) == ColImage->GetPixelColor(fRightPos, RGB(0, 0, 0) && m_MoveDir.x > 0))&&m_bGround)
+	if (true == GameEngineInput::IsPress("RightMove") && (RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fRightPos, RGB(0, 0, 0) && m_MoveDir.x > 0))&&m_bGround)
 	{
 		m_MoveDir.x = 0.f;
 	}
 
-	if (RGB(0, 0, 0) == ColImage->GetPixelColor(fMyPos, RGB(0, 0, 0)))
+	if (RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fMyPos, RGB(0, 0, 0)))
 	{
-		while (RGB(0, 0, 0) == ColImage->GetPixelColor(fMyPos, RGB(0, 0, 0)))
+		while (RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fMyPos, RGB(0, 0, 0)))
 		{
 		SetPos(GetPos()+float4::Up);
-		fMyPos = GetPos();
+		pPos.fMyPos = GetPos();
 		}
 	}
 
 
 	//1픽셀 아래가 검은색이면 땅에 닿아있는것.
-	if (RGB(0, 0, 0) == ColImage->GetPixelColor(fDownPos, RGB(0, 0, 0)))
+	if (RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fDownPos, RGB(0, 0, 0)))
 	{
 		m_bGround = true;
 		m_iCollide = 0;
@@ -220,9 +219,9 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		m_bGround = false;
 	}
 
-	if ((RGB(0, 0, 0) == ColImage->GetPixelColor(fRightPos, RGB(0, 0, 0))||
-		RGB(0, 0, 0) == ColImage->GetPixelColor(fLeftPos, RGB(0, 0, 0))|| 
-		RGB(0, 0, 0) == ColImage->GetPixelColor(fUpPos, RGB(0, 0, 0)))
+	if ((RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fRightPos, RGB(0, 0, 0))||
+		RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fLeftPos, RGB(0, 0, 0))||
+		RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fUpPos, RGB(0, 0, 0)))
 		&&false == m_bGround)
 	{
 		m_bWall = true;

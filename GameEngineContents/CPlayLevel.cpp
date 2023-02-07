@@ -30,14 +30,43 @@ void CPlayLevel::Loading()
 
 	GameEngineImage* pImage_R = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("R_basecut.bmp"));
 	pImage_R->Cut(4, 4);
+	{
+		GameEngineImage* pMidGround = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("1.bmp"));
+	} 
+	{
+		GameEngineImage* pMidGround = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("2.bmp"));
+	}
+	{
+		GameEngineImage* pMidGround = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("3.bmp"));
+	}
+	{
+		GameEngineImage* pMidGround = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("4.bmp"));
+	}
+	{
+		GameEngineImage* pMidGround = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("5.bmp"));
+	}
+	{
+		GameEngineImage* pMidGround = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("6.bmp"));
+	}
 
-	GameEngineImage* pMidGround_1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("1.bmp"));
-
-	GameEngineImage* pMidGround_2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("2.bmp"));
-
-	GameEngineImage* pMidGround_1_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("1_col.bmp"));
-
-	GameEngineImage* pMidGround_2_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("2_col.bmp"));
+	{
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("1_col.bmp"));
+	}
+	{
+		GameEngineImage* pMidGround_1_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("2_col.bmp"));
+	}
+	{
+		GameEngineImage* pMidGround_1_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("3_col.bmp"));
+	}
+	{
+		GameEngineImage* pMidGround_1_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("4_col.bmp"));
+	}
+	{
+		GameEngineImage* pMidGround_1_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("5_col.bmp"));
+	}
+	{
+		GameEngineImage* pMidGround_1_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("6_col.bmp"));
+	}
 
 
 

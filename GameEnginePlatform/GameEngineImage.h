@@ -58,6 +58,11 @@ public:
 	{
 		return IsCut;
 	}
+	
+	bool GetImageCuttingCount()
+	{
+		return ImageCutDatas.size();
+	}
 
 	bool IsCutIndexValid(int _Index)const
 	{

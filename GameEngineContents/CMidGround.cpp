@@ -23,31 +23,25 @@ CMidGround::~CMidGround()
 
 void CMidGround::Start()
 {
-	GameEngineRender* pBGRender = nullptr;
-	float4 BGPos = GameEngineWindow::GetScreenSize().half();
-	int ImageNum = 48;
-	std::string Name = "0";
-	std::string BMP = ".Bmp";
-	std::string FullName;
-	BGPos.y += GameEngineWindow::GetScreenSize().y;
-
-	//나중에 전부 로드하기
-	BGRender;
-	BGRender;
-
-	//{
-	//	GameEngineRender* pBGRender = nullptr;
-	//	float4 BGPos = GameEngineWindow::GetScreenSize().half();
-	//	int ImageNum = 48;
-	//	std::string Name = "0";
-	//	std::string BMP = "_COL.Bmp";
-	//	std::string FullName;
-	//	BGPos.y += GameEngineWindow::GetScreenSize().y;
+	//GameEngineRender* pBGRender = nullptr;
+	//float4 BGPos = GameEngineWindow::GetScreenSize().half();
+	//int ImageNum = 48;
+	//std::string Name = "0";
+	//std::string BMP = ".Bmp";
+	//std::string FullName;
+	//BGPos.y += GameEngineWindow::GetScreenSize().y;
 	//
-	//	//나중에 전부 로드하기
-	//	BGRender;
-	//	BGRender;
-	//
-	//}
+	//BGRender;
+	//BGRender;
+	//BGRender;
+	//BGRender;
+	//BGRender;
+	//BGRender;
+	{
+		m_pRenderMap0 = CreateRender(RenderOrder::MIDGROUND);
+		m_pRenderMap0->SetImage("1_Col.Bmp");
+		m_pRenderMap0->SetPosition(m_pRenderMap0->GetImage()->GetImageScale().half());
+		m_pRenderMap0->SetScaleToImage();
+	}
 }
 
