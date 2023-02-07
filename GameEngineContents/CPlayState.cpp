@@ -30,8 +30,6 @@ void CPlayer::ChangeState(PlayerState _State)
 	case PlayerState::DOWN:
 		DownStart();
 		break;
-	case PlayerState::COLLIDE:
-		CollideStart();
 		break;
 	}
 
@@ -40,8 +38,8 @@ void CPlayer::ChangeState(PlayerState _State)
 	case PlayerState::IDLE:
 		IdleEnd();
 		break;
-	case PlayerState::MOVE:
-		MoveEnd();
+	case PlayerState::JUMP:
+		JumpEnd();
 		break;
 	}
 }
@@ -65,15 +63,13 @@ void CPlayer::UpdateState(float _Time)
 	case PlayerState::DOWN:
 		DownUpdate(_Time);
 		break;
-	case PlayerState::COLLIDE:
-		CollideUpdate(_Time);
-		break;
 	}
 }
 
 void CPlayer::IdleStart()
 {
 	DirCheck("Idle");
+
 }
 
 void CPlayer::IdleUpdate(float _Time)
@@ -146,12 +142,12 @@ void CPlayer::MoveUpdate(float _Time)
 	}
 
 	//왼쪽 방향키를 눌렀으면서 왼쪽 벽 체크해서 true시 x값 0으로 못가게하기
-	if ((true == GameEngineInput::IsPress("LeftMove") && ColLeft() && m_MoveDir.x < 0))
+	if ((true == GameEngineInput::IsPress("LeftMove") && ColLeftAll() && m_MoveDir.x < 0))
 	{
 		m_MoveDir.x = 0.f;
 	}
 	//오른쪽 방향키를 눌렀으면서 오른쪽 벽 체크해서 true시 x값 0으로 못가게하기
-	if ((true == GameEngineInput::IsPress("RightMove") && ColRight() && m_MoveDir.x > 0))
+	if ((true == GameEngineInput::IsPress("RightMove") && ColRightAll() && m_MoveDir.x > 0))
 	{
 		m_MoveDir.x = 0.f;
 	}
@@ -212,7 +208,9 @@ void CPlayer::JumpReadyUpdate(float _Time)
 		ChangeState(PlayerState::JUMP);
 	}
 }
-void CPlayer::JumpReadyEnd() {}
+void CPlayer::JumpReadyEnd() 
+{
+}
 
 
 void  CPlayer::JumpStart()
@@ -260,16 +258,23 @@ void  CPlayer::JumpStart()
 void  CPlayer::JumpUpdate(float _Time)
 {
 	//오른쪽으로 점프중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
-	if (m_MoveDir.x > 0 && ColRight())
+	if (m_MoveDir.x > 0 && ColRightAll())
 	{
-		m_MoveDir.x *= -1;
+		m_MoveDir.x *= -0.475f;
 
 		DirCheck("Collide");
 	}
 	//왼쪽으로 점프중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
-	if (m_MoveDir.x < 0 && ColLeft())
+	if (m_MoveDir.x < 0 && ColLeftAll())
 	{
-		m_MoveDir.x *= -1;
+		m_MoveDir.x *= -0.475f;
+
+		DirCheck("Collide");
+	}
+
+	if (ColUpAll())
+	{
+		m_MoveDir.y = 0.f;
 
 		DirCheck("Collide");
 	}
@@ -298,22 +303,22 @@ void CPlayer::DownStart()
 void CPlayer::DownUpdate(float _Time)
 {
 	//오른쪽으로 하강중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
-	if (m_MoveDir.x > 0 && ColRight())
+	if (m_MoveDir.x > 0 && ColRightAll())
 	{
-		m_MoveDir.x *= -1;
+		m_MoveDir.x *= -0.475f;
 
 		DirCheck("Collide");
 	}
 	//왼쪽으로 하강중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
-	if (m_MoveDir.x < 0 && ColLeft())
+	if (m_MoveDir.x < 0 && ColLeftAll())
 	{
-		m_MoveDir.x *= -1;
+		m_MoveDir.x *= -0.475f;
 
 		DirCheck("Collide");
 	}
 
-		//바닥에 안착시 idle로 전환
-	if (ColDown())
+	//바닥에 안착시 idle로 전환
+	if (ColDownAll())
 	{	
 		ChangeState(PlayerState::IDLE);
 	}
@@ -321,7 +326,3 @@ void CPlayer::DownUpdate(float _Time)
 void CPlayer::DownEnd() 
 {
 }
-
-void CPlayer::CollideStart() {}
-void CPlayer::CollideUpdate(float _Time) {}
-void CPlayer::CollideEnd() {}

@@ -34,8 +34,8 @@ void CPlayer::Start()
 	m_pAnimationRender->SetScale({ 128,128 });
 
 	//move
-	m_pAnimationRender->CreateAnimation({ .AnimationName = "L_Move",.ImageName = "L_basecut.bmp",.Start = 1,.End = 3,.InterTime = 0.08f, });
-	m_pAnimationRender->CreateAnimation({ .AnimationName = "R_Move",.ImageName = "R_basecut.bmp",.Start = 1,.End = 3,.InterTime = 0.08f });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "L_Move",.ImageName = "L_basecut.bmp",.Start = 1,.End = 3,.InterTime = 0.12f, });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "R_Move",.ImageName = "R_basecut.bmp",.Start = 1,.End = 3,.InterTime = 0.12f });
 
 	//idle
 	m_pAnimationRender->CreateAnimation({ .AnimationName = "L_Idle",.ImageName = "L_basecut.bmp",.Start = 0,.End = 0, });
@@ -103,6 +103,10 @@ void CPlayer::DirCheck(const std::string_view& _AnimationName)
 
 void CPlayer::Render(float _DeltaTime)
 {
+#ifdef DEBUG
+
+
+#endif
 	HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
 	
 	float4 fPos = GetPos() - GetLevel()->GetCameraPos();
@@ -113,6 +117,51 @@ void CPlayer::Render(float _DeltaTime)
 		fPos.ix() + 5,
 		fPos.iy() + 5
 	);
+	
+	{
+
+		Rectangle(DoubleDC,
+			pPos.fRightUpPos.ix() - 2,
+			pPos.fRightUpPos.iy() - 2,
+			pPos.fRightUpPos.ix() + 2,
+			pPos.fRightUpPos.iy() + 2);
+		Rectangle(DoubleDC,
+			pPos.fRightDownPos.ix() - 2,
+			pPos.fRightDownPos.iy() - 2,
+			pPos.fRightDownPos.ix() + 2,
+			pPos.fRightDownPos.iy() + 2);
+		Rectangle(DoubleDC,
+			pPos.fLeftUpPos.ix() - 2,
+			pPos.fLeftUpPos.iy() - 2,
+			pPos.fLeftUpPos.ix() + 2,
+			pPos.fLeftUpPos.iy() + 2);
+		Rectangle(DoubleDC,
+			pPos.fLeftDownPos.ix() - 2,
+			pPos.fLeftDownPos.iy() - 2,
+			pPos.fLeftDownPos.ix() + 2,
+			pPos.fLeftDownPos.iy() + 2);
+
+		Rectangle(DoubleDC,
+			pPos.fDownLPos.ix() - 2,
+			pPos.fDownLPos.iy() - 2,
+			pPos.fDownLPos.ix() + 2,
+			pPos.fDownLPos.iy() + 2);
+		Rectangle(DoubleDC,
+			pPos.fDownRPos.ix() - 2,
+			pPos.fDownRPos.iy() - 2,
+			pPos.fDownRPos.ix() + 2,
+			pPos.fDownRPos.iy() + 2);
+		Rectangle(DoubleDC,
+			pPos.fUpLPos.ix() - 2,
+			pPos.fUpLPos.iy() - 2,
+			pPos.fUpLPos.ix() + 2,
+			pPos.fUpLPos.iy() + 2);
+		Rectangle(DoubleDC,
+			pPos.fUpRPos.ix() - 2,
+			pPos.fUpRPos.iy() - 2,
+			pPos.fUpRPos.ix() + 2,
+			pPos.fUpRPos.iy() + 2);
+	}
 
 	std::string Ground = "Ground : ";
 	if (m_bGround)
@@ -149,12 +198,15 @@ void CPlayer::Render(float _DeltaTime)
 	GameEngineLevel::DebugTextPush(PlayerPos);
 	GameEngineLevel::DebugTextPush(CamPos);
 
+
 }
 
 void CPlayer::Movecalculation(float _DeltaTime)
 {
+	m_pColImage = GameEngineResources::GetInst().ImageFind("1_col.BMP");
+
 	// 중력 을 받을때 안받을때 결정
-	if (false == m_bGround)
+	if (false==ColDownAll())
 	{
 		m_MoveDir += float4::Down * m_fGravity * _DeltaTime;
 	}
@@ -165,20 +217,25 @@ void CPlayer::Movecalculation(float _DeltaTime)
 			m_MoveDir.y = 0.f;
 		}
 	}	
+	
 
-	m_pColImage = GameEngineResources::GetInst().ImageFind("1_col.BMP");
 	if (nullptr == m_pColImage)
 	{
 		MsgAssert("충돌용 맵 이미지가 없습니다.");
 	}
 
-	pPos.NextPos = GetPos() + m_MoveDir;	
-	pPos.fDownPos = GetPos() + float4::Down;
-	pPos.fUpPos = GetPos() + float4::Up + float4{0,-40};
-	pPos.fRightPos = GetPos() + float4::Right+float4{ 20,0 };
-	pPos.fLeftPos = GetPos() + float4::Left + float4{ -20,0 };
+	// 위 아래 오른쪽 왼쪽에 점을 한개씩 찍어서 픽셀체크에 필요한 좌표를 적용
+	pPos.fRightUpPos = GetPos() + float4::Right + float4{ 20,-40 };
+	pPos.fRightDownPos = GetPos() + float4::Right + float4{ 20,0 };
+	pPos.fLeftUpPos = GetPos() + float4::Left + float4{ -20,-40 };
+	pPos.fLeftDownPos = GetPos() + float4::Left + float4{ -20,0 };
+	pPos.fDownLPos = GetPos() + float4::Left + float4::Down + float4{ 20,0 };
+	pPos.fDownRPos = GetPos() + float4::Right + float4::Down + float4{ -20,0 };
+	pPos.fUpLPos = GetPos() + float4::Left + float4::Up + float4{ 20,-40 };
+	pPos.fUpRPos = GetPos() + float4::Right + float4::Up + float4{ -20,-40 };
 	pPos.fMyPos = GetPos();
 	
+
 	// 바닥에 박힌거 올리기
 	while (ColCur())
 	{
@@ -186,21 +243,19 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		pPos.fMyPos = GetPos();
 	}
 
-	//1픽셀 아래가 검은색이면 땅에 닿아있는것.
-	if (ColDown())
+
+	//디버깅용 땅에 닿았는지 확인
+	if (ColDownAll())
 	{
 		m_bGround = true;
-		m_iCollide = 0;
 	}
 	else
 	{
 		m_bGround = false;
 	}
 
-	if ((RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fRightPos, RGB(0, 0, 0))||
-		RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fLeftPos, RGB(0, 0, 0))||
-		RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fUpPos, RGB(0, 0, 0)))
-		&&false == m_bGround)
+	//디버깅용 벽에 닿았는지 확인
+	if (ColLeftAll() || ColRightAll() || ColUpAll())
 	{
 		m_bWall = true;
 	}
@@ -212,27 +267,68 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	SetMove(m_MoveDir * _DeltaTime);
 }
 
-bool CPlayer::ColLeft()
-{
-	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fLeftPos, RGB(0, 0, 0));
-}
-
-bool CPlayer::ColRight()
-{
-	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fRightPos, RGB(0, 0, 0));
-}
-
-bool CPlayer::ColUp()
-{
-	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fUpPos, RGB(0, 0, 0));
-}
-
-bool CPlayer::ColDown()
-{
-	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fDownPos, RGB(0, 0, 0));
-}
-
 bool CPlayer::ColCur()
 {
 	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fMyPos, RGB(0, 0, 0));
 }
+
+bool CPlayer::ColLeftUp()
+{
+	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fLeftUpPos, RGB(0, 0, 0));
+}
+
+bool CPlayer::ColRightUp()
+{
+	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fRightUpPos, RGB(0, 0, 0));
+}
+
+bool CPlayer::ColLeftDown()
+{
+	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fLeftDownPos, RGB(0, 0, 0));
+}
+
+bool CPlayer::ColDownR()
+{
+	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fDownRPos, RGB(0, 0, 0));
+}
+
+bool CPlayer::ColDownL()
+{
+	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fDownLPos, RGB(0, 0, 0));
+}
+
+bool CPlayer::ColUpR()
+{
+	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fUpRPos, RGB(0, 0, 0));
+}
+
+bool CPlayer::ColUpL()
+{
+	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fUpLPos, RGB(0, 0, 0));
+}
+
+bool CPlayer::ColRightDown()
+{
+	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fRightDownPos, RGB(0, 0, 0));
+}
+
+bool CPlayer::ColLeftAll()
+{
+	return ColLeftUp() || ColLeftDown();
+}
+
+bool CPlayer::ColRightAll()
+{
+	return ColRightUp() || ColRightDown();
+}
+
+bool CPlayer::ColUpAll()
+{
+	return ColUpR() || ColUpL();
+}
+
+bool CPlayer::ColDownAll()
+{
+	return ColDownR() || ColDownL();;
+}
+

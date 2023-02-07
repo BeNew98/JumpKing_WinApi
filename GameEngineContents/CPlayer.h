@@ -4,12 +4,15 @@
 #include <GameEnginePlatform/GameEngineImage.h>
 struct PlayerPos
 {
-	float4 NextPos = float4::Zero;
-	float4 fDownPos = float4::Zero;
-	float4 fUpPos = float4::Zero;
-	float4 fRightPos = float4::Zero;
-	float4 fLeftPos = float4::Zero;
-	float4 fMyPos = float4::Zero;
+	float4 fRightUpPos		= float4::Zero;
+	float4 fRightDownPos	= float4::Zero;
+	float4 fLeftUpPos		= float4::Zero;
+	float4 fLeftDownPos		= float4::Zero;
+	float4 fDownLPos		= float4::Zero;
+	float4 fDownRPos		= float4::Zero;
+	float4 fUpLPos			= float4::Zero;
+	float4 fUpRPos			= float4::Zero;
+	float4 fMyPos			= float4::Zero;
 };
 
 enum class PlayerState
@@ -19,7 +22,6 @@ enum class PlayerState
 	JUMP_READY,
 	JUMP,
 	DOWN,
-	COLLIDE
 
 };
 // Ό³Έν :
@@ -38,11 +40,6 @@ public:
 	CPlayer& operator=(const CPlayer& _Other) = delete;
 	CPlayer& operator=(CPlayer&& _Other) noexcept = delete;
 
-	bool ColLeft();
-	bool ColRight();
-	bool ColUp();
-	bool ColDown();
-	bool ColCur();
 
 protected:
 	void Start() override;
@@ -50,33 +47,32 @@ protected:
 	void Render(float _DeltaTime) override;
 
 private:
-	PlayerPos pPos;
+	PlayerPos	pPos;
 
-	float m_fAccTime = 0.0f;
-	int m_iStartFrame = 0;
-	float m_fMoveSpeed = 700.0f;
+	float		m_fAccTime			= 0.0f;
+	int			m_iStartFrame		= 0;
+	float		m_fMoveSpeed		= 700.0f;
+									
+	bool		m_bGround			= false;
+	float		m_fGravity			= 1500.0f;
+									
+	bool		m_bWall				= false;
+	UINT		m_iCollide			= 0;
+									
+	float		m_fJumpSpeed		= 950.0f;
+	float		m_fJumpPressTime	= 0.f;
+	float4		m_HighestPos		= float4::Zero;
 
-	bool m_bGround = false;
-	float m_fGravity = 1500.0f;
+	std::string m_DirString			= "R_";
+	PlayerState m_StateValue		= PlayerState::IDLE;
+	float4		m_MoveDir			= float4::Zero;
 
-	bool m_bWall = false;
-	UINT m_iCollide = 0;
+	GameEngineRender*		m_pAnimationRender	= nullptr;
+	GameEngineCollision*	m_pBodyCollision	= nullptr;
 
-	float m_fJumpSpeed = 950.0f;
-	float m_fJumpPressTime = 0.f;;
-	float4 m_HighestPos = float4::Zero;
+	GameEngineImage*		m_pColImage			= nullptr;
 
-	std::string m_DirString = "R_";
-	PlayerState m_StateValue = PlayerState::IDLE;
-	float4 m_MoveDir = float4::Zero;
-
-	GameEngineRender* m_pAnimationRender = nullptr;
-	GameEngineCollision* m_pBodyCollision = nullptr;
-
-	GameEngineImage* m_pColImage = nullptr;
-
-	void DirCheck(const std::string_view& _AnimationName);
-	
+	void DirCheck(const std::string_view& _AnimationName);	
 
 	void ChangeState(PlayerState _State);
 	void UpdateState(float _Time);
@@ -101,11 +97,21 @@ private:
 	void DownUpdate(float _Time);
 	void DownEnd();
 
-	void CollideStart();
-	void CollideUpdate(float _Time);
-	void CollideEnd();
-
 	void Movecalculation(float _DeltaTime);
 
+
+	bool ColLeftUp();
+	bool ColRightUp();
+	bool ColLeftDown();
+	bool ColRightDown();
+	bool ColDownR();
+	bool ColDownL();
+	bool ColUpR();
+	bool ColUpL();
+	bool ColLeftAll();
+	bool ColRightAll();
+	bool ColUpAll();
+	bool ColDownAll();
+	bool ColCur();
 };
 
