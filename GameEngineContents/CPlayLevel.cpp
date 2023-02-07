@@ -17,6 +17,8 @@ CPlayLevel::~CPlayLevel()
 
 void CPlayLevel::Loading()
 {
+	//SetCameraMove(float4{ 0, -GameEngineWindow::GetScreenSize().y});
+	
 	GameEngineDirectory Dir;
 
 	Dir.MoveParentToDirectory("ContentsResources");
@@ -53,27 +55,26 @@ void CPlayLevel::Loading()
 		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("1_col.bmp"));
 	}
 	{
-		GameEngineImage* pMidGround_1_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("2_col.bmp"));
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("2_col.bmp"));
 	}
 	{
-		GameEngineImage* pMidGround_1_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("3_col.bmp"));
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("3_col.bmp"));
 	}
 	{
-		GameEngineImage* pMidGround_1_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("4_col.bmp"));
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("4_col.bmp"));
 	}
 	{
-		GameEngineImage* pMidGround_1_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("5_col.bmp"));
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("5_col.bmp"));
 	}
 	{
-		GameEngineImage* pMidGround_1_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("6_col.bmp"));
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("6_col.bmp"));
 	}
 
 
 
 	CPlayer* pActor = CreateActor<CPlayer>();
-	pActor->SetPos({ static_cast<float>(GameEngineWindow::GetScreenSize().hix()),600});
 	CMidGround* pMidGround = CreateActor<CMidGround>();
-
+	pMidGround->SetMove(float4{ 0,-GameEngineWindow::GetScreenSize().y });
 
 	if (false == GameEngineInput::IsKey("DebugRenderSwitch"))
 	{
@@ -87,12 +88,12 @@ void CPlayLevel::Loading()
 
 	if (false == GameEngineInput::IsKey("UpArrow"))
 	{
-		GameEngineInput::CreateKey("UpArrow", VK_UP);
+		GameEngineInput::CreateKey("UpArrow", 'W');
 	}
 
 	if (false == GameEngineInput::IsKey("DownArrow"))
 	{
-		GameEngineInput::CreateKey("DownArrow", VK_DOWN);
+		GameEngineInput::CreateKey("DownArrow", 'S');
 	}
 
 }
@@ -119,9 +120,6 @@ void CPlayLevel::Update(float _DeltaTime)
 		if (GameEngineInput::IsPress("DownArrow"))
 		{			
 			SetCameraMove(float4{ 0,300.f }*_DeltaTime);
-		}
-
-		
+		}		
 	}
-
 }

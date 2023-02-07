@@ -136,10 +136,14 @@ void CPlayer::Render(float _DeltaTime)
 	std::string PlayerPos = "PlayerPos : ";
 	PlayerPos += GetPos().ToString();
 
+	std::string CamPos = "CamPos : ";
+	CamPos += GetLevel()->GetCameraPos().ToString();
+
 	GameEngineLevel::DebugTextPush(Ground);
 	GameEngineLevel::DebugTextPush(Wall);
 	GameEngineLevel::DebugTextPush(Dir);
 	GameEngineLevel::DebugTextPush(PlayerPos);
+	GameEngineLevel::DebugTextPush(CamPos);
 
 }
 

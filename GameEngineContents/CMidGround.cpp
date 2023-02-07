@@ -37,11 +37,21 @@ void CMidGround::Start()
 	//BGRender;
 	//BGRender;
 	//BGRender;
+
+	float4 StartPos = GameEngineWindow::GetScreenSize().half();
+	StartPos.y -= GameEngineWindow::GetScreenSize().y;
 	{
 		m_pRenderMap0 = CreateRender(RenderOrder::MIDGROUND);
-		m_pRenderMap0->SetImage("1_Col.Bmp");
-		m_pRenderMap0->SetPosition(m_pRenderMap0->GetImage()->GetImageScale().half());
+		m_pRenderMap0->SetImage("1.Bmp");
+		m_pRenderMap0->SetPosition(StartPos);
 		m_pRenderMap0->SetScaleToImage();
+	}
+
+	{
+		m_pColMap0 = CreateRender(RenderOrder::DEBUG);
+		m_pColMap0->SetImage("1_Col.Bmp");
+		m_pColMap0->SetPosition(StartPos);
+		m_pColMap0->SetScaleToImage();
 	}
 }
 
