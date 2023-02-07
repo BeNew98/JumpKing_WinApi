@@ -222,7 +222,7 @@ void CPlayer::DownUpdate(float _Time)
 	}
 
 	if (m_bGround)
-		
+	{	
 		//if ((m_HighestPos - GetPos()).Size() > GameEngineWindow::GetScreenSize().hy())
 		//{
 		//
