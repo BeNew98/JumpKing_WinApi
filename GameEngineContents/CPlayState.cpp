@@ -30,6 +30,8 @@ void CPlayer::ChangeState(PlayerState _State)
 	case PlayerState::DOWN:
 		DownStart();
 		break;
+	case PlayerState::FALL:
+		FallStart();
 		break;
 	}
 
@@ -62,6 +64,9 @@ void CPlayer::UpdateState(float _Time)
 		break;
 	case PlayerState::DOWN:
 		DownUpdate(_Time);
+		break;
+	case PlayerState::FALL:
+		FallUpdate(_Time);
 		break;
 	}
 }
@@ -200,12 +205,14 @@ void CPlayer::JumpReadyUpdate(float _Time)
 	if (true == GameEngineInput::IsUp("Jump"))
 	{
 		ChangeState(PlayerState::JUMP);
+		return;
 	}
 
 	//키를 누른시간이 0.6초이상이 될 시 강제로 jump로 전환
 	if (m_fJumpPressTime >= 0.6f)
 	{
 		ChangeState(PlayerState::JUMP);
+		return;
 	}
 }
 void CPlayer::JumpReadyEnd() 
@@ -268,14 +275,15 @@ void  CPlayer::JumpUpdate(float _Time)
 	if (m_MoveDir.x < 0 && ColLeftAll())
 	{
 		m_MoveDir.x *= -0.475f;
-
+		m_iCollide = true;
 		DirCheck("Collide");
 	}
 
+	//위쪽이 충돌했을 시 y값 0으로 만들어서 바로 떨어뜨리기
 	if (ColUpAll())
 	{
 		m_MoveDir.y = 0.f;
-
+		m_iCollide = true;
 		DirCheck("Collide");
 	}
 	
@@ -297,7 +305,15 @@ void  CPlayer::JumpEnd()
 
 void CPlayer::DownStart()
 {
-	DirCheck("Down");
+	//이미 충돌한적이 있을 시 충돌이미지 유지
+	if (m_iCollide)
+	{
+		DirCheck("Collide");
+	}
+	else
+	{
+		DirCheck("Down");
+	}
 }
 
 void CPlayer::DownUpdate(float _Time)
@@ -306,23 +322,66 @@ void CPlayer::DownUpdate(float _Time)
 	if (m_MoveDir.x > 0 && ColRightAll())
 	{
 		m_MoveDir.x *= -0.475f;
-
+		m_iCollide = true;
 		DirCheck("Collide");
 	}
 	//왼쪽으로 하강중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x < 0 && ColLeftAll())
 	{
 		m_MoveDir.x *= -0.475f;
-
+		m_iCollide = true;
 		DirCheck("Collide");
-	}
+	}	
 
-	//바닥에 안착시 idle로 전환
+	//바닥에 안착시
 	if (ColDownAll())
-	{	
+	{
+		// 점프시 최대 높이 - 내 현재 높이가 화면 사이즈 절반보다 크다면 Fall로 전환
+		if (fabsf(m_HighestPos.y - GetPos().y) >GameEngineWindow::GetScreenSize().hy())
+		{
+			m_iCollide = false;
+			ChangeState(PlayerState::FALL);
+			return;
+		}
+
+		// 아닐시 idle로 전환
+		else
+		{
+		m_iCollide = false;
 		ChangeState(PlayerState::IDLE);
+		return;
+		}
 	}
 }
 void CPlayer::DownEnd() 
 {
 }
+
+
+
+void CPlayer::FallStart()
+{
+	DirCheck("Fall");
+}
+
+void CPlayer::FallUpdate(float _Time)
+{
+	//방향키 누르면 move로 전환
+	if (GameEngineInput::IsPress("LeftMove") || GameEngineInput::IsPress("RightMove"))
+	{
+		ChangeState(PlayerState::MOVE);
+		return;
+	}
+
+	// 스페이스 누르면 jump ready로 전환
+	if (GameEngineInput::IsDown("Jump"))
+	{
+		ChangeState(PlayerState::JUMP_READY);
+		return;
+	}
+}
+
+void CPlayer::FallEnd()
+{
+}
+

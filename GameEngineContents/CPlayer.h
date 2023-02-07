@@ -22,7 +22,7 @@ enum class PlayerState
 	JUMP_READY,
 	JUMP,
 	DOWN,
-
+	FALL
 };
 // Ό³Έν :
 class CPlayer : public GameEngineActor
@@ -51,13 +51,13 @@ private:
 
 	float		m_fAccTime			= 0.0f;
 	int			m_iStartFrame		= 0;
-	float		m_fMoveSpeed		= 700.0f;
+	float		m_fMoveSpeed		= 800.0f;
 									
 	bool		m_bGround			= false;
 	float		m_fGravity			= 1500.0f;
 									
 	bool		m_bWall				= false;
-	UINT		m_iCollide			= 0;
+	bool		m_iCollide			= false;
 									
 	float		m_fJumpSpeed		= 950.0f;
 	float		m_fJumpPressTime	= 0.f;
@@ -96,6 +96,10 @@ private:
 	void DownStart();
 	void DownUpdate(float _Time);
 	void DownEnd();
+
+	void FallStart();
+	void FallUpdate(float _Time);
+	void FallEnd();
 
 	void Movecalculation(float _DeltaTime);
 
