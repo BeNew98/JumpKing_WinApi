@@ -57,6 +57,7 @@ private:
 
 	float m_fJumpSpeed = 850.0f;
 	float m_fJumpPressTime = 0.f;;
+	float4 m_HighestPos = float4::Zero;
 
 	std::string m_DirString = "R_";
 	PlayerState m_StateValue = PlayerState::IDLE;

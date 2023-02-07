@@ -113,6 +113,12 @@ void CPlayer::MoveUpdate(float _Time)
 		return;
 	}
 
+	if (GameEngineInput::IsDown("Jump"))
+	{
+		ChangeState(PlayerState::JUMP_READY);
+		return;
+	}
+
 	if (true == GameEngineInput::IsPress("LeftMove")&&true == m_bGround)
 	{
 		m_MoveDir += float4::Left * m_fMoveSpeed;
@@ -125,11 +131,12 @@ void CPlayer::MoveUpdate(float _Time)
 
 	DirCheck("Move");
 
+
 }
 
 void CPlayer::MoveEnd() 
 {
-
+	m_MoveDir.x = 0.0f;
 }
 
 
@@ -184,6 +191,11 @@ void  CPlayer::JumpUpdate(float _Time)
 		m_MoveDir.x *= -1;
 		++m_iCollide;
 	}
+	
+	if (m_iCollide != 0)
+	{
+		DirCheck("Collide");
+	}
 
 	if (m_MoveDir.y > 0)
 	{
@@ -195,6 +207,7 @@ void  CPlayer::JumpUpdate(float _Time)
 
 void  CPlayer::JumpEnd()
 {
+	m_HighestPos = GetPos();
 }
 
 void CPlayer::DownStart()
@@ -203,8 +216,17 @@ void CPlayer::DownStart()
 }
 void CPlayer::DownUpdate(float _Time)
 {
-	if (m_bGround)
+	if (m_iCollide != 0)
 	{
+		DirCheck("Collide");
+	}
+
+	if (m_bGround)
+		
+		//if ((m_HighestPos - GetPos()).Size() > GameEngineWindow::GetScreenSize().hy())
+		//{
+		//
+		//}
 		ChangeState(PlayerState::IDLE);
 	}
 }
