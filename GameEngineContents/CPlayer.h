@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+#include <GameEnginePlatform/GameEngineImage.h>
 struct PlayerPos
 {
 	float4 NextPos = float4::Zero;
@@ -37,6 +38,12 @@ public:
 	CPlayer& operator=(const CPlayer& _Other) = delete;
 	CPlayer& operator=(CPlayer&& _Other) noexcept = delete;
 
+	bool ColLeft();
+	bool ColRight();
+	bool ColUp();
+	bool ColDown();
+	bool ColCur();
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -47,15 +54,15 @@ private:
 
 	float m_fAccTime = 0.0f;
 	int m_iStartFrame = 0;
-	float m_fMoveSpeed = 500.0f;
+	float m_fMoveSpeed = 700.0f;
 
 	bool m_bGround = false;
-	float m_fGravity = 1000.0f;
+	float m_fGravity = 1500.0f;
 
 	bool m_bWall = false;
 	UINT m_iCollide = 0;
 
-	float m_fJumpSpeed = 850.0f;
+	float m_fJumpSpeed = 950.0f;
 	float m_fJumpPressTime = 0.f;;
 	float4 m_HighestPos = float4::Zero;
 
@@ -65,6 +72,8 @@ private:
 
 	GameEngineRender* m_pAnimationRender = nullptr;
 	GameEngineCollision* m_pBodyCollision = nullptr;
+
+	GameEngineImage* m_pColImage = nullptr;
 
 	void DirCheck(const std::string_view& _AnimationName);
 	

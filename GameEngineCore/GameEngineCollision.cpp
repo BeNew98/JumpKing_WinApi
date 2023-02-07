@@ -108,11 +108,6 @@ void GameEngineCollision::SetOrder(int _Order)
 
 bool GameEngineCollision::Collision(const CollisionCheckParameter& _Parameter)
 {
-	if (OtherCollision == this)
-	{
-		continue;
-	}
-
 	if (false == IsUpdate())
 	{
 		return false;
@@ -122,6 +117,11 @@ bool GameEngineCollision::Collision(const CollisionCheckParameter& _Parameter)
 
 	for (GameEngineCollision* OtherCollision : _TargetGroup)
 	{
+		if (OtherCollision == this)
+		{
+			continue;
+		}
+
 		if (false == OtherCollision->IsUpdate())
 		{
 			continue;

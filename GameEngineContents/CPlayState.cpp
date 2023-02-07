@@ -73,6 +73,12 @@ void CPlayer::UpdateState(float _Time)
 
 void CPlayer::IdleStart()
 {
+	// ¹Ù´Ú¿¡ ¹ÚÈù°Å ¿Ã¸®±â
+	while (RGB(0, 0, 0) == ColCur())
+	{
+		SetPos(GetPos() + float4::Up);
+		pPos.fMyPos = GetPos();
+	}
 	DirCheck("Idle");
 }
 
@@ -87,6 +93,18 @@ void CPlayer::IdleUpdate(float _Time)
 	if (GameEngineInput::IsDown("Jump"))
 	{
 		ChangeState(PlayerState::JUMP_READY);
+		return;
+	}
+
+	if (false == GameEngineInput::IsPress("LeftMove") || false == GameEngineInput::IsPress("RightMove"))
+	{
+		m_MoveDir.x = 0;
+		return;
+	}
+
+	if (m_MoveDir.y > 0)
+	{
+		ChangeState(PlayerState::DOWN);
 		return;
 	}
 }
@@ -119,14 +137,42 @@ void CPlayer::MoveUpdate(float _Time)
 		return;
 	}
 
-	if (true == GameEngineInput::IsPress("LeftMove")&&true == m_bGround)
+	if (true == GameEngineInput::IsPress("LeftMove"))
 	{
 		m_MoveDir += float4::Left * m_fMoveSpeed;
 	}
 
-	else if (true == GameEngineInput::IsPress("RightMove") && true == m_bGround)
+	else if (true == GameEngineInput::IsPress("RightMove"))
 	{
 		m_MoveDir += float4::Right * m_fMoveSpeed;
+	}
+
+	//º®
+	if ((true == GameEngineInput::IsPress("LeftMove") && ColLeft() && m_MoveDir.x < 0))
+	{
+		m_MoveDir.x = 0.f;
+	}
+
+	if ((true == GameEngineInput::IsPress("RightMove") && ColRight() && m_MoveDir.x > 0))
+	{
+		m_MoveDir.x = 0.f;
+	}
+
+	if (170.0f <= abs(m_MoveDir.x))
+	{
+		if (0 > m_MoveDir.x)
+		{
+			m_MoveDir.x = -170.0f;
+		}
+		else {
+			m_MoveDir.x = 170.0f;
+		}
+	}
+
+	if (m_MoveDir.y > 0)
+	{
+		ChangeState(PlayerState::DOWN);
+		return;
 	}
 
 	DirCheck("Move");
@@ -158,7 +204,7 @@ void CPlayer::JumpReadyUpdate(float _Time)
 		ChangeState(PlayerState::JUMP);
 	}
 
-	if (m_fJumpPressTime >= 1.0f)
+	if (m_fJumpPressTime >= 0.6f)
 	{
 		ChangeState(PlayerState::JUMP);
 	}
@@ -181,7 +227,19 @@ void  CPlayer::JumpStart()
 	{
 		m_MoveDir += float4::Right * m_fMoveSpeed;
 	}
-	m_MoveDir += float4::Up * m_fJumpSpeed * m_fJumpPressTime;
+	m_MoveDir += float4::Up * m_fJumpSpeed * (m_fJumpPressTime/0.6f);
+
+	if (400.0f <= abs(m_MoveDir.x))
+	{
+		if (0 > m_MoveDir.x)
+		{
+			m_MoveDir.x = -400.0f;
+		}
+		else 
+		{
+			m_MoveDir.x = 400.0f;
+		}
+	}
 }
 
 void  CPlayer::JumpUpdate(float _Time)
@@ -223,7 +281,7 @@ void CPlayer::DownUpdate(float _Time)
 
 	if (m_bWall)
 	{
-		m_MoveDir.x =0.f;
+		m_MoveDir.x *= -1;
 	}
 
 	if (m_bGround)
@@ -235,7 +293,9 @@ void CPlayer::DownUpdate(float _Time)
 		ChangeState(PlayerState::IDLE);
 	}
 }
-void CPlayer::DownEnd() {}
+void CPlayer::DownEnd() 
+{
+}
 
 void CPlayer::CollideStart() {}
 void CPlayer::CollideUpdate(float _Time) {}

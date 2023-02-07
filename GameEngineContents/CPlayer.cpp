@@ -31,7 +31,7 @@ void CPlayer::Start()
 
 	m_pAnimationRender = CreateRender(RenderOrder::PLAYER);
 	
-	m_pAnimationRender->SetScale({ 148,148 });
+	m_pAnimationRender->SetScale({ 128,128 });
 
 	//move
 	m_pAnimationRender->CreateAnimation({ .AnimationName = "L_Move",.ImageName = "L_basecut.bmp",.Start = 1,.End = 3,.InterTime = 0.08f, });
@@ -153,6 +153,7 @@ void CPlayer::Render(float _DeltaTime)
 
 void CPlayer::Movecalculation(float _DeltaTime)
 {
+	// 중력 을 받을때 안받을때 결정
 	if (false == m_bGround)
 	{
 		m_MoveDir += float4::Down * m_fGravity * _DeltaTime;
@@ -165,26 +166,20 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		}
 	}
 
-	if (200.0f <= abs(m_MoveDir.x))
-	{
-		if (0 > m_MoveDir.x)
-		{
-			m_MoveDir.x = -200.0f;
-		}
-		else {
-			m_MoveDir.x = 200.0f;
-		}
-	}
+	//// 가로 최대속도 제한
+	//if (300.0f <= abs(m_MoveDir.x))
+	//{
+	//	if (0 > m_MoveDir.x)
+	//	{
+	//		m_MoveDir.x = -300.0f;
+	//	}
+	//	else {
+	//		m_MoveDir.x = 300.0f;
+	//	}
+	//}	
 
-	if (false == GameEngineInput::IsPress("LeftMove") && false == GameEngineInput::IsPress("RightMove") && m_bGround)
-	{
-		m_MoveDir.x = 0.f;
-	}
-
-	
-
-	GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind("1_col.BMP");
-	if (nullptr == ColImage)
+	m_pColImage = GameEngineResources::GetInst().ImageFind("1_col.BMP");
+	if (nullptr == m_pColImage)
 	{
 		MsgAssert("충돌용 맵 이미지가 없습니다.");
 	}
@@ -195,26 +190,12 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	pPos.fRightPos = GetPos() + float4::Right+float4{ 20,0 };
 	pPos.fLeftPos = GetPos() + float4::Left + float4{ -20,0 };
 	pPos.fMyPos = GetPos();
+	
 
-	if (true == GameEngineInput::IsPress("LeftMove") && (RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fLeftPos, RGB(0, 0, 0) && m_MoveDir.x < 0)) && m_bGround)
-	{
-		m_MoveDir.x = 0.f;
-	}
-
-	if (true == GameEngineInput::IsPress("RightMove") && (RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fRightPos, RGB(0, 0, 0) && m_MoveDir.x > 0))&&m_bGround)
-	{
-		m_MoveDir.x = 0.f;
-	}
-
-	// 바닥에 박힌거 올리기
-	while (RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fMyPos, RGB(0, 0, 0)))
-	{
-	SetPos(GetPos()+float4::Up);
-	pPos.fMyPos = GetPos();
-	}
+	
 
 	//1픽셀 아래가 검은색이면 땅에 닿아있는것.
-	if (RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fDownPos, RGB(0, 0, 0)))
+	if (RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fDownPos, RGB(0, 0, 0)))
 	{
 		m_bGround = true;
 		m_iCollide = 0;
@@ -224,9 +205,9 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		m_bGround = false;
 	}
 
-	if ((RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fRightPos, RGB(0, 0, 0))||
-		RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fLeftPos, RGB(0, 0, 0))||
-		RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fUpPos, RGB(0, 0, 0)))
+	if ((RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fRightPos, RGB(0, 0, 0))||
+		RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fLeftPos, RGB(0, 0, 0))||
+		RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fUpPos, RGB(0, 0, 0)))
 		&&false == m_bGround)
 	{
 		m_bWall = true;
@@ -237,4 +218,29 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	}
 
 	SetMove(m_MoveDir * _DeltaTime);
+}
+
+bool CPlayer::ColLeft()
+{
+	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fLeftPos, RGB(0, 0, 0));
+}
+
+bool CPlayer::ColRight()
+{
+	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fRightPos, RGB(0, 0, 0));
+}
+
+bool CPlayer::ColUp()
+{
+	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fUpPos, RGB(0, 0, 0));
+}
+
+bool CPlayer::ColDown()
+{
+	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fDownPos, RGB(0, 0, 0));
+}
+
+bool CPlayer::ColCur()
+{
+	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fMyPos, RGB(0, 0, 0));
 }
