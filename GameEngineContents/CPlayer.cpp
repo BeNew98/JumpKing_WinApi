@@ -206,13 +206,12 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		m_MoveDir.x = 0.f;
 	}
 
+	// ¹Ù´Ú¿¡ ¹ÚÈù°Å ¿Ã¸®±â
 	while (RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fMyPos, RGB(0, 0, 0)))
 	{
 	SetPos(GetPos()+float4::Up);
 	pPos.fMyPos = GetPos();
 	}
-
-
 
 	//1ÇÈ¼¿ ¾Æ·¡°¡ °ËÀº»öÀÌ¸é ¶¥¿¡ ´ê¾ÆÀÖ´Â°Í.
 	if (RGB(0, 0, 0) == ColImage->GetPixelColor(pPos.fDownPos, RGB(0, 0, 0)))
