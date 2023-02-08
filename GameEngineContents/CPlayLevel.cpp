@@ -52,6 +52,9 @@ void CPlayLevel::Loading()
 	}
 
 	{
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Col.bmp"));
+	}
+	{
 		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("1_col.bmp"));
 	}
 	{
