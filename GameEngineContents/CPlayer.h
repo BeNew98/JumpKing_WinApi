@@ -12,7 +12,18 @@ struct PlayerPos
 	float4 fDownRPos		= float4::Zero;
 	float4 fUpLPos			= float4::Zero;
 	float4 fUpRPos			= float4::Zero;
-	float4 fMyPos			= float4::Zero;
+
+	void operator +=(float4 _Pos)
+	{
+		fRightUpPos		+=_Pos;
+		fRightDownPos	+=_Pos;
+		fLeftUpPos		+=_Pos;
+		fLeftDownPos	+=_Pos;
+		fDownLPos		+=_Pos;
+		fDownRPos		+=_Pos;
+		fUpLPos			+=_Pos;
+		fUpRPos			+=_Pos;
+	}
 };
 
 enum class PlayerState

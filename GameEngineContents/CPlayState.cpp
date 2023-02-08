@@ -79,6 +79,17 @@ void CPlayer::IdleStart()
 
 void CPlayer::IdleUpdate(float _Time)
 {
+	// 바닥에 박힌거 올리기
+	while (ColCur())
+	{
+		SetPos(GetPos() + float4::Up);
+	}
+
+	if (ColLeftDown()&&ColDownL()&&false == ColCur())
+	{
+		int a = 0;
+	}
+
 	//방향키 누르면 move로 전환
 	if (GameEngineInput::IsPress("LeftMove") || GameEngineInput::IsPress("RightMove"))
 	{

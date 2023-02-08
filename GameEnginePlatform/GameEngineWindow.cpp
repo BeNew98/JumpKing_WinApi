@@ -141,7 +141,7 @@ int GameEngineWindow::WindowLoop(void(*_Start)(), void(*_Loop)(), void(*_End)())
     }
 
 
-    MSG msg;
+    MSG msg = {};
 
     // 동기 함수는 종료될때까지 프로그램이 멈춤
 

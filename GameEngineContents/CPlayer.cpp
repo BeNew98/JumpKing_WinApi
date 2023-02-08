@@ -69,7 +69,7 @@ void CPlayer::Start()
 		m_pBodyCollision->SetDebugRenderType(CT_Rect);
 	}
 
-	ChangeState(PlayerState::IDLE);
+	ChangeState(PlayerState::FALL);
 
 }
 
@@ -200,6 +200,16 @@ void CPlayer::Movecalculation(float _DeltaTime)
 {
 	m_pColImage = GameEngineResources::GetInst().ImageFind("1_col.BMP");
 
+	// 위 아래 오른쪽 왼쪽에 점을 한개씩 찍어서 픽셀체크에 필요한 좌표를 적용
+	pPos.fRightUpPos = GetPos() + float4::Right + float4{ 20,-40 };
+	pPos.fRightDownPos = GetPos() + float4::Right + float4{ 20,0 };
+	pPos.fLeftUpPos = GetPos() + float4::Left + float4{ -20,-40 };
+	pPos.fLeftDownPos = GetPos() + float4::Left + float4{ -20,0 };
+	pPos.fDownLPos = GetPos() + float4::Left + float4::Down + float4{ 20,0 };
+	pPos.fDownRPos = GetPos() + float4::Right + float4::Down + float4{ -20,0 };
+	pPos.fUpLPos = GetPos() + float4::Left + float4::Up + float4{ 20,-40 };
+	pPos.fUpRPos = GetPos() + float4::Right + float4::Up + float4{ -20,-40 };
+
 	// 중력 을 받을때 안받을때 결정
 	if (false==ColDownAll())
 	{
@@ -219,24 +229,6 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		MsgAssert("충돌용 맵 이미지가 없습니다.");
 	}
 
-	// 위 아래 오른쪽 왼쪽에 점을 한개씩 찍어서 픽셀체크에 필요한 좌표를 적용
-	pPos.fRightUpPos = GetPos() + float4::Right + float4{ 20,-40 };
-	pPos.fRightDownPos = GetPos() + float4::Right + float4{ 20,0 };
-	pPos.fLeftUpPos = GetPos() + float4::Left + float4{ -20,-40 };
-	pPos.fLeftDownPos = GetPos() + float4::Left + float4{ -20,0 };
-	pPos.fDownLPos = GetPos() + float4::Left + float4::Down + float4{ 20,0 };
-	pPos.fDownRPos = GetPos() + float4::Right + float4::Down + float4{ -20,0 };
-	pPos.fUpLPos = GetPos() + float4::Left + float4::Up + float4{ 20,-40 };
-	pPos.fUpRPos = GetPos() + float4::Right + float4::Up + float4{ -20,-40 };
-	pPos.fMyPos = GetPos();
-	
-
-	// 바닥에 박힌거 올리기
-	while (ColCur())
-	{
-		SetPos(GetPos() + float4::Up);
-		pPos.fMyPos = GetPos();
-	}
 
 
 	//디버깅용화면 출력 땅에 닿았는지 확인
@@ -264,7 +256,7 @@ void CPlayer::Movecalculation(float _DeltaTime)
 
 bool CPlayer::ColCur()
 {
-	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fMyPos, RGB(0, 0, 0));
+	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(GetPos(), RGB(0, 0, 0));
 }
 
 bool CPlayer::ColLeftUp()
