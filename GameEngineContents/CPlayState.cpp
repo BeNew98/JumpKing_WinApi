@@ -85,10 +85,10 @@ void CPlayer::IdleUpdate(float _Time)
 		SetPos(GetPos() + float4::Up);
 	}
 
-	if (ColLeftDown()&&ColDownL()&&false == ColCur())
-	{
-		int a = 0;
-	}
+	//if (ColLeftDown()&&ColDownL()&&false == ColCur())
+	//{
+	//	int a = 0;
+	//}
 
 	//방향키 누르면 move로 전환
 	if (GameEngineInput::IsPress("LeftMove") || GameEngineInput::IsPress("RightMove"))
