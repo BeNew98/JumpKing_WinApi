@@ -4,6 +4,13 @@
 #include "GameEngineObject.h"
 #include "GameEngineRender.h"
 
+enum class Align
+{
+	Left,
+	Right,
+	Center
+};
+
 // Ό³Έν :
 class GameEngineActor;
 class NumberRenderObject : public GameEngineObject
@@ -19,9 +26,23 @@ public:
 	NumberRenderObject& operator=(const NumberRenderObject& _Other) = delete;
 	NumberRenderObject& operator=(NumberRenderObject&& _Other) noexcept = delete;
 
-	void SetImage(const std::string_view& _ImageName, float4 _Scale, int _Order, int _TransColor);
+	void SetImage(const std::string_view& _ImageName, float4 _Scale, int _Order, int _TransColor, const std::string_view& _NegativeName = "");
 
 	void SetValue(int _Value);
+
+	void SetCameraEffect(bool _EffectSetting)
+	{
+		CameraEffect = _EffectSetting;
+	}
+
+	void SetMove(float4 _RenderPos);
+	void SetAlign(Align _Align);
+
+	inline void SetRenderPos(float4 _Pos)
+	{
+		Pos = _Pos;
+	}
+
 
 	inline int GetValue()
 	{
@@ -31,16 +52,22 @@ public:
 protected:
 
 private:
-	int Order;
-	float4 NumberScale;
-	float4 Pos;
+	int Order = 0;
+	float4 NumberScale = {};
+	float4 Pos = {};
 	int Value = 0;
 
 	int TransColor = RGB(255, 0, 255);
+	Align AlignState = Align::Left;
+	bool Negative = false;
 
-	std::string_view ImageName;
+	bool CameraEffect = false;
 
-	std::vector<GameEngineRender*> NumberRenders;
+	std::string_view ImageName = std::string_view();;
 
+	std::string_view NegativeName = std::string_view();
+
+	std::vector<GameEngineRender*> NumberRenders = std::vector<GameEngineRender*>();
+	GameEngineRender* NegativeRender;
 };
 

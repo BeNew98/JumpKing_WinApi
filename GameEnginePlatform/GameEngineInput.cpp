@@ -150,3 +150,8 @@ float GameEngineInput::GetPressTime(const std::string_view& _Name)
 
     return Keys[UpperName].PressTime;
 }
+
+void GameEngineInput::MouseCursorOff()
+{
+	ShowCursor(FALSE);
+}

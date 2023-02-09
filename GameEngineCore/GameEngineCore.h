@@ -60,8 +60,8 @@ protected:
 
 		//업캐스팅
 		GameEngineLevel* Level = new LevelType();
+		LevelLoading(Level, _Name);
 
-		LevelLoading(Level);
 		Levels.insert(std::make_pair(_Name.data(), Level));
 	}
 
@@ -78,7 +78,7 @@ private:
 
 	GameEngineLevel* MainLevel = nullptr;
 
-	void LevelLoading(GameEngineLevel* _Level);
+	void LevelLoading(GameEngineLevel* _Level, const std::string_view& _Name);
 
 	bool IsDebugValue = false;
 };
