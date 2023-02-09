@@ -63,14 +63,14 @@ private:
 	float		m_fAccTime			= 0.0f;
 	int			m_iStartFrame		= 0;
 	float		m_fMoveSpeed		= 800.0f;
+	float		m_fGravity			= 2.2f;
 									
-	bool		m_bGround			= false;
-	float		m_fGravity			= 1500.0f;
 									
-	bool		m_bWall				= false;
+	bool		m_bWall				= false; // 나중에 삭제하기
+	bool		m_bGround			= false; // 나중에 삭제하기
+									
 	bool		m_iCollide			= false;
-									
-	float		m_fJumpSpeed		= 950.0f;
+	float		m_fJumpSpeed		= 1090.0f;
 	float		m_fJumpPressTime	= 0.f;
 	float4		m_HighestPos		= float4::Zero;
 
@@ -114,6 +114,9 @@ private:
 
 	void Movecalculation(float _DeltaTime);
 
+
+	void TestRender();
+	void ColRender();
 
 	bool ColLeftUp();
 	bool ColRightUp();

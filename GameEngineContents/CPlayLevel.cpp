@@ -34,50 +34,11 @@ void CPlayLevel::Loading()
 	pImage_R->Cut(4, 4);
 
 	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Col.bmp"));
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ColMap1~6.bmp"));
 	}
 	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AllMap.bmp"));
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AllMap1~6.bmp"));
 	}
-	/* {
-		GameEngineImage* pMidGround = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("1.bmp"));
-	} 
-	{
-		GameEngineImage* pMidGround = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("2.bmp"));
-	}
-	{
-		GameEngineImage* pMidGround = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("3.bmp"));
-	}
-	{
-		GameEngineImage* pMidGround = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("4.bmp"));
-	}
-	{
-		GameEngineImage* pMidGround = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("5.bmp"));
-	}
-	{
-		GameEngineImage* pMidGround = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("6.bmp"));
-	}
-
-	
-	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("1_col.bmp"));
-	}
-	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("2_col.bmp"));
-	}
-	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("3_col.bmp"));
-	}
-	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("4_col.bmp"));
-	}
-	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("5_col.bmp"));
-	}
-	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("6_col.bmp"));
-	}*/
-
 
 
 	CMidGround* pMidGround = CreateActor<CMidGround>();
@@ -130,14 +91,14 @@ void CPlayLevel::Update(float _DeltaTime)
 			CPlayer::MainPlayer->SetPos(GetMousePosToCamera());
 		}
 
-		if (GameEngineInput::IsPress("UpArrow"))
+		if (GameEngineInput::IsDown("UpArrow"))
 		{
-			SetCameraMove(float4{ 0.f,-300.f }*_DeltaTime);
+			--m_iMapNumber;
 		}
 
-		if (GameEngineInput::IsPress("DownArrow"))
+		if (GameEngineInput::IsDown("DownArrow"))
 		{			
-			SetCameraMove(float4{ 0,300.f }*_DeltaTime);
+			++m_iMapNumber;
 		}
 
 		//if (GameEngineInput::IsPress("LeftArrow"))
@@ -149,12 +110,13 @@ void CPlayLevel::Update(float _DeltaTime)
 		//{
 		//	SetCameraMove(float4{ 300.f,0.f }*_DeltaTime);
 		//}
+
+		SetCameraPos(float4{ 0,(m_iMapNumber * GameEngineWindow::GetScreenSize().y) });
 	}
 	else
 	{
 		float4 fPlayerPos = CPlayer::MainPlayer->GetPos();
-		float4 fMapSize = CMidGround::m_MapSize;
-		int PlayerCamera = fPlayerPos.iy()/ GameEngineWindow::GetScreenSize().iy();
-		SetCameraPos(float4{ 0,(PlayerCamera * GameEngineWindow::GetScreenSize().y) });
+		m_iMapNumber = fPlayerPos.iy()/ GameEngineWindow::GetScreenSize().iy();
+		SetCameraPos(float4{ 0,(m_iMapNumber * GameEngineWindow::GetScreenSize().y) });
 	}
 }

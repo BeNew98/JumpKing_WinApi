@@ -14,7 +14,7 @@ public:
 	CPlayLevel(CPlayLevel&& _Other) noexcept = delete;
 	CPlayLevel& operator=(const CPlayLevel& _Other) = delete;
 	CPlayLevel& operator=(CPlayLevel&& _Other) noexcept = delete;
-
+	
 protected:
 	void Loading() override;
 	void Update(float _DeltaTime) override;
@@ -23,5 +23,6 @@ protected:
 	virtual void LevelChangeEnd(GameEngineLevel* _NextLevel) override {}
 
 private:
+	int m_iMapNumber = 0;
 };
 

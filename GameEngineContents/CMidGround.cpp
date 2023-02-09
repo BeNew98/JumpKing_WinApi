@@ -20,11 +20,11 @@ void CMidGround::Start()
 {
 	{
 		m_pRenderMap0 = CreateRender(RenderOrder::MIDGROUND);
-		m_pRenderMap0->SetImageToScaleToImage("AllMap.Bmp");
+		m_pRenderMap0->SetImageToScaleToImage("AllMap1~6.Bmp");
 	}
 	{
 		m_pColMap0 = CreateRender(RenderOrder::COLLIDEMAP);
-		m_pColMap0->SetImageToScaleToImage("Col.Bmp");
+		m_pColMap0->SetImageToScaleToImage("ColMap1~6.Bmp");
 	}
 	m_MapSize = m_pRenderMap0->GetImage()->GetImageScale();
 	SetMove(m_pRenderMap0->GetImage()->GetImageScale().half());

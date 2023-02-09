@@ -236,11 +236,39 @@ void  CPlayer::JumpStart()
 {
 	DirCheck("Jump");
 
-	// 점프키 클릭 시간이 0.1초 이하일경우 0.1초동안 누른것으로 보정
-	if (m_fJumpPressTime < 0.1f)
+	// 점프키 클릭 시간을 6단계로 나누어서 점프력 보정
+	if (m_fJumpPressTime <= 0.1f)
 	{
 		m_fJumpPressTime = 0.1f;
 	}
+	else if (m_fJumpPressTime <= 0.2f)
+	{
+		m_fJumpPressTime = 0.2f;
+	}
+	else if (m_fJumpPressTime <= 0.3f)
+	{
+		m_fJumpPressTime = 0.3f;
+	}
+	else if (m_fJumpPressTime <= 0.4f)
+	{
+		m_fJumpPressTime = 0.4f;
+	}
+	else if (m_fJumpPressTime <= 0.5f)
+	{
+		m_fJumpPressTime = 0.5f;
+	}
+	else if (m_fJumpPressTime <= 0.6f)
+	{
+		m_fJumpPressTime = 0.6f;
+	}
+	else
+	{
+		m_fJumpPressTime = 0.6f;
+	}
+
+	// 점프키를 누른 시간만큼에 비례하여 점프 스피드 결정. 0.6초가 최대고 나누어서 최대가 1.0으로 만듦	 
+	m_MoveDir += float4::Up * m_fJumpSpeed * (m_fJumpPressTime / 0.6f);
+
 
 	// jump로 전환되었을때 왼쪽 방향키를 누르고 있었다면 왼쪽으로 힘 더해주기.
 	if (true == GameEngineInput::IsPress("LeftMove"))
@@ -253,12 +281,6 @@ void  CPlayer::JumpStart()
 		m_MoveDir += float4::Right * m_fMoveSpeed;
 	}
 
-	// 점프키를 누른 시간만큼에 비례하여 점프 스피드 결정. 0.6초가 최대고 나누어서 최대가 1.0으로 만듦
-	 
-	/////////////////////////////////////////////////////////////////////
-	//점프킹 점프 단계는 6단계로 나누어져 있다는 정보를 있어, 추후 변경할 수 있음//
-	/////////////////////////////////////////////////////////////////////
-	m_MoveDir += float4::Up * m_fJumpSpeed * (m_fJumpPressTime/0.6f);
 
 	//점프시 좌우 이동 최대속도 제한
 	if (400.0f <= abs(m_MoveDir.x))

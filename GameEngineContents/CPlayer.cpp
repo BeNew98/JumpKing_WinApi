@@ -60,12 +60,12 @@ void CPlayer::Start()
 	m_pAnimationRender->CreateAnimation({ .AnimationName = "R_Fall",.ImageName = "R_basecut.bmp",.Start = 7,.End = 7, });
 
 
-	{
-		m_pBodyCollision = CreateCollision(RenderOrder::PLAYER);
-		m_pBodyCollision->SetScale({ 40, 40 });
-		m_pBodyCollision->SetPosition({ 0,-25 });
-		m_pBodyCollision->SetDebugRenderType(CT_Rect);
-	}
+	//{
+	//	m_pBodyCollision = CreateCollision(RenderOrder::PLAYER);
+	//	m_pBodyCollision->SetScale({ 40, 40 });
+	//	m_pBodyCollision->SetPosition({ 0,-25 });
+	//	m_pBodyCollision->SetDebugRenderType(CT_Rect);
+	//}
 
 	ChangeState(PlayerState::FALL);
 
@@ -101,17 +101,85 @@ void CPlayer::DirCheck(const std::string_view& _AnimationName)
 
 void CPlayer::Render(float _DeltaTime)
 {
+	ColRender();
+
+	TestRender();
+}
+
+void CPlayer::Movecalculation(float _DeltaTime)
+{
+	m_pColImage = GameEngineResources::GetInst().ImageFind("ColMap1~6.BMP");
+
+	// 위 아래 오른쪽 왼쪽에 점을 한개씩 찍어서 픽셀체크에 필요한 좌표를 적용
+	pPos.fRightUpPos = GetPos() + float4::Right + float4{ 20,-40 };
+	pPos.fRightDownPos = GetPos() + float4::Right + float4{ 20,0 };
+	pPos.fLeftUpPos = GetPos() + float4::Left + float4{ -20,-40 };
+	pPos.fLeftDownPos = GetPos() + float4::Left + float4{ -20,0 };
+	pPos.fDownLPos = GetPos() + float4::Down + float4{ -20,0 };
+	pPos.fDownRPos = GetPos() + float4::Down + float4{ 20,0 };
+	pPos.fUpLPos = GetPos() + float4::Up + float4{ -20,-40 };
+	pPos.fUpRPos = GetPos() + float4::Up + float4{ 20,-40 };
+
+	if (nullptr == m_pColImage)
+	{
+		MsgAssert("충돌용 맵 이미지가 없습니다.");
+	}
+
+	// 중력 을 받을때 안받을때 결정
+	if (false==ColDownAll())
+	{
+		m_MoveDir += float4::Down * m_fGravity;
+
+		//중력 최대 속도 제한
+		if (m_MoveDir.y > 850.f)
+		{
+			m_MoveDir.y = 850.f;
+		}
+	}
+	else
+	{
+		if (m_MoveDir.y > 0.f)
+		{
+			m_MoveDir.y = 0.f;
+		}
+	}
+
+	//디버깅용화면 출력 땅에 닿았는지 확인
+	if (ColDownAll())
+	{
+		m_bGround = true;
+	}
+	else
+	{
+		m_bGround = false;
+	}
+
+	//디버깅용 벽에 닿았는지 확인
+	if (ColLeftAll() || ColRightAll() || ColUpAll())
+	{
+		m_bWall = true;
+	}
+	else
+	{
+		m_bWall = false;
+	}
+
+	SetMove(m_MoveDir * _DeltaTime);
+}
+
+void CPlayer::ColRender()
+{
 	HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
 	float4 fCamPos = GetLevel()->GetCameraPos();
 	float4 fPos = GetPos() - fCamPos;
-	
+
 	Rectangle(DoubleDC,
 		fPos.ix() - 5,
 		fPos.iy() - 5,
 		fPos.ix() + 5,
 		fPos.iy() + 5
 	);
-	
+
 	{
 		pPos += -fCamPos;
 		Rectangle(DoubleDC,
@@ -156,7 +224,10 @@ void CPlayer::Render(float _DeltaTime)
 			pPos.fUpRPos.ix() + 2,
 			pPos.fUpRPos.iy() + 2);
 	}
+}
 
+void CPlayer::TestRender()
+{
 	std::string Ground = "Ground : ";
 	if (m_bGround)
 	{
@@ -166,7 +237,7 @@ void CPlayer::Render(float _DeltaTime)
 	{
 		Ground += "false";
 	}
-	
+
 	std::string Wall = "Wall : ";
 	if (m_bWall)
 	{
@@ -191,70 +262,6 @@ void CPlayer::Render(float _DeltaTime)
 	GameEngineLevel::DebugTextPush(Dir);
 	GameEngineLevel::DebugTextPush(PlayerPos);
 	GameEngineLevel::DebugTextPush(CamPos);
-
-
-}
-
-void CPlayer::Movecalculation(float _DeltaTime)
-{
-	m_pColImage = GameEngineResources::GetInst().ImageFind("col.BMP");
-
-	// 위 아래 오른쪽 왼쪽에 점을 한개씩 찍어서 픽셀체크에 필요한 좌표를 적용
-	pPos.fRightUpPos = GetPos() + float4::Right + float4{ 20,-40 };
-	pPos.fRightDownPos = GetPos() + float4::Right + float4{ 20,0 };
-	pPos.fLeftUpPos = GetPos() + float4::Left + float4{ -20,-40 };
-	pPos.fLeftDownPos = GetPos() + float4::Left + float4{ -20,0 };
-	pPos.fDownLPos = GetPos() + float4::Down + float4{ -20,0 };
-	pPos.fDownRPos = GetPos() + float4::Down + float4{ 20,0 };
-	pPos.fUpLPos = GetPos() + float4::Up + float4{ -20,-40 };
-	pPos.fUpRPos = GetPos() + float4::Up + float4{ 20,-40 };
-
-	if (nullptr == m_pColImage)
-	{
-		MsgAssert("충돌용 맵 이미지가 없습니다.");
-	}
-
-	// 중력 을 받을때 안받을때 결정
-	if (false==ColDownAll())
-	{
-		m_MoveDir += float4::Down * m_fGravity * _DeltaTime;
-
-		if (m_MoveDir.y > 850.f)
-		{
-			m_MoveDir.y = 850.f;
-		}
-	}
-	else
-	{
-		if (m_MoveDir.y > 0.f)
-		{
-			m_MoveDir.y = 0.f;
-		}
-	}	
-
-
-
-	//디버깅용화면 출력 땅에 닿았는지 확인
-	if (ColDownAll())
-	{
-		m_bGround = true;
-	}
-	else
-	{
-		m_bGround = false;
-	}
-
-	//디버깅용 벽에 닿았는지 확인
-	if (ColLeftAll() || ColRightAll() || ColUpAll())
-	{
-		m_bWall = true;
-	}
-	else
-	{
-		m_bWall = false;
-	}
-
-	SetMove(m_MoveDir * _DeltaTime);
 }
 
 bool CPlayer::ColCur()
