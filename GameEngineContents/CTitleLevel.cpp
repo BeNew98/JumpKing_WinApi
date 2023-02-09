@@ -25,10 +25,6 @@ void CTitleLevel::Loading()
 	Dir.Move("Title");
 	GameEngineImage* pImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("title_logo.bmp"));
 
-	if (false == GameEngineInput::IsKey("LevelChange"))
-	{
-		GameEngineInput::CreateKey("LevelChange", 'P');
-	}
 
 	CreateActor<CBackGround>();
 }

@@ -295,8 +295,6 @@ void  CPlayer::JumpUpdate(float _Time)
 	if (ColUpAll())
 	{
 		m_MoveDir.y = 0.f;
-		m_iCollide = true;
-		DirCheck("Collide");
 	}
 	
 	//점프중에 아래로 떨어지기 시작할시 down으로 전환

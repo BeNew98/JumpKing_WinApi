@@ -15,11 +15,6 @@ public:
 	CPlayLevel& operator=(const CPlayLevel& _Other) = delete;
 	CPlayLevel& operator=(CPlayLevel&& _Other) noexcept = delete;
 
-	void DebugMode()
-	{
-		m_DebugOn = !m_DebugOn;
-	}
-
 protected:
 	void Loading() override;
 	void Update(float _DeltaTime) override;
@@ -28,6 +23,5 @@ protected:
 	virtual void LevelChangeEnd(GameEngineLevel* _NextLevel) override {}
 
 private:
-	bool m_DebugOn = false;
 };
 

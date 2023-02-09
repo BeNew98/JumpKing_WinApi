@@ -3,6 +3,8 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEngineCore/GameEngineCore.h>
+
 #include "CPlayer.h"
 #include "CMidGround.h"
 #include "EnumHeader.h"
@@ -16,9 +18,7 @@ CPlayLevel::~CPlayLevel()
 }
 
 void CPlayLevel::Loading()
-{
-	//SetCameraMove(float4{ 0, -GameEngineWindow::GetScreenSize().y});
-	
+{	
 	GameEngineDirectory Dir;
 
 	Dir.MoveParentToDirectory("ContentsResources");
@@ -32,7 +32,14 @@ void CPlayLevel::Loading()
 
 	GameEngineImage* pImage_R = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("R_basecut.bmp"));
 	pImage_R->Cut(4, 4);
+
 	{
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Col.bmp"));
+	}
+	{
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AllMap.bmp"));
+	}
+	/* {
 		GameEngineImage* pMidGround = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("1.bmp"));
 	} 
 	{
@@ -51,9 +58,7 @@ void CPlayLevel::Loading()
 		GameEngineImage* pMidGround = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("6.bmp"));
 	}
 
-	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Col.bmp"));
-	}
+	
 	{
 		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("1_col.bmp"));
 	}
@@ -71,12 +76,13 @@ void CPlayLevel::Loading()
 	}
 	{
 		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("6_col.bmp"));
-	}
+	}*/
 
 
 
-	CPlayer* pActor = CreateActor<CPlayer>();
 	CMidGround* pMidGround = CreateActor<CMidGround>();
+	CPlayer* pActor = CreateActor<CPlayer>();
+	pActor->SetPos(float4{ CMidGround::m_MapSize.hx(),CMidGround::m_MapSize.y - 70 });
 
 	if (false == GameEngineInput::IsKey("DebugRenderSwitch"))
 	{
@@ -85,7 +91,7 @@ void CPlayLevel::Loading()
 
 	if (false == GameEngineInput::IsKey("PlayerSetOn"))
 	{
-		GameEngineInput::CreateKey("PlayerSetOn", 'D');
+		GameEngineInput::CreateKey("PlayerSetOn", 'Q');
 	}
 
 	if (false == GameEngineInput::IsKey("UpArrow"))
@@ -98,16 +104,26 @@ void CPlayLevel::Loading()
 		GameEngineInput::CreateKey("DownArrow", 'S');
 	}
 
+	if (false == GameEngineInput::IsKey("LeftArrow"))
+	{
+		GameEngineInput::CreateKey("LeftArrow", 'A');
+	}
+
+	if (false == GameEngineInput::IsKey("RightArrow"))
+	{
+		GameEngineInput::CreateKey("RightArrow", 'D');
+	}
+
 }
 
 void CPlayLevel::Update(float _DeltaTime)
 {
 	if (GameEngineInput::IsDown("DebugRenderSwitch"))
 	{
-		DebugRenderSwitch();
-		DebugMode();
+		DebugRenderSwitch(); 
+		GameEngineCore::GetInst()->DebugSwitch();
 	}	
-	if (m_DebugOn)
+	if (GameEngineCore::GetInst()->IsDebug())
 	{
 		if (GameEngineInput::IsDown("PlayerSetOn"))
 		{
@@ -122,6 +138,23 @@ void CPlayLevel::Update(float _DeltaTime)
 		if (GameEngineInput::IsPress("DownArrow"))
 		{			
 			SetCameraMove(float4{ 0,300.f }*_DeltaTime);
-		}		
+		}
+
+		//if (GameEngineInput::IsPress("LeftArrow"))
+		//{
+		//	SetCameraMove(float4{ -300.f,0.f }*_DeltaTime);
+		//}
+		//
+		//if (GameEngineInput::IsPress("RightArrow"))
+		//{
+		//	SetCameraMove(float4{ 300.f,0.f }*_DeltaTime);
+		//}
+	}
+	else
+	{
+		float4 fPlayerPos = CPlayer::MainPlayer->GetPos();
+		float4 fMapSize = CMidGround::m_MapSize;
+		int PlayerCamera = fPlayerPos.iy()/ GameEngineWindow::GetScreenSize().iy();
+		SetCameraPos(float4{ 0,(PlayerCamera * GameEngineWindow::GetScreenSize().y) });
 	}
 }

@@ -22,8 +22,6 @@ void CPlayer::Start()
 {
 	MainPlayer = this;
 
-	SetMove(float4{480,650});
-
 	GameEngineInput::CreateKey("LeftMove", VK_LEFT);
 	GameEngineInput::CreateKey("RightMove", VK_RIGHT);
 	GameEngineInput::CreateKey("Jump", VK_SPACE);
@@ -104,8 +102,8 @@ void CPlayer::DirCheck(const std::string_view& _AnimationName)
 void CPlayer::Render(float _DeltaTime)
 {
 	HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
-	
-	float4 fPos = GetPos() - GetLevel()->GetCameraPos();
+	float4 fCamPos = GetLevel()->GetCameraPos();
+	float4 fPos = GetPos() - fCamPos;
 	
 	Rectangle(DoubleDC,
 		fPos.ix() - 5,
@@ -115,6 +113,7 @@ void CPlayer::Render(float _DeltaTime)
 	);
 	
 	{
+		pPos += -fCamPos;
 		Rectangle(DoubleDC,
 			pPos.fRightUpPos.ix() - 2,
 			pPos.fRightUpPos.iy() - 2,
@@ -198,7 +197,7 @@ void CPlayer::Render(float _DeltaTime)
 
 void CPlayer::Movecalculation(float _DeltaTime)
 {
-	m_pColImage = GameEngineResources::GetInst().ImageFind("1_col.BMP");
+	m_pColImage = GameEngineResources::GetInst().ImageFind("col.BMP");
 
 	// 위 아래 오른쪽 왼쪽에 점을 한개씩 찍어서 픽셀체크에 필요한 좌표를 적용
 	pPos.fRightUpPos = GetPos() + float4::Right + float4{ 20,-40 };
@@ -210,10 +209,20 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	pPos.fUpLPos = GetPos() + float4::Up + float4{ -20,-40 };
 	pPos.fUpRPos = GetPos() + float4::Up + float4{ 20,-40 };
 
+	if (nullptr == m_pColImage)
+	{
+		MsgAssert("충돌용 맵 이미지가 없습니다.");
+	}
+
 	// 중력 을 받을때 안받을때 결정
 	if (false==ColDownAll())
 	{
 		m_MoveDir += float4::Down * m_fGravity * _DeltaTime;
+
+		if (m_MoveDir.y > 850.f)
+		{
+			m_MoveDir.y = 850.f;
+		}
 	}
 	else
 	{
@@ -222,12 +231,6 @@ void CPlayer::Movecalculation(float _DeltaTime)
 			m_MoveDir.y = 0.f;
 		}
 	}	
-	
-
-	if (nullptr == m_pColImage)
-	{
-		MsgAssert("충돌용 맵 이미지가 없습니다.");
-	}
 
 
 

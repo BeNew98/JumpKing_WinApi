@@ -8,6 +8,8 @@ public:
 	// constrcuter destructer
 	CMidGround();
 	~CMidGround();
+	
+	static float4 m_MapSize;
 
 	// delete Function
 	CMidGround(const CMidGround& _Other) = delete;
@@ -17,15 +19,12 @@ public:
 
 protected:
 	virtual void Start() override;
+	virtual void Update(float _DeltaTime) override;
 
 private:
 	GameEngineRender* m_pRenderMap0 = nullptr;
-	GameEngineRender* m_pRenderMap1 = nullptr;
-	GameEngineRender* m_pRenderMap2 = nullptr;
 
 	GameEngineRender* m_pColMap0 = nullptr;
-	GameEngineRender* m_pColMap1 = nullptr;
-	GameEngineRender* m_pColMap2 = nullptr;
 
 };
 

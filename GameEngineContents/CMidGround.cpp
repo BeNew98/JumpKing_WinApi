@@ -1,9 +1,12 @@
 #include "CMidGround.h"
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineRender.h>
+#include <GameEngineCore/GameEngineCore.h>
 #include "EnumHeader.h"
 #include "CPlayLevel.h"
 
+
+float4 CMidGround::m_MapSize = float4::Zero;
 
 CMidGround::CMidGround() 
 {
@@ -15,37 +18,27 @@ CMidGround::~CMidGround()
 
 void CMidGround::Start()
 {
-
-	float4 StartPos = GameEngineWindow::GetScreenSize().half();
-	//StartPos.y -= GameEngineWindow::GetScreenSize().y;
 	{
 		m_pRenderMap0 = CreateRender(RenderOrder::MIDGROUND);
-		m_pRenderMap0->SetImage("1.Bmp");
-		m_pRenderMap0->SetPosition(StartPos);
-		m_pRenderMap0->SetScaleToImage();
+		m_pRenderMap0->SetImageToScaleToImage("AllMap.Bmp");
 	}
-
 	{
-		StartPos.y -= GameEngineWindow::GetScreenSize().y;
-		m_pRenderMap1 = CreateRender(RenderOrder::MIDGROUND);
-		m_pRenderMap1->SetImage("2.Bmp");
-		m_pRenderMap1->SetPosition(StartPos);
-		m_pRenderMap1->SetScaleToImage();
+		m_pColMap0 = CreateRender(RenderOrder::COLLIDEMAP);
+		m_pColMap0->SetImageToScaleToImage("Col.Bmp");
 	}
+	m_MapSize = m_pRenderMap0->GetImage()->GetImageScale();
+	SetMove(m_pRenderMap0->GetImage()->GetImageScale().half());
+}
 
+void CMidGround::Update(float _DeltaTime)
+{
+	if (true == GameEngineCore::GetInst()->IsDebug())
 	{
-		StartPos.y -= GameEngineWindow::GetScreenSize().y;
-		m_pRenderMap2 = CreateRender(RenderOrder::MIDGROUND);
-		m_pRenderMap2->SetImage("3.Bmp");
-		m_pRenderMap2->SetPosition(StartPos);
-		m_pRenderMap2->SetScaleToImage();
+		m_pColMap0->SetOrder(static_cast<int>(RenderOrder::DEBUG));
 	}
-
-	/*{
-		m_pColMap0 = CreateRender(RenderOrder::DEBUG);
-		m_pColMap0->SetImage("1_Col.Bmp");
-		m_pColMap0->SetPosition(StartPos);
-		m_pColMap0->SetScaleToImage();
-	}*/
+	else
+	{
+		m_pColMap0->SetOrder(static_cast<int>(RenderOrder::COLLIDEMAP));
+	}
 }
 
