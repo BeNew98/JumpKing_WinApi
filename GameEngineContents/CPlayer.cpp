@@ -205,10 +205,10 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	pPos.fRightDownPos = GetPos() + float4::Right + float4{ 20,0 };
 	pPos.fLeftUpPos = GetPos() + float4::Left + float4{ -20,-40 };
 	pPos.fLeftDownPos = GetPos() + float4::Left + float4{ -20,0 };
-	pPos.fDownLPos = GetPos() + float4::Left + float4::Down + float4{ 20,0 };
-	pPos.fDownRPos = GetPos() + float4::Right + float4::Down + float4{ -20,0 };
-	pPos.fUpLPos = GetPos() + float4::Left + float4::Up + float4{ 20,-40 };
-	pPos.fUpRPos = GetPos() + float4::Right + float4::Up + float4{ -20,-40 };
+	pPos.fDownLPos = GetPos() + float4::Down + float4{ -20,0 };
+	pPos.fDownRPos = GetPos() + float4::Down + float4{ 20,0 };
+	pPos.fUpLPos = GetPos() + float4::Up + float4{ -20,-40 };
+	pPos.fUpRPos = GetPos() + float4::Up + float4{ 20,-40 };
 
 	// 중력 을 받을때 안받을때 결정
 	if (false==ColDownAll())

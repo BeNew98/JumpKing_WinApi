@@ -83,6 +83,7 @@ void CPlayer::IdleUpdate(float _Time)
 	while (ColCur())
 	{
 		SetPos(GetPos() + float4::Up);
+		pPos += float4::Up;
 	}
 
 	//if (ColLeftDown()&&ColDownL()&&false == ColCur())
@@ -373,11 +374,17 @@ void CPlayer::DownEnd()
 
 void CPlayer::FallStart()
 {
+	m_MoveDir.x = 0.f;
 	DirCheck("Fall");
 }
 
 void CPlayer::FallUpdate(float _Time)
 {
+	while (ColCur())
+	{
+		SetPos(GetPos() + float4::Up);
+		pPos += float4::Up;
+	}
 	//방향키 누르면 move로 전환
 	if (GameEngineInput::IsPress("LeftMove") || GameEngineInput::IsPress("RightMove"))
 	{
