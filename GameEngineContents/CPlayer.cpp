@@ -74,7 +74,6 @@ void CPlayer::Start()
 void CPlayer::Update(float _DeltaTime)
 {
 	Movecalculation(_DeltaTime);
-	UpdateState(_DeltaTime);
 }
 
 void CPlayer::DirCheck(const std::string_view& _AnimationName)
@@ -144,6 +143,9 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		}
 	}
 
+	UpdateState(_DeltaTime);
+
+
 	//디버깅용화면 출력 땅에 닿았는지 확인
 	if (ColDownAll())
 	{
@@ -163,6 +165,7 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	{
 		m_bWall = false;
 	}
+
 
 	SetMove(m_MoveDir * _DeltaTime);
 }

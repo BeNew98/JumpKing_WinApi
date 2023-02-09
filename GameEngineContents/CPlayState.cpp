@@ -80,7 +80,7 @@ void CPlayer::IdleStart()
 void CPlayer::IdleUpdate(float _Time)
 {
 	// 바닥에 박힌거 올리기
-	while (ColCur())
+	while (ColLeftDown() && ColRightDown())
 	{
 		SetPos(GetPos() + float4::Up);
 		pPos += float4::Up;
@@ -303,14 +303,14 @@ void  CPlayer::JumpUpdate(float _Time)
 	{
 		m_MoveDir.x *= -0.475f;
 		m_iCollide = true;
-		DirCheck("Collide");
+		m_pAnimationRender->ChangeAnimation(m_DirString + "Collide");
 	}
 	//왼쪽으로 점프중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x < 0 && ColLeftAll())
 	{
 		m_MoveDir.x *= -0.475f;
 		m_iCollide = true;
-		DirCheck("Collide");
+		m_pAnimationRender->ChangeAnimation(m_DirString + "Collide");
 	}
 
 	//위쪽이 충돌했을 시 y값 0으로 만들어서 바로 떨어뜨리기
@@ -340,11 +340,11 @@ void CPlayer::DownStart()
 	//이전에 충돌한적 없으면 Down으로 이미지 전환
 	if (m_iCollide)
 	{
-		DirCheck("Collide");
+		m_pAnimationRender->ChangeAnimation(m_DirString + "Collide");
 	}
 	else
 	{
-		DirCheck("Down");
+		m_pAnimationRender->ChangeAnimation(m_DirString + "Down");
 	}
 
 }
@@ -356,14 +356,14 @@ void CPlayer::DownUpdate(float _Time)
 	{
 		m_MoveDir.x *= -0.475f;
 		m_iCollide = true;
-		DirCheck("Collide");
+		m_pAnimationRender->ChangeAnimation(m_DirString + "Collide");
 	}
 	//왼쪽으로 하강중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x < 0 && ColLeftAll())
 	{
 		m_MoveDir.x *= -0.475f;
 		m_iCollide = true;
-		DirCheck("Collide");
+		m_pAnimationRender->ChangeAnimation(m_DirString + "Collide");
 	}	
 
 	//바닥에 안착시
@@ -395,16 +395,19 @@ void CPlayer::DownEnd()
 void CPlayer::FallStart()
 {
 	m_MoveDir.x = 0.f;
-	DirCheck("Fall");
+	//DirCheck("Fall");
+	m_pAnimationRender->ChangeAnimation(m_DirString + "Fall");
 }
 
 void CPlayer::FallUpdate(float _Time)
 {
-	while (ColCur())
+	// 바닥에 박힌거 올리기
+	while (ColLeftDown() && ColRightDown())
 	{
 		SetPos(GetPos() + float4::Up);
 		pPos += float4::Up;
 	}
+
 	//방향키 누르면 move로 전환
 	if (GameEngineInput::IsPress("LeftMove") || GameEngineInput::IsPress("RightMove"))
 	{
