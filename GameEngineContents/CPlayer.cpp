@@ -118,6 +118,8 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	pPos.fDownRPos = GetPos() + float4::Down + float4{ 20,0 };
 	pPos.fUpLPos = GetPos() + float4::Up + float4{ -20,-40 };
 	pPos.fUpRPos = GetPos() + float4::Up + float4{ 20,-40 };
+	pPos.fCurLPos = GetPos() + float4{ -20,0 };
+	pPos.fCurRPos = GetPos() + float4{ 20,0 };
 
 	if (nullptr == m_pColImage)
 	{
@@ -127,7 +129,9 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	// 중력 을 받을때 안받을때 결정
 	if (false==ColDownAll())
 	{
-		m_MoveDir += float4::Down * m_fGravity;
+		m_MoveDir += float4::Down * m_fGravity* _DeltaTime;
+		//m_MoveDir += float4::Down * m_fGravity;
+		
 
 		//중력 최대 속도 제한
 		if (m_MoveDir.y > 850.f)
@@ -269,7 +273,7 @@ void CPlayer::TestRender()
 
 bool CPlayer::ColCur()
 {
-	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(GetPos(), RGB(0, 0, 0));
+	return ColCurR() || ColCurR();
 }
 
 bool CPlayer::ColLeftUp()
@@ -295,6 +299,17 @@ bool CPlayer::ColDownR()
 bool CPlayer::ColDownL()
 {
 	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fDownLPos, RGB(0, 0, 0));
+}
+
+bool CPlayer::ColCurR()
+{
+	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fCurRPos, RGB(0, 0, 0));
+
+}
+
+bool CPlayer::ColCurL()
+{
+	return RGB(0, 0, 0) == m_pColImage->GetPixelColor(pPos.fCurLPos, RGB(0, 0, 0));
 }
 
 bool CPlayer::ColUpR()

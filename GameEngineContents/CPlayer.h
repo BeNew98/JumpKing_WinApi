@@ -12,6 +12,8 @@ struct PlayerPos
 	float4 fDownRPos		= float4::Zero;
 	float4 fUpLPos			= float4::Zero;
 	float4 fUpRPos			= float4::Zero;
+	float4 fCurLPos			= float4::Zero;
+	float4 fCurRPos			= float4::Zero;
 
 	void operator +=(float4 _Pos)
 	{
@@ -23,6 +25,8 @@ struct PlayerPos
 		fDownRPos		+=_Pos;
 		fUpLPos			+=_Pos;
 		fUpRPos			+=_Pos;
+		fCurLPos	 += _Pos;
+		fCurRPos	 += _Pos;
 	}
 };
 
@@ -63,14 +67,14 @@ private:
 	float		m_fAccTime			= 0.0f;
 	int			m_iStartFrame		= 0;
 	float		m_fMoveSpeed		= 800.0f;
-	float		m_fGravity			= 2.2f;
+	float		m_fGravity			= 1500.f; /*2.2f;*/
 									
 									
 	bool		m_bWall				= false; // 나중에 삭제하기
 	bool		m_bGround			= false; // 나중에 삭제하기
 									
 	bool		m_iCollide			= false;
-	float		m_fJumpSpeed		= 1090.0f;
+	float		m_fJumpSpeed		= 950.f; /* 1090.0f;*/
 	float		m_fJumpPressTime	= 0.f;
 	float4		m_HighestPos		= float4::Zero;
 
@@ -124,6 +128,8 @@ private:
 	bool ColRightDown();
 	bool ColDownR();
 	bool ColDownL();
+	bool ColCurR();
+	bool ColCurL();
 	bool ColUpR();
 	bool ColUpL();
 	bool ColLeftAll();
