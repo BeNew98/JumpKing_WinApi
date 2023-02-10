@@ -130,7 +130,9 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	if (false==ColDownAll())
 	{
 		m_MoveDir += float4::Down * m_fGravity* _DeltaTime;
-		//m_MoveDir += float4::Down * m_fGravity;
+
+		// 델타타임을 없애고 수치 조정을 다시 했는데 컴퓨터마다 다르게 동작하는 문제가 발생함
+		//m_MoveDir += float4::Down * m_fGravity; 
 		
 
 		//중력 최대 속도 제한
