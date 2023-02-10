@@ -42,6 +42,8 @@ void GameEngineCore::GlobalUpdate()
 			NextLevel->ActorLevelChangeStart(PrevLevel);
 		}
 	}
+
+	GameEngineSound::SoundUpdate();
 	float TimeDeltaTime = GameEngineTime::GlobalTime.TimeCheck();
 
 	GameEngineInput::Update(TimeDeltaTime);

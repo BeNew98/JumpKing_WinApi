@@ -108,12 +108,12 @@ void CPlayer::IdleUpdate(float _Time)
 		return;
 	}
 
-	// idle 상태에서 떨어지게 되었을때 down으로 전환
-	if (m_MoveDir.y > 0)
-	{
-		ChangeState(PlayerState::DOWN);
-		return;
-	}
+	//// idle 상태에서 떨어지게 되었을때 down으로 전환
+	//if (false == ColCur())
+	//{
+	//	ChangeState(PlayerState::DOWN);
+	//	return;
+	//}
 }
 
 void CPlayer::IdleEnd()
