@@ -153,7 +153,7 @@ void CPlayer::Movecalculation(float _DeltaTime)
 
 
 	//디버깅용화면 출력 땅에 닿았는지 확인
-	if (ColDownAll())
+	if (ColCur())
 	{
 		m_bGround = true;
 	}
@@ -275,7 +275,7 @@ void CPlayer::TestRender()
 
 bool CPlayer::ColCur()
 {
-	return ColCurR() || ColCurR();
+	return ColCurL() || ColCurR();
 }
 
 bool CPlayer::ColLeftUp()
