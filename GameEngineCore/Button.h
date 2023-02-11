@@ -41,17 +41,20 @@ public:
 		ButtonCollisionType = _ButtonCollisionType;
 	}
 
-	void SetHoverImage(const std::string_view& _Name)
+	void SetHoverImage(const std::string_view& _Name, int _HoverIndex = -1)
 	{
 		HoverImageName = _Name;
+		HoverIndex = _HoverIndex;
 	}
-	void SetReleaseImage(const std::string_view& _Name)
+	void SetReleaseImage(const std::string_view& _Name, int _ReleaseIndex = -1)
 	{
 		ReleaseImageName = _Name;
+		ReleaseIndex = _ReleaseIndex;
 	}
-	void SetPressImage(const std::string_view& _Name)
+	void SetPressImage(const std::string_view& _Name, int _PressIndex = -1)
 	{
 		PressImageName = _Name;
+		PressIndex = _PressIndex;
 	}
 
 	GameEngineRender* GetButtonRender()
@@ -79,8 +82,10 @@ private:
 	ButtonState State;
 	std::string CurImageName;
 	std::string HoverImageName;
+	int HoverIndex = -1;
 	std::string ReleaseImageName;
+	int ReleaseIndex = -1;
 	std::string PressImageName;
-
+	int PressIndex = -1;
 };
 

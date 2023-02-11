@@ -38,11 +38,7 @@ public:
 	void SetMove(float4 _RenderPos);
 	void SetAlign(Align _Align);
 
-	inline void SetRenderPos(float4 _Pos)
-	{
-		Pos = _Pos;
-	}
-
+	void SetRenderPos(float4 _Pos);
 
 	inline int GetValue()
 	{

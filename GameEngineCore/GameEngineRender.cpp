@@ -155,7 +155,7 @@ void GameEngineRender::FrameAnimation::Render(float _DeltaTime)
 				CurrentIndex = static_cast<int>(FrameIndex.size()) - 1;
 			}
 		}
-		CurrentTime = FrameTime[CurrentIndex];
+		CurrentTime += FrameTime[CurrentIndex];
 	}
 }
 

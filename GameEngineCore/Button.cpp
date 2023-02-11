@@ -61,16 +61,28 @@ void Button::Update(float _DeltaTime)
 	case ButtonState::Release:
 		CurImageName = ReleaseImageName;
 		ButtonRender->SetImage(ReleaseImageName);
+		if (-1 != ReleaseIndex)
+		{
+			ButtonRender->SetFrame(ReleaseIndex);
+		}
 		ButtonRender->SetScale(Scale);
 		break;
 	case ButtonState::Press:
 		CurImageName = PressImageName;
 		ButtonRender->SetImage(PressImageName);
+		if (-1 != PressIndex)
+		{
+			ButtonRender->SetFrame(PressIndex);
+		}
 		ButtonRender->SetScale(Scale);
 		break;
 	case ButtonState::Hover:
 		CurImageName = HoverImageName;
 		ButtonRender->SetImage(HoverImageName);
+		if (-1 != HoverIndex)
+		{
+			ButtonRender->SetFrame(HoverIndex);
+		}
 		ButtonRender->SetScale(Scale);
 		break;
 	default:

@@ -22,6 +22,10 @@ void GameEngineCore::GlobalStart()
 
 void GameEngineCore::GlobalUpdate()
 {
+	GameEngineSound::SoundUpdate();
+	float TimeDeltaTime = GameEngineTime::GlobalTime.TimeCheck();
+	GameEngineInput::Update(TimeDeltaTime);
+
 	if ( nullptr != Core->NextLevel)
 	{
 		GameEngineLevel* PrevLevel = Core->MainLevel;
@@ -43,10 +47,10 @@ void GameEngineCore::GlobalUpdate()
 		}
 	}
 
-	GameEngineSound::SoundUpdate();
-	float TimeDeltaTime = GameEngineTime::GlobalTime.TimeCheck();
-
-	GameEngineInput::Update(TimeDeltaTime);
+	if (1.0f / 60.0f <= TimeDeltaTime)
+	{
+		TimeDeltaTime = 1.0f / 60.0f;
+	}
 
 	Core->Update();
 	if (nullptr == Core->MainLevel)
