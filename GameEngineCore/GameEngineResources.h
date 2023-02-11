@@ -14,6 +14,7 @@ public:
 	GameEngineSoundPlayer(FMOD::Channel* _Channel);
 
 	void LoopCount(int _Count);
+	void Volume(float _Volume);
 	void Stop();
 
 private:
