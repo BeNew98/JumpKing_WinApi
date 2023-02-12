@@ -44,7 +44,7 @@ void CPlayLevel::Loading()
 	CMidGround* pMidGround = CreateActor<CMidGround>();
 	CPlayer* pActor = CreateActor<CPlayer>();
 	pActor->SetPos(float4{ CMidGround::m_MapSize.hx(),CMidGround::m_MapSize.y - 70 });
-
+	
 	if (false == GameEngineInput::IsKey("DebugRenderSwitch"))
 	{
 		GameEngineInput::CreateKey("DebugRenderSwitch", 'R');
@@ -75,6 +75,11 @@ void CPlayLevel::Loading()
 		GameEngineInput::CreateKey("RightArrow", 'D');
 	}
 
+
+	if (false == GameEngineInput::IsKey("Number1"))
+	{
+		GameEngineInput::CreateKey("Number1", '1');
+	}
 }
 
 void CPlayLevel::Update(float _DeltaTime)
@@ -110,6 +115,11 @@ void CPlayLevel::Update(float _DeltaTime)
 		//{
 		//	SetCameraMove(float4{ 300.f,0.f }*_DeltaTime);
 		//}
+
+		if (GameEngineInput::IsDown("Number1"))
+		{
+			CPlayer::MainPlayer->SetPos(float4{ 44,334 });
+		}
 
 		SetCameraPos(float4{ 0,(m_iMapNumber * GameEngineWindow::GetScreenSize().y) });
 	}

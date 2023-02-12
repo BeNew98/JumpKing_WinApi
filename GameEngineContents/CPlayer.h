@@ -40,6 +40,7 @@ enum class PlayerState
 	FALL
 };
 // 설명 :
+class CMidGround;
 class CPlayer : public GameEngineActor
 {
 public:
@@ -67,16 +68,16 @@ private:
 	float		m_fAccTime			= 0.0f;
 	int			m_iStartFrame		= 0;
 	float		m_fMoveSpeed		= 800.0f;
-	float		m_fGravity			= 1500.f; /*2.2f;*/
+	float		m_fGravity			= 1600.f; /*2.2f;*/
 									
 									
 	bool		m_bWall				= false; // 나중에 삭제하기
 	bool		m_bGround			= false; // 나중에 삭제하기
 									
 	bool		m_iCollide			= false;
-	float		m_fJumpSpeed		= 950.f; /* 1090.0f;*/
+	float		m_fJumpSpeed		= 1000.f; /* 1090.0f;*/
 	float		m_fJumpPressTime	= 0.f;
-	float4		m_HighestPos		= float4::Zero;
+	float4		m_HighestPos = float4{ 0,99999 };
 
 	std::string m_DirString			= "R_";
 	PlayerState m_StateValue		= PlayerState::IDLE;
@@ -87,7 +88,9 @@ private:
 
 	GameEngineImage*		m_pColImage			= nullptr;
 
-	void DirCheck(const std::string_view& _AnimationName);	
+	void DirCheck(const std::string_view& _AnimationName);
+
+	void AnimChange(const std::string_view& _AnimationName);
 
 	void ChangeState(PlayerState _State);
 	void UpdateState(float _Time);
@@ -122,20 +125,22 @@ private:
 	void TestRender();
 	void ColRender();
 
-	bool ColLeftUp		(int _R, int _G, int _B);
-	bool ColRightUp		(int _R, int _G, int _B);
-	bool ColLeftDown	(int _R, int _G, int _B);
-	bool ColRightDown	(int _R, int _G, int _B);
-	bool ColDownR		(int _R, int _G, int _B);
-	bool ColDownL		(int _R, int _G, int _B);
-	bool ColCurR		(int _R, int _G, int _B);
-	bool ColCurL		(int _R, int _G, int _B);
-	bool ColUpR			(int _R, int _G, int _B);
-	bool ColUpL			(int _R, int _G, int _B);
-	bool ColLeftAll		(int _R, int _G, int _B);
-	bool ColRightAll	(int _R, int _G, int _B);
-	bool ColUpAll		(int _R, int _G, int _B);
-	bool ColDownAll		(int _R, int _G, int _B);
-	bool ColCur			(int _R, int _G, int _B);
+	void pPosUpdate();
+
+	bool ColLeftUp		(int _R = 0, int _G=0, int _B=0);
+	bool ColRightUp		(int _R=0, int _G=0, int _B=0);
+	bool ColLeftDown	(int _R=0, int _G=0, int _B=0);
+	bool ColRightDown	(int _R=0, int _G=0, int _B=0);
+	bool ColDownR		(int _R=0, int _G=0, int _B=0);
+	bool ColDownL		(int _R=0, int _G=0, int _B=0);
+	bool ColCurR		(int _R=0, int _G=0, int _B=0);
+	bool ColCurL		(int _R=0, int _G=0, int _B=0);
+	bool ColUpR			(int _R=0, int _G=0, int _B=0);
+	bool ColUpL			(int _R=0, int _G=0, int _B=0);
+	bool ColLeftAll		(int _R=0, int _G=0, int _B=0);
+	bool ColRightAll	(int _R=0, int _G=0, int _B=0);
+	bool ColUpAll		(int _R=0, int _G=0, int _B=0);
+	bool ColDownAll		(int _R=0, int _G=0, int _B=0);
+	bool ColCur			(int _R=0, int _G=0, int _B=0);
 };
 
