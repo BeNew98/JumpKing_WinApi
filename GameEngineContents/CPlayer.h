@@ -122,20 +122,20 @@ private:
 	void TestRender();
 	void ColRender();
 
-	bool ColLeftUp();
-	bool ColRightUp();
-	bool ColLeftDown();
-	bool ColRightDown();
-	bool ColDownR();
-	bool ColDownL();
-	bool ColCurR();
-	bool ColCurL();
-	bool ColUpR();
-	bool ColUpL();
-	bool ColLeftAll();
-	bool ColRightAll();
-	bool ColUpAll();
-	bool ColDownAll();
-	bool ColCur();
+	bool ColLeftUp		(int _R, int _G, int _B);
+	bool ColRightUp		(int _R, int _G, int _B);
+	bool ColLeftDown	(int _R, int _G, int _B);
+	bool ColRightDown	(int _R, int _G, int _B);
+	bool ColDownR		(int _R, int _G, int _B);
+	bool ColDownL		(int _R, int _G, int _B);
+	bool ColCurR		(int _R, int _G, int _B);
+	bool ColCurL		(int _R, int _G, int _B);
+	bool ColUpR			(int _R, int _G, int _B);
+	bool ColUpL			(int _R, int _G, int _B);
+	bool ColLeftAll		(int _R, int _G, int _B);
+	bool ColRightAll	(int _R, int _G, int _B);
+	bool ColUpAll		(int _R, int _G, int _B);
+	bool ColDownAll		(int _R, int _G, int _B);
+	bool ColCur			(int _R, int _G, int _B);
 };
 

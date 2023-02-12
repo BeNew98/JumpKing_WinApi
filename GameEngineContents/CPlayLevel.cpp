@@ -34,10 +34,10 @@ void CPlayLevel::Loading()
 	pImage_R->Cut(4, 4);
 
 	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ColMap1~6.bmp"));
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ColMap.bmp"));
 	}
 	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AllMap1~6.bmp"));
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AllMap.bmp"));
 	}
 
 

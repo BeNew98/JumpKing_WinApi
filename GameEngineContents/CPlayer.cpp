@@ -107,7 +107,7 @@ void CPlayer::Render(float _DeltaTime)
 
 void CPlayer::Movecalculation(float _DeltaTime)
 {
-	m_pColImage = GameEngineResources::GetInst().ImageFind("ColMap1~6.BMP");
+	m_pColImage = GameEngineResources::GetInst().ImageFind("ColMap.BMP");
 
 	// 위 아래 오른쪽 왼쪽에 점을 한개씩 찍어서 픽셀체크에 필요한 좌표를 적용
 	pPos.fRightUpPos = GetPos() + float4::Right + float4{ 20,-40 };
