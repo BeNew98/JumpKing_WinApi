@@ -85,15 +85,15 @@ void CPlayer::IdleUpdate(float _Time)
 		{
 			m_MoveDir.x += float4::Right.x;
 
-			if (400.0f <= abs(m_MoveDir.x))
+			if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
 			{
 				if (0 > m_MoveDir.x)
 				{
-					m_MoveDir.x = -400.0f;
+					m_MoveDir.x = -m_fJumpMoveLimit;
 				}
 				else
 				{
-					m_MoveDir.x = 400.0f;
+					m_MoveDir.x = m_fJumpMoveLimit;
 				}
 			}
 			m_MoveDir.y = m_MoveDir.x;
@@ -102,15 +102,15 @@ void CPlayer::IdleUpdate(float _Time)
 		{
 			m_MoveDir.x += float4::Left.x;
 
-			if (400.0f <= abs(m_MoveDir.x))
+			if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
 			{
 				if (0 > m_MoveDir.x)
 				{
-					m_MoveDir.x = -400.0f;
+					m_MoveDir.x = -m_fJumpMoveLimit;
 				}
 				else
 				{
-					m_MoveDir.x = 400.0f;
+					m_MoveDir.x = m_fJumpMoveLimit;
 				}
 			}
 			m_MoveDir.y = -m_MoveDir.x;
@@ -200,14 +200,14 @@ void CPlayer::MoveUpdate(float _Time)
 	}
 
 	// 좌우 이동 최대 속도 제한
-	if (170.0f <= abs(m_MoveDir.x))
+	if (m_fMoveLimit <= abs(m_MoveDir.x))
 	{
 		if (0 > m_MoveDir.x)
 		{
-			m_MoveDir.x = -170.0f;
+			m_MoveDir.x = -m_fMoveLimit;
 		}
 		else {
-			m_MoveDir.x = 170.0f;
+			m_MoveDir.x = m_fMoveLimit;
 		}
 	}
 
@@ -313,15 +313,15 @@ void  CPlayer::JumpStart()
 
 
 	//점프시 좌우 이동 최대속도 제한
-	if (400.0f <= abs(m_MoveDir.x))
+	if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
 	{
 		if (0 > m_MoveDir.x)
 		{
-			m_MoveDir.x = -400.0f;
+			m_MoveDir.x = -m_fJumpMoveLimit;
 		}
 		else 
 		{
-			m_MoveDir.x = 400.0f;
+			m_MoveDir.x = m_fJumpMoveLimit;
 		}
 	}
 }
@@ -342,33 +342,18 @@ void  CPlayer::JumpUpdate(float _Time)
 		m_iCollide = true;
 		AnimChange("Collide");
 	}
-	//오른쪽으로 점프중 오른쪽이 사선 이면 x값 0으로 만들기
-	if (m_MoveDir.x > 0 && ColRightUp(255, 0, 255))
-	{
-		m_MoveDir.x += 100.f;
-		m_iCollide = true;
-		AnimChange("Collide");
-	}
-	//왼쪽으로 점프중 왼쪽이 사선 이면 x값 0으로 만들기
-	if (m_MoveDir.x < 0 && ColLeftUp(255, 0, 255))
-	{
-		m_MoveDir.x += -100.f;
-		m_iCollide = true;
-		AnimChange("Collide");
-	}
-
 
 	//오른쪽으로 점프중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x > 0 && ColRightAll())
 	{
-		m_MoveDir.x *= -0.475f;
+		m_MoveDir.x *= -m_fRecoilCoeff;
 		m_iCollide = true;
 		AnimChange("Collide");
 	}
 	//왼쪽으로 점프중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x < 0 && ColLeftAll())
 	{
-		m_MoveDir.x *= -0.475f;
+		m_MoveDir.x *= -m_fRecoilCoeff;
 		m_iCollide = true;
 		AnimChange("Collide");
 	}
@@ -390,13 +375,14 @@ void  CPlayer::JumpUpdate(float _Time)
 
 void  CPlayer::JumpEnd()
 {
-	//가장 높았던 위치 기록
-	m_HighestPos = GetPos();
 }
 
 
 void CPlayer::DownStart()
 {
+	//가장 높았던 위치 기록
+	m_HighestPos = GetPos();
+
 	//이전에 충돌한적 없으면 Down으로 이미지 전환
 	if (m_iCollide)
 	{
@@ -411,14 +397,14 @@ void CPlayer::DownStart()
 
 void CPlayer::DownUpdate(float _Time)
 {
-	//오른쪽으로 점프중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
+	//오른쪽으로 하강중 오른쪽이 사선 이면 x값 0으로 만들기
 	if (m_MoveDir.x > 0 && ColRightAll(255, 0, 255))
 	{
 		m_MoveDir.x *= 0.f;
 		m_iCollide = true;
 		AnimChange("Collide");
 	}
-	//왼쪽으로 점프중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
+	//왼쪽으로 하강중 오른쪽이 사선 이면 x값 0으로 만들기
 	if (m_MoveDir.x < 0 && ColLeftAll(255, 0, 255))
 	{
 		m_MoveDir.x *= 0.f;
@@ -429,14 +415,14 @@ void CPlayer::DownUpdate(float _Time)
 	//오른쪽으로 하강중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x > 0 && ColRightAll())
 	{
-		m_MoveDir.x *= -0.475f;
+		m_MoveDir.x *= -m_fRecoilCoeff;
 		m_iCollide = true;
 		AnimChange("Collide");
 	}
 	//왼쪽으로 하강중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x < 0 && ColLeftAll())
 	{
-		m_MoveDir.x *= -0.475f;
+		m_MoveDir.x *= -m_fRecoilCoeff;
 		m_iCollide = true;
 		AnimChange("Collide");
 	}	
@@ -448,15 +434,15 @@ void CPlayer::DownUpdate(float _Time)
 		{
 			m_MoveDir.x += float4::Right.x;
 
-			if (400.0f <= abs(m_MoveDir.x))
+			if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
 			{
 				if (0 > m_MoveDir.x)
 				{
-					m_MoveDir.x = -400.0f;
+					m_MoveDir.x = -m_fJumpMoveLimit;
 				}
 				else
 				{
-					m_MoveDir.x = 400.0f;
+					m_MoveDir.x = m_fJumpMoveLimit;
 				}
 			}
 			m_MoveDir.y = m_MoveDir.x;
@@ -465,15 +451,15 @@ void CPlayer::DownUpdate(float _Time)
 		{
 			m_MoveDir.x += float4::Left.x;
 
-			if (400.0f <= abs(m_MoveDir.x))
+			if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
 			{
 				if (0 > m_MoveDir.x)
 				{
-					m_MoveDir.x = -400.0f;
+					m_MoveDir.x = -m_fJumpMoveLimit;
 				}
 				else
 				{
-					m_MoveDir.x = 400.0f;
+					m_MoveDir.x = m_fJumpMoveLimit;
 				}
 			}
 			m_MoveDir.y = -m_MoveDir.x;

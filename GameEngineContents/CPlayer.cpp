@@ -133,9 +133,9 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		
 
 		//중력 최대 속도 제한
-		if (m_MoveDir.y > 850.f)
+		if (m_MoveDir.y > m_fGravityLimit)
 		{
-			m_MoveDir.y = 850.f;
+			m_MoveDir.y = m_fGravityLimit;
 		}
 	}
 	else
@@ -311,6 +311,7 @@ bool CPlayer::ColCurL(int _R, int _G, int _B)
 {
 	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fCurLPos, RGB(_R, _G, _B));
 }
+
 
 void CPlayer::pPosUpdate()
 {
