@@ -79,6 +79,45 @@ void CPlayer::IdleStart()
 
 void CPlayer::IdleUpdate(float _Time)
 {
+	if (ColCur(255, 0, 255))
+	{
+		if (ColCurL(255, 0, 255))
+		{
+			m_MoveDir.x += float4::Right.x * 1.5f;
+
+			if (400.0f <= abs(m_MoveDir.x))
+			{
+				if (0 > m_MoveDir.x)
+				{
+					m_MoveDir.x = -400.0f;
+				}
+				else
+				{
+					m_MoveDir.x = 400.0f;
+				}
+			}
+			m_MoveDir.y = m_MoveDir.x;
+		}
+		else if (ColCurR(255, 0, 255))
+		{
+			m_MoveDir.x += float4::Left.x * 100.f;
+
+			if (400.0f <= abs(m_MoveDir.x))
+			{
+				if (0 > m_MoveDir.x)
+				{
+					m_MoveDir.x = -400.0f;
+				}
+				else
+				{
+					m_MoveDir.x = 400.0f;
+				}
+			}
+			m_MoveDir.y = -m_MoveDir.x;
+		}
+		return;
+	}
+
 	// 바닥에 박힌거 올리기
 	while (ColCur() || ColCur(255, 0, 255))
 	{
@@ -86,6 +125,7 @@ void CPlayer::IdleUpdate(float _Time)
 		pPosUpdate();
 	}
 
+	
 
 	//방향키 누르면 move로 전환
 	if (GameEngineInput::IsPress("LeftMove") || GameEngineInput::IsPress("RightMove"))
@@ -341,15 +381,40 @@ void CPlayer::DownStart()
 
 void CPlayer::DownUpdate(float _Time)
 {
-	while (ColCur(255, 0, 255))
+	if (ColCur(255, 0, 255))
 	{
-		if (m_MoveDir.x> 0)
+		if (ColCurL(255, 0, 255))
 		{
+			m_MoveDir.x += float4::Right.x * 1.5f;
+
+			if (400.0f <= abs(m_MoveDir.x))
+			{
+				if (0 > m_MoveDir.x)
+				{
+					m_MoveDir.x = -400.0f;
+				}
+				else
+				{
+					m_MoveDir.x = 400.0f;
+				}
+			}
 			m_MoveDir.y = m_MoveDir.x;
 		}
-		else
+		else if (ColCurR(255, 0, 255))
 		{
+			m_MoveDir.x += float4::Left.x * 100.f;
 
+			if (400.0f <= abs(m_MoveDir.x))
+			{
+				if (0 > m_MoveDir.x)
+				{
+					m_MoveDir.x = -400.0f;
+				}
+				else
+				{
+					m_MoveDir.x = 400.0f;
+				}
+			}
 			m_MoveDir.y = -m_MoveDir.x;
 		}
 		return;

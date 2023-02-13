@@ -43,7 +43,9 @@ void CPlayLevel::Loading()
 
 	CMidGround* pMidGround = CreateActor<CMidGround>();
 	CPlayer* pActor = CreateActor<CPlayer>();
-	pActor->SetPos(float4{ CMidGround::m_MapSize.hx(),CMidGround::m_MapSize.y - 70 });
+
+	pActor->SetPos(float4{ 44,334 });
+	//pActor->SetPos(float4{ CMidGround::m_MapSize.hx(),CMidGround::m_MapSize.y - 70 });
 	
 	if (false == GameEngineInput::IsKey("DebugRenderSwitch"))
 	{
