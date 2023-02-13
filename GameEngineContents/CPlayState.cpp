@@ -345,9 +345,12 @@ void CPlayer::DownUpdate(float _Time)
 	{
 		if (m_MoveDir.x> 0)
 		{
+			m_MoveDir.y = m_MoveDir.x;
 		}
 		else
 		{
+
+			m_MoveDir.y = -m_MoveDir.x;
 		}
 		return;
 	}
