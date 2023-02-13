@@ -69,7 +69,11 @@ private:
 	int			m_iStartFrame		= 0;
 	float		m_fMoveSpeed		= 800.0f;
 	float		m_fGravity			= 1600.f; /*2.2f;*/
-									
+	float		m_fGravityLimit		= 850.f;
+	float		m_fMoveLimit		= 170.f;
+	float		m_fJumpMoveLimit	= 400.f;
+	
+	float		m_fRecoilCoeff		= 0.475f;
 									
 	bool		m_bWall				= false; // 나중에 삭제하기
 	bool		m_bGround			= false; // 나중에 삭제하기
@@ -120,7 +124,6 @@ private:
 	void FallEnd();
 
 	void Movecalculation(float _DeltaTime);
-
 
 	void TestRender();
 	void ColRender();

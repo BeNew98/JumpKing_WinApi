@@ -5,6 +5,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineLevel.h>
+#include <GameEngineCore/GameEngineCore.h>
 #include "EnumHeader.h"
 
 CPlayer* CPlayer::MainPlayer = nullptr;
@@ -107,7 +108,10 @@ void CPlayer::Render(float _DeltaTime)
 {
 	ColRender();
 
+	if (GameEngineCore::GetInst()->IsDebug())
+	{
 	TestRender();
+	}
 }
 
 void CPlayer::Movecalculation(float _DeltaTime)
