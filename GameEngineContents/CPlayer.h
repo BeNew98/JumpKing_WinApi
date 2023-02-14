@@ -130,20 +130,20 @@ private:
 
 	void pPosUpdate();
 
-	bool ColLeftUp		(int _R = 0, int _G=0, int _B=0);
-	bool ColRightUp		(int _R=0, int _G=0, int _B=0);
-	bool ColLeftDown	(int _R=0, int _G=0, int _B=0);
-	bool ColRightDown	(int _R=0, int _G=0, int _B=0);
-	bool ColDownR		(int _R=0, int _G=0, int _B=0);
-	bool ColDownL		(int _R=0, int _G=0, int _B=0);
-	bool ColCurR		(int _R=0, int _G=0, int _B=0);
-	bool ColCurL		(int _R=0, int _G=0, int _B=0);
-	bool ColUpR			(int _R=0, int _G=0, int _B=0);
-	bool ColUpL			(int _R=0, int _G=0, int _B=0);
-	bool ColLeftAll		(int _R=0, int _G=0, int _B=0);
-	bool ColRightAll	(int _R=0, int _G=0, int _B=0);
-	bool ColUpAll		(int _R=0, int _G=0, int _B=0);
-	bool ColDownAll		(int _R=0, int _G=0, int _B=0);
-	bool ColCur			(int _R=0, int _G=0, int _B=0);
+	bool ColLeftUp(int _R = 0, int _G = 0, int _B = 0);
+	bool ColRightUp(int _R = 0, int _G = 0, int _B = 0);
+	bool ColLeftDown(int _R = 0, int _G = 0, int _B = 0);
+	bool ColRightDown(int _R = 0, int _G = 0, int _B = 0);
+	bool ColDownR(int _R = 0, int _G = 0, int _B = 0);
+	bool ColDownL(int _R = 0, int _G = 0, int _B = 0);
+	bool ColCurR(int _R = 0, int _G = 0, int _B = 0);
+	bool ColCurL(int _R = 0, int _G = 0, int _B = 0);
+	bool ColUpR(int _R = 0, int _G = 0, int _B = 0);
+	bool ColUpL(int _R = 0, int _G = 0, int _B = 0);
+	bool ColLeftAll(int _R = 0, int _G = 0, int _B = 0);
+	bool ColRightAll(int _R = 0, int _G = 0, int _B = 0);
+	bool ColUpAll(int _R = 0, int _G = 0, int _B = 0);
+	bool ColDownAll(int _R = 0, int _G = 0, int _B = 0);
+	bool ColCur(int _R = 0, int _G = 0, int _B = 0);
 };
 
