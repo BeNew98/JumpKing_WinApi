@@ -10,10 +10,12 @@ struct PlayerPos
 	float4 fLeftDownPos		= float4::Zero;
 	float4 fDownLPos		= float4::Zero;
 	float4 fDownRPos		= float4::Zero;
+	float4 fDownCPos		= float4::Zero;
 	float4 fUpLPos			= float4::Zero;
 	float4 fUpRPos			= float4::Zero;
 	float4 fCurLPos			= float4::Zero;
 	float4 fCurRPos			= float4::Zero;
+	float4 fCurCPos			= float4::Zero;
 
 	void operator +=(float4 _Pos)
 	{
@@ -136,6 +138,7 @@ private:
 	bool ColRightDown(int _R = 0, int _G = 0, int _B = 0);
 	bool ColDownR(int _R = 0, int _G = 0, int _B = 0);
 	bool ColDownL(int _R = 0, int _G = 0, int _B = 0);
+	bool ColDownC(int _R = 0, int _G = 0, int _B = 0);
 	bool ColCurR(int _R = 0, int _G = 0, int _B = 0);
 	bool ColCurL(int _R = 0, int _G = 0, int _B = 0);
 	bool ColUpR(int _R = 0, int _G = 0, int _B = 0);
@@ -144,6 +147,7 @@ private:
 	bool ColRightAll(int _R = 0, int _G = 0, int _B = 0);
 	bool ColUpAll(int _R = 0, int _G = 0, int _B = 0);
 	bool ColDownAll(int _R = 0, int _G = 0, int _B = 0);
+	bool ColCurAll(int _R = 0, int _G = 0, int _B = 0);
 	bool ColCur(int _R = 0, int _G = 0, int _B = 0);
 };
 

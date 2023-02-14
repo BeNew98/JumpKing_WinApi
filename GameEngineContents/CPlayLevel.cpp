@@ -37,14 +37,17 @@ void CPlayLevel::Loading()
 		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ColMap.bmp"));
 	}
 	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AllMap.bmp"));
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AllMap1_10.bmp"));
+	}
+	{
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AllMap11_20.bmp"));
 	}
 
 
 	CMidGround* pMidGround = CreateActor<CMidGround>();
 	CPlayer* pActor = CreateActor<CPlayer>();
 
-	pActor->SetPos(float4{ 44,334 });
+	pActor->SetPos(float4{ 841,3934 });
 	//pActor->SetPos(float4{ CMidGround::m_MapSize.hx(),CMidGround::m_MapSize.y - 70 });
 	
 	if (false == GameEngineInput::IsKey("DebugRenderSwitch"))
