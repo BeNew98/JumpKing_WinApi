@@ -315,17 +315,19 @@ bool CPlayer::ColCurL(int _R, int _G, int _B)
 
 void CPlayer::pPosUpdate()
 {
+	float4 PlayerPos = GetPos();
+
 	// 위 아래 오른쪽 왼쪽에 점을 한개씩 찍어서 픽셀체크에 필요한 좌표를 적용
-	pPos.fRightUpPos = GetPos() + float4::Right + float4{ 20,-40 };
-	pPos.fRightDownPos = GetPos() + float4::Right + float4{ 20,0 };
-	pPos.fLeftUpPos = GetPos() + float4::Left + float4{ -20,-40 };
-	pPos.fLeftDownPos = GetPos() + float4::Left + float4{ -20,0 };
-	pPos.fDownLPos = GetPos() + float4::Down + float4{ -20,0 };
-	pPos.fDownRPos = GetPos() + float4::Down + float4{ 20,0 };
-	pPos.fUpLPos = GetPos() + float4::Up + float4{ -20,-40 };
-	pPos.fUpRPos = GetPos() + float4::Up + float4{ 20,-40 };
-	pPos.fCurLPos = GetPos() + float4{ -20,0 };
-	pPos.fCurRPos = GetPos() + float4{ 20,0 };
+	pPos.fRightUpPos = PlayerPos + float4::Right + float4{ 20,-40 };
+	pPos.fRightDownPos = PlayerPos + float4::Right + float4{ 20,0 };
+	pPos.fLeftUpPos = PlayerPos + float4::Left + float4{ -20,-40 };
+	pPos.fLeftDownPos = PlayerPos + float4::Left + float4{ -20,0 };
+	pPos.fDownLPos = PlayerPos + float4::Down + float4{ -20,0 };
+	pPos.fDownRPos = PlayerPos + float4::Down + float4{ 20,0 };
+	pPos.fUpLPos = PlayerPos + float4::Up + float4{ -20,-40 };
+	pPos.fUpRPos = PlayerPos + float4::Up + float4{ 20,-40 };
+	pPos.fCurLPos = PlayerPos + float4{ -20,0 };
+	pPos.fCurRPos = PlayerPos + float4{ 20,0 };
 }
 
 bool CPlayer::ColUpR(int _R, int _G, int _B)
