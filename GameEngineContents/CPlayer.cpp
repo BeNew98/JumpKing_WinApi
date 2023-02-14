@@ -271,9 +271,15 @@ void CPlayer::TestRender()
 	GameEngineLevel::DebugTextPush(CamPos);
 }
 
+
 bool CPlayer::ColCur(int _R, int _G, int _B)
 {
-	return ColCurL(_R, _G, _B) || ColCurR(_R, _G, _B);
+	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fCurCPos, RGB(_R, _G, _B));
+}
+
+bool CPlayer::ColCurAll(int _R, int _G, int _B)
+{
+	return ColCurL(_R, _G, _B) || ColCurR(_R, _G, _B)|| ColCur(_R, _G, _B);
 }
 
 bool CPlayer::ColLeftUp(int _R, int _G, int _B)
@@ -313,23 +319,6 @@ bool CPlayer::ColCurL(int _R, int _G, int _B)
 }
 
 
-void CPlayer::pPosUpdate()
-{
-	float4 PlayerPos = GetPos();
-
-	// 위 아래 오른쪽 왼쪽에 점을 한개씩 찍어서 픽셀체크에 필요한 좌표를 적용
-	pPos.fRightUpPos = PlayerPos + float4::Right + float4{ 20,-40 };
-	pPos.fRightDownPos = PlayerPos + float4::Right + float4{ 20,0 };
-	pPos.fLeftUpPos = PlayerPos + float4::Left + float4{ -20,-40 };
-	pPos.fLeftDownPos = PlayerPos + float4::Left + float4{ -20,0 };
-	pPos.fDownLPos = PlayerPos + float4::Down + float4{ -20,0 };
-	pPos.fDownRPos = PlayerPos + float4::Down + float4{ 20,0 };
-	pPos.fUpLPos = PlayerPos + float4::Up + float4{ -20,-40 };
-	pPos.fUpRPos = PlayerPos + float4::Up + float4{ 20,-40 };
-	pPos.fCurLPos = PlayerPos + float4{ -20,0 };
-	pPos.fCurRPos = PlayerPos + float4{ 20,0 };
-}
-
 bool CPlayer::ColUpR(int _R, int _G, int _B)
 {
 	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fUpRPos, RGB(_R, _G, _B));
@@ -365,3 +354,22 @@ bool CPlayer::ColDownAll(int _R, int _G, int _B)
 	return ColDownR(_R, _G, _B) || ColDownL(_R, _G, _B);;
 }
 
+
+
+void CPlayer::pPosUpdate()
+{
+	float4 PlayerPos = GetPos();
+
+	// 위 아래 오른쪽 왼쪽에 점을 한개씩 찍어서 픽셀체크에 필요한 좌표를 적용
+	pPos.fRightUpPos = PlayerPos + float4::Right + float4{ 20,-40 };
+	pPos.fRightDownPos = PlayerPos + float4::Right + float4{ 20,0 };
+	pPos.fLeftUpPos = PlayerPos + float4::Left + float4{ -20,-40 };
+	pPos.fLeftDownPos = PlayerPos + float4::Left + float4{ -20,0 };
+	pPos.fDownLPos = PlayerPos + float4::Down + float4{ -20,0 };
+	pPos.fDownRPos = PlayerPos + float4::Down + float4{ 20,0 };
+	pPos.fUpLPos = PlayerPos + float4::Up + float4{ -20,-40 };
+	pPos.fUpRPos = PlayerPos + float4::Up + float4{ 20,-40 };
+	pPos.fCurLPos = PlayerPos + float4{ -20,0 };
+	pPos.fCurRPos = PlayerPos + float4{ 20,0 };
+	pPos.fCurCPos = PlayerPos;
+}

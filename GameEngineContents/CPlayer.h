@@ -14,6 +14,7 @@ struct PlayerPos
 	float4 fUpRPos			= float4::Zero;
 	float4 fCurLPos			= float4::Zero;
 	float4 fCurRPos			= float4::Zero;
+	float4 fCurCPos			= float4::Zero;
 
 	void operator +=(float4 _Pos)
 	{
@@ -144,6 +145,7 @@ private:
 	bool ColRightAll(int _R = 0, int _G = 0, int _B = 0);
 	bool ColUpAll(int _R = 0, int _G = 0, int _B = 0);
 	bool ColDownAll(int _R = 0, int _G = 0, int _B = 0);
+	bool ColCurAll(int _R = 0, int _G = 0, int _B = 0);
 	bool ColCur(int _R = 0, int _G = 0, int _B = 0);
 };
 

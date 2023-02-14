@@ -73,59 +73,66 @@ void CPlayer::UpdateState(float _Time)
 
 void CPlayer::IdleStart()
 {
-	DirCheck("Idle");
-
+	AnimChange("Idle");
 }
 
 void CPlayer::IdleUpdate(float _Time)
 {
-	if (ColCur(255, 0, 255))
-	{
-		if (ColCurL(255, 0, 255))
-		{
-			m_MoveDir.x += float4::Right.x;
-
-			if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
-			{
-				if (0 > m_MoveDir.x)
-				{
-					m_MoveDir.x = -m_fJumpMoveLimit;
-				}
-				else
-				{
-					m_MoveDir.x = m_fJumpMoveLimit;
-				}
-			}
-			m_MoveDir.y = m_MoveDir.x;
-		}
-		else if (ColCurR(255, 0, 255))
-		{
-			m_MoveDir.x += float4::Left.x;
-
-			if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
-			{
-				if (0 > m_MoveDir.x)
-				{
-					m_MoveDir.x = -m_fJumpMoveLimit;
-				}
-				else
-				{
-					m_MoveDir.x = m_fJumpMoveLimit;
-				}
-			}
-			m_MoveDir.y = -m_MoveDir.x;
-		}
-		return;
-	}
 
 	// 바닥에 박힌거 올리기
-	while (ColCur() || ColCur(255, 0, 255))
+	while (ColCurAll() || ColCurAll(255,0,255))
 	{
 		SetPos(GetPos() + float4::Up);
 		pPosUpdate();
 	}
 
-	
+	// move 상태에서 떨어지게 되었을때 down으로 전환
+	if (m_MoveDir.y > 0)
+	{
+		ChangeState(PlayerState::DOWN);
+		return;
+	}
+
+	{
+		//사선 충돌 계산
+
+		//사선을 감지
+		if ((ColCurAll(255, 0, 0) || ColCurAll(0, 0, 255)))
+		{
+			m_MoveDir.x *= 0.f;
+			m_iCollide = true;
+			AnimChange("Collide");
+
+
+			//빨간 픽셀이면 왼쪽으로
+			if (ColCurAll(255, 0, 0))
+			{
+				m_MoveDir.x += float4::Left.x * m_fMoveLimit;
+
+				if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
+				{
+					m_MoveDir.x = -m_fJumpMoveLimit;
+				}
+				m_MoveDir.y = -m_MoveDir.x;
+
+				return;
+			}
+			//파란 픽셀이면 오른쪽으로
+			else if (ColCurAll(0, 0, 255))
+			{
+				m_MoveDir.x += float4::Right.x * m_fMoveLimit;
+
+				if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
+				{
+					m_MoveDir.x = m_fJumpMoveLimit;
+				}
+				m_MoveDir.y = m_MoveDir.x;
+
+				return;
+			}
+		}
+	}
+
 
 	//방향키 누르면 move로 전환
 	if (GameEngineInput::IsPress("LeftMove") || GameEngineInput::IsPress("RightMove"))
@@ -328,20 +335,13 @@ void  CPlayer::JumpStart()
 
 void  CPlayer::JumpUpdate(float _Time)
 {
-	//오른쪽으로 점프중 오른쪽이 사선 이면 x값 0으로 만들기
-	if (m_MoveDir.x > 0 && ColRightAll(255,0,255))
+	// 바닥에 박힌거 올리기
+	while (ColCurAll() || ColCurAll(255, 0, 255))
 	{
-		m_MoveDir.x *= 0.f;
-		m_iCollide = true;
-		AnimChange("Collide");
+		SetPos(GetPos() + float4::Up);
+		pPosUpdate();
 	}
-	//왼쪽으로 점프중 왼쪽이 사선 이면 x값 0으로 만들기
-	if (m_MoveDir.x < 0 && ColLeftAll(255, 0, 255))
-	{
-		m_MoveDir.x *= 0.f;
-		m_iCollide = true;
-		AnimChange("Collide");
-	}
+
 
 	//오른쪽으로 점프중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x > 0 && ColRightAll())
@@ -354,6 +354,14 @@ void  CPlayer::JumpUpdate(float _Time)
 	if (m_MoveDir.x < 0 && ColLeftAll())
 	{
 		m_MoveDir.x *= -m_fRecoilCoeff;
+		m_iCollide = true;
+		AnimChange("Collide");
+	}
+
+
+	if ((ColCurAll(255, 0, 0) || ColCurAll(0, 0, 255)))
+	{
+		m_MoveDir.x *= 0.f;
 		m_iCollide = true;
 		AnimChange("Collide");
 	}
@@ -397,20 +405,13 @@ void CPlayer::DownStart()
 
 void CPlayer::DownUpdate(float _Time)
 {
-	//오른쪽으로 하강중 오른쪽이 사선 이면 x값 0으로 만들기
-	if (m_MoveDir.x > 0 && ColRightAll(255, 0, 255))
+	// 바닥에 박힌거 올리기
+	while (ColCurAll() || ColCurAll(255, 0, 255))
 	{
-		m_MoveDir.x *= 0.f;
-		m_iCollide = true;
-		AnimChange("Collide");
+		SetPos(GetPos() + float4::Up);
+		pPosUpdate();
 	}
-	//왼쪽으로 하강중 오른쪽이 사선 이면 x값 0으로 만들기
-	if (m_MoveDir.x < 0 && ColLeftAll(255, 0, 255))
-	{
-		m_MoveDir.x *= 0.f;
-		m_iCollide = true;
-		AnimChange("Collide");
-	}
+
 	
 	//오른쪽으로 하강중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x > 0 && ColRightAll())
@@ -419,6 +420,7 @@ void CPlayer::DownUpdate(float _Time)
 		m_iCollide = true;
 		AnimChange("Collide");
 	}
+
 	//왼쪽으로 하강중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x < 0 && ColLeftAll())
 	{
@@ -427,44 +429,44 @@ void CPlayer::DownUpdate(float _Time)
 		AnimChange("Collide");
 	}	
 
- 	
-	if (ColCur(255, 0, 255))
-	{
-		if (ColCurL(255, 0, 255))
-		{
-			m_MoveDir.x += float4::Right.x;
+	{	
+		//사선 충돌 계산
 
-			if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
+		//사선을 감지
+		if ((ColCurAll(255, 0, 0) || ColCurAll(0, 0, 255)))
+		{
+			m_MoveDir.x *= 0.f;
+			m_iCollide = true;
+			AnimChange("Collide");
+
+
+			//빨간 픽셀이면 왼쪽으로
+			if (ColCurAll(255, 0, 0))
 			{
-				if (0 > m_MoveDir.x)
+				m_MoveDir.x += float4::Left.x * m_fMoveLimit;
+
+				if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
 				{
 					m_MoveDir.x = -m_fJumpMoveLimit;
 				}
-				else
-				{
-					m_MoveDir.x = m_fJumpMoveLimit;
-				}
-			}
-			m_MoveDir.y = m_MoveDir.x;
-		}
-		else if (ColCurR(255, 0, 255))
-		{
-			m_MoveDir.x += float4::Left.x;
+				m_MoveDir.y = -m_MoveDir.x;
 
-			if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
+				return;
+			}
+			//파란 픽셀이면 오른쪽으로
+			else if (ColCurAll(0, 0, 255))
 			{
-				if (0 > m_MoveDir.x)
-				{
-					m_MoveDir.x = -m_fJumpMoveLimit;
-				}
-				else
+				m_MoveDir.x += float4::Right.x * m_fMoveLimit;
+
+				if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
 				{
 					m_MoveDir.x = m_fJumpMoveLimit;
 				}
+				m_MoveDir.y = m_MoveDir.x;
+
+				return;
 			}
-			m_MoveDir.y = -m_MoveDir.x;
 		}
-		return;
 	}
 
 	//바닥에 안착시
@@ -481,9 +483,9 @@ void CPlayer::DownUpdate(float _Time)
 		// 아닐시 idle로 전환
 		else
 		{
-		m_iCollide = false;
-		ChangeState(PlayerState::IDLE);
-		return;
+			m_iCollide = false;
+			ChangeState(PlayerState::IDLE);
+			return;
 		}
 	}
 }
@@ -502,7 +504,7 @@ void CPlayer::FallStart()
 void CPlayer::FallUpdate(float _Time)
 {
 	// 바닥에 박힌거 올리기
-	while (ColCur()|| ColCur(255,0,255))
+	while (ColCurAll()|| ColCurAll(255,0,255))
 	{
 		SetPos(GetPos() + float4::Up);
 		pPosUpdate();

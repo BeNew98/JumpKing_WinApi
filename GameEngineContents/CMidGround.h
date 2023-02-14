@@ -23,8 +23,10 @@ protected:
 
 private:
 	GameEngineRender* m_pRenderMap0 = nullptr;
+	GameEngineRender* m_pRenderMap1 = nullptr;
+	GameEngineRender* m_pRenderMap2 = nullptr;
 
-	GameEngineRender* m_pColMap0 = nullptr;
+	GameEngineRender* m_pColMap = nullptr;
 
 };
 
