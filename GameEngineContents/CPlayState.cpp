@@ -78,9 +78,8 @@ void CPlayer::IdleStart()
 
 void CPlayer::IdleUpdate(float _Time)
 {
-
 	// 바닥에 박힌거 올리기
-	while (ColCurAll() || ColCurAll(255,0,255))
+	while (ColCur())
 	{
 		SetPos(GetPos() + float4::Up);
 		pPosUpdate();
@@ -107,7 +106,7 @@ void CPlayer::IdleUpdate(float _Time)
 			//빨간 픽셀이면 왼쪽으로
 			if (ColCurAll(255, 0, 0))
 			{
-				m_MoveDir.x += float4::Left.x * m_fMoveLimit;
+				m_MoveDir.x += float4::Left.x * m_fJumpMoveLimit;
 
 				if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
 				{
@@ -120,7 +119,7 @@ void CPlayer::IdleUpdate(float _Time)
 			//파란 픽셀이면 오른쪽으로
 			else if (ColCurAll(0, 0, 255))
 			{
-				m_MoveDir.x += float4::Right.x * m_fMoveLimit;
+				m_MoveDir.x += float4::Right.x * m_fJumpMoveLimit;
 
 				if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
 				{
@@ -397,14 +396,27 @@ void CPlayer::DownStart()
 
 void CPlayer::DownUpdate(float _Time)
 {
+	// 벽에 박힌거 빼기
+	while (ColCurL()&&false == ColCurR())
+	{
+		SetPos(GetPos() + float4::Right);
+		pPosUpdate();
+	}
+
+	// 벽에 박힌거 빼기
+	while (ColCurR() && false == ColCurL())
+	{
+		SetPos(GetPos() + float4::Left);
+		pPosUpdate();
+	}
+
 	// 바닥에 박힌거 올리기
-	while (ColCurAll() || ColCurAll(255, 0, 255))
+	while (ColCur())
 	{
 		SetPos(GetPos() + float4::Up);
 		pPosUpdate();
 	}
 
-	
 	//오른쪽으로 하강중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x > 0 && ColRightAll())
 	{
@@ -435,7 +447,7 @@ void CPlayer::DownUpdate(float _Time)
 			//빨간 픽셀이면 왼쪽으로
 			if (ColCurAll(255, 0, 0))
 			{
-				m_MoveDir.x += float4::Left.x * m_fMoveLimit;
+				m_MoveDir.x += float4::Left.x * m_fJumpMoveLimit;
 
 				if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
 				{
@@ -448,7 +460,7 @@ void CPlayer::DownUpdate(float _Time)
 			//파란 픽셀이면 오른쪽으로
 			else if (ColCurAll(0, 0, 255))
 			{
-				m_MoveDir.x += float4::Right.x * m_fMoveLimit;
+				m_MoveDir.x += float4::Right.x * m_fJumpMoveLimit;
 
 				if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
 				{
@@ -496,7 +508,7 @@ void CPlayer::FallStart()
 void CPlayer::FallUpdate(float _Time)
 {
 	// 바닥에 박힌거 올리기
-	while (ColCurAll()|| ColCurAll(255,0,255))
+	while (ColCur())
 	{
 		SetPos(GetPos() + float4::Up);
 		pPosUpdate();

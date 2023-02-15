@@ -274,7 +274,7 @@ void CPlayer::TestRender()
 
 bool CPlayer::ColCur(int _R, int _G, int _B)
 {
-	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fCurCPos, RGB(_R, _G, _B));
+	return ColCurL(_R, _G, _B) || ColCurR(_R, _G, _B);
 }
 
 bool CPlayer::ColCurAll(int _R, int _G, int _B)
@@ -320,10 +320,6 @@ bool CPlayer::ColDownL(int _R, int _G, int _B)
 	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fDownLPos, RGB(_R, _G, _B));
 }
 
-bool CPlayer::ColDownC(int _R, int _G, int _B)
-{
-	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fDownCPos, RGB(_R, _G, _B));
-}
 
 bool CPlayer::ColCurR(int _R, int _G, int _B)
 {

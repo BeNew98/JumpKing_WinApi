@@ -138,7 +138,6 @@ private:
 	bool ColRightDown(int _R = 0, int _G = 0, int _B = 0);
 	bool ColDownR(int _R = 0, int _G = 0, int _B = 0);
 	bool ColDownL(int _R = 0, int _G = 0, int _B = 0);
-	bool ColDownC(int _R = 0, int _G = 0, int _B = 0);
 	bool ColCurR(int _R = 0, int _G = 0, int _B = 0);
 	bool ColCurL(int _R = 0, int _G = 0, int _B = 0);
 	bool ColUpR(int _R = 0, int _G = 0, int _B = 0);

@@ -123,7 +123,7 @@ void CPlayLevel::Update(float _DeltaTime)
 
 		if (GameEngineInput::IsDown("Number1"))
 		{
-			CPlayer::MainPlayer->SetPos(float4{ 44,334 });
+			CPlayer::MainPlayer->SetPos(float4{ 407,5794 });
 		}
 
 		SetCameraPos(float4{ 0,(m_iMapNumber * GameEngineWindow::GetScreenSize().y) });
