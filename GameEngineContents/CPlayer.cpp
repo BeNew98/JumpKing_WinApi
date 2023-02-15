@@ -279,7 +279,20 @@ bool CPlayer::ColCur(int _R, int _G, int _B)
 
 bool CPlayer::ColCurAll(int _R, int _G, int _B)
 {
-	return ColCurL(_R, _G, _B) || ColCurR(_R, _G, _B)|| ColCur(_R, _G, _B);
+	int iStart = pPos.fCurLPos.ix();
+	int iEnd = pPos.fCurRPos.ix() + 1;
+	float4 Pos = GetPos();
+	bool Col = false;
+
+	for (;iStart != iEnd +1; ++iStart)
+	{		
+		if (RGB(_R, _G, _B) == m_pColImage->GetPixelColor(float4{ static_cast<float>(iStart),Pos.y }, RGB(_R, _G, _B)))
+		{
+			return true;
+		}
+	};
+	return false;
+	//return ColCurL(_R, _G, _B) || ColCurR(_R, _G, _B)|| ColCur(_R, _G, _B);
 }
 
 bool CPlayer::ColLeftUp(int _R, int _G, int _B)
