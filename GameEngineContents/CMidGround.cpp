@@ -70,7 +70,7 @@ void CMidGround::Start()
 
 	m_pRenderMap0->SetMove(float4{ 0,fSize3 + fSize2 + fSize1 + fSize0 });
 	m_pRenderMap1->SetMove(float4{ 0,fSize3 + fSize2 + fSize1 });
-	m_pRenderMap2->SetMove(float4{ 0,fSize3+ fSize2 });
+	m_pRenderMap2->SetMove(float4{ 0,fSize3 + fSize2 });
 	m_pRenderMap3->SetMove(float4{ 0,fSize3 });
 }
 
