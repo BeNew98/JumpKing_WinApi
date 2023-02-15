@@ -42,7 +42,15 @@ void CPlayLevel::Loading()
 	{
 		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AllMap11_20.bmp"));
 	}
-
+	{
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AllMap21_30.bmp"));
+	}
+	{
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AllMap31_40.bmp"));
+	}
+	{
+		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AllMap41_43.bmp"));
+	}
 
 	CMidGround* pMidGround = CreateActor<CMidGround>();
 	CPlayer* pActor = CreateActor<CPlayer>();

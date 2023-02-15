@@ -25,6 +25,8 @@ private:
 	GameEngineRender* m_pRenderMap0 = nullptr;
 	GameEngineRender* m_pRenderMap1 = nullptr;
 	GameEngineRender* m_pRenderMap2 = nullptr;
+	GameEngineRender* m_pRenderMap3 = nullptr;
+	GameEngineRender* m_pRenderMap4 = nullptr;
 
 	GameEngineRender* m_pColMap = nullptr;
 
