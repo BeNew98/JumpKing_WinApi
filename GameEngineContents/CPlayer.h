@@ -83,7 +83,8 @@ private:
 	bool		m_iCollide			= false;
 	float		m_fJumpSpeed		= 1000.f; /* 1090.0f;*/
 	float		m_fJumpPressTime	= 0.f;
-	float4		m_HighestPos = float4{ 0,99999 };
+	float		m_fKnockTime		= 0.f;
+	float4		m_HighestPos		= float4{ 0,99999 };
 
 	std::string m_DirString			= "R_";
 	PlayerState m_StateValue		= PlayerState::IDLE;

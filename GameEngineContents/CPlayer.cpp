@@ -292,7 +292,6 @@ bool CPlayer::ColCurAll(int _R, int _G, int _B)
 		}
 	};
 	return false;
-	//return ColCurL(_R, _G, _B) || ColCurR(_R, _G, _B)|| ColCur(_R, _G, _B);
 }
 
 bool CPlayer::ColLeftUp(int _R, int _G, int _B)
@@ -378,7 +377,6 @@ bool CPlayer::ColDownAll(int _R, int _G, int _B)
 		}
 	};
 	return false;
-	// ColDownR(_R, _G, _B) || ColDownL(_R, _G, _B)||ColDownC(_R, _G, _B);
 }
 
 

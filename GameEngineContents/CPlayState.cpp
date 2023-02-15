@@ -396,44 +396,7 @@ void CPlayer::DownStart()
 
 void CPlayer::DownUpdate(float _Time)
 {
-	// 벽에 박힌거 빼기
-	while (ColCurL()&&false == ColCurR())
 	{
-		SetPos(GetPos() + float4::Right);
-		pPosUpdate();
-	}
-
-	// 벽에 박힌거 빼기
-	while (ColCurR() && false == ColCurL())
-	{
-		SetPos(GetPos() + float4::Left);
-		pPosUpdate();
-	}
-
-	// 바닥에 박힌거 올리기
-	while (ColCur())
-	{
-		SetPos(GetPos() + float4::Up);
-		pPosUpdate();
-	}
-
-	//오른쪽으로 하강중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
-	if (m_MoveDir.x > 0 && ColRightAll())
-	{
-		m_MoveDir.x *= -m_fRecoilCoeff;
-		m_iCollide = true;
-		AnimChange("Collide");
-	}
-
-	//왼쪽으로 하강중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
-	if (m_MoveDir.x < 0 && ColLeftAll())
-	{
-		m_MoveDir.x *= -m_fRecoilCoeff;
-		m_iCollide = true;
-		AnimChange("Collide");
-	}	
-
-	{	
 		//사선 충돌 계산
 
 		//사선을 감지
@@ -477,7 +440,7 @@ void CPlayer::DownUpdate(float _Time)
 	if (ColDownAll())
 	{
 		// (점프시 최대 높이 - 내 현재 높이)가 화면 사이즈 절반보다 크다면 Fall로 전환
-		if (m_HighestPos.y - GetPos().y <  -GameEngineWindow::GetScreenSize().hy())
+		if (m_HighestPos.y - GetPos().y < -GameEngineWindow::GetScreenSize().hy())
 		{
 			m_iCollide = false;
 			ChangeState(PlayerState::FALL);
@@ -492,6 +455,47 @@ void CPlayer::DownUpdate(float _Time)
 			return;
 		}
 	}
+
+	// 벽에 박힌거 빼기
+	while (ColCurL()&&false == ColCurR())
+	{
+		SetPos(GetPos() + float4::Right);
+		pPosUpdate();
+	}
+
+	// 벽에 박힌거 빼기
+	while (ColCurR() && false == ColCurL())
+	{
+		SetPos(GetPos() + float4::Left);
+		pPosUpdate();
+	}
+
+	// 바닥에 박힌거 올리기
+	while (ColCur())
+	{
+		SetPos(GetPos() + float4::Up);
+		pPosUpdate();
+	}
+
+	//오른쪽으로 하강중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
+	if (m_MoveDir.x > 0 && ColRightAll())
+	{
+		m_MoveDir.x *= -m_fRecoilCoeff;
+		m_iCollide = true;
+		AnimChange("Collide");
+	}
+
+	//왼쪽으로 하강중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
+	if (m_MoveDir.x < 0 && ColLeftAll())
+	{
+		m_MoveDir.x *= -m_fRecoilCoeff;
+		m_iCollide = true;
+		AnimChange("Collide");
+	}	
+
+	
+
+	
 }
 void CPlayer::DownEnd() 
 {
@@ -501,6 +505,7 @@ void CPlayer::DownEnd()
 
 void CPlayer::FallStart()
 {
+	m_fKnockTime = 0;
 	m_MoveDir.x = 0.f;
 	AnimChange("Fall");
 }
@@ -512,6 +517,13 @@ void CPlayer::FallUpdate(float _Time)
 	{
 		SetPos(GetPos() + float4::Up);
 		pPosUpdate();
+	}
+
+	//녹다운시 1초뒤에 움직이는것이 가능
+	m_fKnockTime += _Time;
+	if (m_fKnockTime <1.f)
+	{
+		return;
 	}
 
 	//방향키 누르면 move로 전환

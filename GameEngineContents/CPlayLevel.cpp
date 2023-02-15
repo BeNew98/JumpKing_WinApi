@@ -85,6 +85,10 @@ void CPlayLevel::Loading()
 	{
 		GameEngineInput::CreateKey("Number1", '1');
 	}
+	if (false == GameEngineInput::IsKey("Number2"))
+	{
+		GameEngineInput::CreateKey("Number2", '2');
+	}
 }
 
 void CPlayLevel::Update(float _DeltaTime)
@@ -124,6 +128,10 @@ void CPlayLevel::Update(float _DeltaTime)
 		if (GameEngineInput::IsDown("Number1"))
 		{
 			CPlayer::MainPlayer->SetPos(float4{ 407,5794 });
+		}
+		if (GameEngineInput::IsDown("Number2"))
+		{
+			CPlayer::MainPlayer->SetPos(float4{ 465,3729 });
 		}
 
 		SetCameraPos(float4{ 0,(m_iMapNumber * GameEngineWindow::GetScreenSize().y) });
