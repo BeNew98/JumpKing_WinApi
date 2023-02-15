@@ -335,14 +335,6 @@ void  CPlayer::JumpStart()
 
 void  CPlayer::JumpUpdate(float _Time)
 {
-	// 바닥에 박힌거 올리기
-	while (ColCurAll() || ColCurAll(255, 0, 255))
-	{
-		SetPos(GetPos() + float4::Up);
-		pPosUpdate();
-	}
-
-
 	//오른쪽으로 점프중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x > 0 && ColRightAll())
 	{

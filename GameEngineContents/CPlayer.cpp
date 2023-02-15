@@ -281,12 +281,12 @@ bool CPlayer::ColCurAll(int _R, int _G, int _B)
 {
 	int iStart = pPos.fCurLPos.ix();
 	int iEnd = pPos.fCurRPos.ix() + 1;
-	float4 Pos = GetPos();
+	float YPos = pPos.fCurLPos.y;
 	bool Col = false;
 
-	for (;iStart != iEnd +1; ++iStart)
+	for (;iStart < iEnd; ++iStart)
 	{		
-		if (RGB(_R, _G, _B) == m_pColImage->GetPixelColor(float4{ static_cast<float>(iStart),Pos.y }, RGB(_R, _G, _B)))
+		if (RGB(_R, _G, _B) == m_pColImage->GetPixelColor(float4{ static_cast<float>(iStart),YPos }, RGB(_R, _G, _B)))
 		{
 			return true;
 		}
@@ -369,7 +369,20 @@ bool CPlayer::ColUpAll(int _R, int _G, int _B)
 
 bool CPlayer::ColDownAll(int _R, int _G, int _B)
 {
-	return ColDownR(_R, _G, _B) || ColDownL(_R, _G, _B)||ColDownC(_R, _G, _B);
+	int iStart = pPos.fDownLPos.ix();
+	int iEnd = pPos.fDownRPos.ix() + 1;
+	float YPos = pPos.fDownLPos.y;
+	bool Col = false;
+
+	for (; iStart < iEnd; ++iStart)
+	{
+		if (RGB(_R, _G, _B) == m_pColImage->GetPixelColor(float4{ static_cast<float>(iStart),YPos }, RGB(_R, _G, _B)))
+		{
+			return true;
+		}
+	};
+	return false;
+	// ColDownR(_R, _G, _B) || ColDownL(_R, _G, _B)||ColDownC(_R, _G, _B);
 }
 
 
