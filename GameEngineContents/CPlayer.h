@@ -82,7 +82,8 @@ private:
 
 	float		m_fAccTime			= 0.0f;
 	int			m_iStartFrame		= 0;
-	float		m_fMoveSpeed		= 800.0f;
+	float		m_fMoveSpeed		= 170.0f;
+	float		m_fJumpMoveSpeed	= 400.0f;
 	float		m_fGravity			= 1600.f; /*2.2f;*/
 	float		m_fGravityLimit		= 850.f;
 	float		m_fMoveLimit		= 170.f;

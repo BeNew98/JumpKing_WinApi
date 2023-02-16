@@ -143,28 +143,28 @@ void CPlayer::Movecalculation(float _DeltaTime)
 		if (m_MoveDir.y > 0.f)
 		{
 			m_MoveDir.y = 0.f;
+		}
 
-			if (ColDownAll(m_Sky))
+		if (ColDownAll(m_Sky) && 0 != m_MoveDir.x)
+		{
+			float4 Friction = -m_MoveDir;
+			if (!Friction.IsZero())
 			{
-				float4 Friction = -m_MoveDir;
-				if (!Friction.IsZero())
-				{
-					Friction.Normalize();
-					Friction *= (1000.f * 0.9f);
-				}
+				Friction.Normalize();
+				Friction *= (m_fMoveSpeed * 2.0f)*_DeltaTime;
+			}
 
-				// 속도 감소량(마찰력에 의한) 이 기존 속도를 넘어 설 경우, 완전 제로로 만든다.
-				if (m_MoveDir.Size() <= Friction.Size())
-				{
-					m_MoveDir = float4(0.f, 0.f);
-				}
-				else
-				{
-					// 현재 속도 반대방향으로 마찰의 의한 속도 감소
-					m_MoveDir += Friction;
-				}
+			if (m_MoveDir.Size() <= Friction.Size())
+			{
+				m_MoveDir = float4(0.f, 0.f);
+			}
+			else
+			{
+				// 현재 속도 반대방향으로 마찰의 의한 속도 감소
+				m_MoveDir += Friction;
 			}
 		}
+		
 	}
 
 
@@ -192,7 +192,7 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	}
 
 
-	SetMove(m_MoveDir * _DeltaTime);
+	SetMove(m_MoveDir );
 }
 
 void CPlayer::ColRender()

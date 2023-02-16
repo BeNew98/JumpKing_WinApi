@@ -201,8 +201,11 @@ void CPlayer::MoveEnd()
 
 void CPlayer::JumpReadyStart()
 {
-	//jump가 준비중일때 x는 항상 0으로 전환
-	m_MoveDir.x = 0.0f;
+	//jump가 준비중일때 x는 얼음 맵이 아니면 항상 0으로 전환
+	if (false==ColDownAll(m_Sky))
+	{
+		m_MoveDir.x = 0.0f;
+	}
 
 	DirCheck("JumpReady");
 	m_fJumpPressTime = 0.0f;
@@ -276,12 +279,12 @@ void  CPlayer::JumpStart()
 	// jump로 전환되었을때 왼쪽 방향키를 누르고 있었다면 왼쪽으로 힘 더해주기.
 	if (true == GameEngineInput::IsPress("LeftMove"))
 	{
-		m_MoveDir += float4::Left * m_fMoveSpeed;
+		m_MoveDir += float4::Left * m_fJumpMoveSpeed;
 	}
 	// jump로 전환되었을때 오른쪽 방향키를 누르고 있었다면 오른쪽으로 힘 더해주기.
 	else if (true == GameEngineInput::IsPress("RightMove"))
 	{
-		m_MoveDir += float4::Right * m_fMoveSpeed;
+		m_MoveDir += float4::Right * m_fJumpMoveSpeed;
 	}
 
 
