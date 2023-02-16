@@ -1,7 +1,13 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
-
 #include <GameEnginePlatform/GameEngineImage.h>
+
+struct Color
+{
+	int R = 0;
+	int G = 0;
+	int B = 0;
+};
 struct PlayerPos
 {
 	float4 fRightUpPos		= float4::Zero;
@@ -93,6 +99,13 @@ private:
 	float		m_fKnockTime		= 0.f;
 	float4		m_HighestPos		= float4{ 0,99999 };
 
+	Color m_Red						= { 255,0,0 };
+	Color m_Green					= { 0,255,0 };
+	Color m_Blue					= { 0,0,255 };
+	Color m_Sky						= { 0,255,255 };
+	Color m_Black					= { 0,0,0 };
+
+
 	std::string m_DirString			= "R_";
 	PlayerState m_StateValue		= PlayerState::IDLE;
 	float4		m_MoveDir			= float4::Zero;
@@ -140,31 +153,33 @@ private:
 
 	void pPosUpdate();
 
-	bool ColLeftUp(int _R = 0, int _G = 0, int _B = 0);
-	bool ColRightUp(int _R = 0, int _G = 0, int _B = 0);
+	bool ColLeftUp	(Color _Color = {0,0,0});
+	bool ColRightUp	(Color _Color = {0,0,0});
 
-	bool ColLeftDown(int _R = 0, int _G = 0, int _B = 0);
-	bool ColRightDown(int _R = 0, int _G = 0, int _B = 0);
+	bool ColLeftDown(Color _Color = {0,0,0});
+	bool ColRightDown(Color _Color = {0,0,0});
 
-	bool ColDownR(int _R = 0, int _G = 0, int _B = 0);
-	bool ColDownL(int _R = 0, int _G = 0, int _B = 0);
+	bool ColDownR(Color _Color = {0,0,0});
+	bool ColDownL(Color _Color = {0,0,0});
 
-	bool ColCurDR(int _R = 0, int _G = 0, int _B = 0);
-	bool ColCurDL(int _R = 0, int _G = 0, int _B = 0);
+	bool ColCurDR(Color _Color = {0,0,0});
+	bool ColCurDL(Color _Color = {0,0,0});
 
-	bool ColCurUR(int _R = 0, int _G = 0, int _B = 0);
-	bool ColCurUL(int _R = 0, int _G = 0, int _B = 0);
+	bool ColCurUR(Color _Color = {0,0,0});
+	bool ColCurUL(Color _Color = {0,0,0});
 
-	bool ColUpR(int _R = 0, int _G = 0, int _B = 0);
-	bool ColUpL(int _R = 0, int _G = 0, int _B = 0);
+	bool ColUpR(Color _Color = {0,0,0});
+	bool ColUpL(Color _Color = {0,0,0});
 
-	bool ColLeftAll(int _R = 0, int _G = 0, int _B = 0);
-	bool ColRightAll(int _R = 0, int _G = 0, int _B = 0);
-	bool ColUpAll(int _R = 0, int _G = 0, int _B = 0);
-	bool ColDownAll(int _R = 0, int _G = 0, int _B = 0);
-	bool ColCurDownAll(int _R = 0, int _G = 0, int _B = 0);
-	bool ColCurUpAll(int _R = 0, int _G = 0, int _B = 0);
+	bool ColLeftAll(Color _Color = {0,0,0});
+	bool ColRightAll(Color _Color = {0,0,0});
+	bool ColUpAll(Color _Color = {0,0,0});
+	bool ColDownAll(Color _Color = {0,0,0});
+	bool ColCurDownAll(Color _Color = {0,0,0});
+	bool ColCurUpAll(Color _Color = {0,0,0});
 
-	bool ColCurDown(int _R = 0, int _G = 0, int _B = 0);
+	bool ColCurDown(Color _Color = {0,0,0});
+
+	void FloorCalibration();
 };
 

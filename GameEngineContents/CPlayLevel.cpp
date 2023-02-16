@@ -135,7 +135,7 @@ void CPlayLevel::Update(float _DeltaTime)
 
 		if (GameEngineInput::IsDown("Number1"))
 		{
-			CPlayer::MainPlayer->SetPos(float4{ 407,5794 });
+			CPlayer::MainPlayer->SetPos(float4{ 600,4848 });
 		}
 		if (GameEngineInput::IsDown("Number2"))
 		{

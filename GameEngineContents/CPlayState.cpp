@@ -78,59 +78,14 @@ void CPlayer::IdleStart()
 
 void CPlayer::IdleUpdate(float _Time)
 {
-	// 바닥에 박힌거 올리기
-	while (ColCur())
-	{
-		SetPos(GetPos() + float4::Up);
-		pPosUpdate();
-	}
+	FloorCalibration();
 
 	// move 상태에서 떨어지게 되었을때 down으로 전환
 	if (m_MoveDir.y > 0)
 	{
 		ChangeState(PlayerState::DOWN);
 		return;
-	}
-
-	{
-		//사선 충돌 계산
-
-		//사선을 감지
-		if ((ColCurDownAll(255, 0, 0) || ColCurDownAll(0, 0, 255)))
-		{
-			m_MoveDir.x *= 0.f;
-			m_iCollide = true;
-			AnimChange("Collide");
-
-
-			//빨간 픽셀이면 왼쪽으로
-			if (ColCurDownAll(255, 0, 0))
-			{
-				m_MoveDir.x += float4::Left.x * m_fJumpMoveLimit;
-
-				if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
-				{
-					m_MoveDir.x = -m_fJumpMoveLimit;
-				}
-				m_MoveDir.y = -m_MoveDir.x;
-
-				return;
-			}
-			//파란 픽셀이면 오른쪽으로
-			else if (ColCurDownAll(0, 0, 255))
-			{
-				m_MoveDir.x += float4::Right.x * m_fJumpMoveLimit;
-
-				if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
-				{
-					m_MoveDir.x = m_fJumpMoveLimit;
-				}
-				m_MoveDir.y = m_MoveDir.x;
-
-				return;
-			}
-		}
-	}
+	}	
 
 
 	//방향키 누르면 move로 전환
@@ -144,6 +99,12 @@ void CPlayer::IdleUpdate(float _Time)
 	if (GameEngineInput::IsDown("Jump"))
 	{
 		ChangeState(PlayerState::JUMP_READY);
+		return;
+	}
+	// 얼음장판일시 서서히 줄이기
+	if (((false == GameEngineInput::IsPress("LeftMove") || false == GameEngineInput::IsPress("RightMove"))) && ColDownAll(m_Sky))
+	{
+		m_MoveDir.x += -(m_MoveDir.x*0.01);
 		return;
 	}
 
@@ -349,16 +310,48 @@ void  CPlayer::JumpUpdate(float _Time)
 		AnimChange("Collide");
 	}
 
-
-	if ((ColCurDownAll(255, 0, 0) || ColCurDownAll(0, 0, 255)))
+	//바닥이 사선일시 x값 0으로 해서 멈추게하기
+	if (ColCurDownAll(m_Red) || ColCurDownAll(m_Blue))
 	{
 		m_MoveDir.x *= 0.f;
 		m_iCollide = true;
 		AnimChange("Collide");
 	}
 
+	// 위가 사선일때
+	if (ColCurUpAll(m_Red) || ColCurUpAll(m_Blue))
+	{
+		m_iCollide = true;
+		AnimChange("Collide");
+
+		//빨간 픽셀이면 오른쪽으로 
+		if (ColCurUpAll(m_Red))
+		{
+			m_MoveDir.x += -m_MoveDir.y;
+
+			if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
+			{
+				m_MoveDir.x = m_fJumpMoveLimit;
+			}
+
+			return;
+		}
+		//파란 픽셀이면 오른쪽으로
+		else if (ColCurUpAll(m_Blue))
+		{
+			m_MoveDir.x += m_MoveDir.y;
+
+			if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
+			{
+				m_MoveDir.x = -m_fJumpMoveLimit;
+			}
+
+			return;
+		}
+	}
+
 	//위쪽이 충돌했을 시 y값 0으로 만들어서 바로 떨어뜨리기
-	if (ColUpAll())
+	if (ColCurUpAll())
 	{
 		m_MoveDir.y = 0.f;
 	}
@@ -396,20 +389,14 @@ void CPlayer::DownStart()
 
 void CPlayer::DownUpdate(float _Time)
 {
-	{
-		//사선 충돌 계산
-
-		//사선을 감지
-		if ((ColCurDownAll(255, 0, 0) || ColCurDownAll(0, 0, 255)))
-		{
-			m_MoveDir.x *= 0.f;
-			m_iCollide = true;
-			AnimChange("Collide");
-
-
+	
 			//빨간 픽셀이면 왼쪽으로
-			if (ColCurDownAll(255, 0, 0))
+			if (ColCurDownAll(m_Red))
 			{
+				m_MoveDir.x *= 0.f;
+				m_iCollide = true;
+				AnimChange("Collide");
+
 				m_MoveDir.x += float4::Left.x * m_fJumpMoveLimit;
 
 				if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
@@ -421,8 +408,12 @@ void CPlayer::DownUpdate(float _Time)
 				return;
 			}
 			//파란 픽셀이면 오른쪽으로
-			else if (ColCurDownAll(0, 0, 255))
+			else if (ColCurDownAll(m_Blue))
 			{
+				m_MoveDir.x *= 0.f;
+				m_iCollide = true;
+				AnimChange("Collide");
+
 				m_MoveDir.x += float4::Right.x * m_fJumpMoveLimit;
 
 				if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
@@ -433,49 +424,24 @@ void CPlayer::DownUpdate(float _Time)
 
 				return;
 			}
-		}
-	}
+	
 
-	//바닥에 안착시
-	if (ColDownAll())
-	{
-		// (점프시 최대 높이 - 내 현재 높이)가 화면 사이즈 절반보다 크다면 Fall로 전환
-		if (m_HighestPos.y - GetPos().y < -GameEngineWindow::GetScreenSize().hy())
-		{
-			m_iCollide = false;
-			ChangeState(PlayerState::FALL);
-			return;
-		}
-
-		// 아닐시 idle로 전환
-		else
-		{
-			m_iCollide = false;
-			ChangeState(PlayerState::IDLE);
-			return;
-		}
-	}
 
 	// 벽에 박힌거 빼기
-	while (ColCurL()&&false == ColCurR())
+	while (ColCurDL()&&false == ColCurDR())
 	{
 		SetPos(GetPos() + float4::Right);
 		pPosUpdate();
 	}
 
 	// 벽에 박힌거 빼기
-	while (ColCurR() && false == ColCurL())
+	while (ColCurDR() && false == ColCurDL())
 	{
 		SetPos(GetPos() + float4::Left);
 		pPosUpdate();
 	}
 
-	// 바닥에 박힌거 올리기
-	while (ColCur())
-	{
-		SetPos(GetPos() + float4::Up);
-		pPosUpdate();
-	}
+	FloorCalibration();
 
 	//오른쪽으로 하강중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x > 0 && ColRightAll())
@@ -495,6 +461,25 @@ void CPlayer::DownUpdate(float _Time)
 
 	
 
+	//바닥에 안착시
+	if (ColDownAll()|| ColDownAll(m_Sky) || ColDownAll(m_Green))
+	{
+		// (점프시 최대 높이 - 내 현재 높이)가 화면 사이즈 절반보다 크다면 Fall로 전환
+		if (m_HighestPos.y - GetPos().y < -GameEngineWindow::GetScreenSize().hy())
+		{
+			m_iCollide = false;
+			ChangeState(PlayerState::FALL);
+			return;
+		}
+
+		// 아닐시 idle로 전환
+		else
+		{
+			m_iCollide = false;
+			ChangeState(PlayerState::IDLE);
+			return;
+		}
+	}
 	
 }
 void CPlayer::DownEnd() 
@@ -512,12 +497,7 @@ void CPlayer::FallStart()
 
 void CPlayer::FallUpdate(float _Time)
 {
-	// 바닥에 박힌거 올리기
-	while (ColCur())
-	{
-		SetPos(GetPos() + float4::Up);
-		pPosUpdate();
-	}
+	FloorCalibration();
 
 	//녹다운시 1초뒤에 움직이는것이 가능
 	m_fKnockTime += _Time;

@@ -126,7 +126,7 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	}
 
 	// 중력 을 받을때 안받을때 결정
-	if (false==ColDownAll())
+	if (false==(ColDownAll()|| ColDownAll(m_Sky) || ColDownAll(m_Green)))
 	{
 		m_MoveDir += float4::Down * m_fGravity* _DeltaTime;
 
@@ -151,7 +151,7 @@ void CPlayer::Movecalculation(float _DeltaTime)
 
 
 	//디버깅용화면 출력 땅에 닿았는지 확인
-	if (ColDownAll())
+	if (ColDownAll() || ColDownAll(m_Sky) || ColDownAll(m_Green))
 	{
 		m_bGround = true;
 	}
@@ -272,12 +272,22 @@ void CPlayer::TestRender()
 }
 
 
-bool CPlayer::ColCurDown(int _R, int _G, int _B)
+bool CPlayer::ColCurDown(Color _Color)
 {
-	return ColCurDL(_R, _G, _B) || ColCurDR(_R, _G, _B);
+	return ColCurDL(_Color) || ColCurDR(_Color);
 }
 
-bool CPlayer::ColCurDownAll(int _R, int _G, int _B)
+void CPlayer::FloorCalibration()
+{
+	// 바닥에 박힌거 올리기
+	while ((ColCurDownAll()|| ColCurDownAll(m_Sky) || ColCurDownAll(m_Green)) && false == ColCurUpAll())
+	{
+		SetPos(GetPos() + float4::Up);
+		pPosUpdate();
+	}
+}
+
+bool CPlayer::ColCurDownAll(Color _Color)
 {
 	int iStart = pPos.fCurDLPos.ix();
 	int iEnd = pPos.fCurDRPos.ix() + 1;
@@ -286,7 +296,7 @@ bool CPlayer::ColCurDownAll(int _R, int _G, int _B)
 
 	for (;iStart < iEnd; ++iStart)
 	{		
-		if (RGB(_R, _G, _B) == m_pColImage->GetPixelColor(float4{ static_cast<float>(iStart),YPos }, RGB(_R, _G, _B)))
+		if (RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(float4{ static_cast<float>(iStart),YPos }, RGB(_Color.R, _Color.G, _Color.B)))
 		{
 			return true;
 		}
@@ -294,7 +304,7 @@ bool CPlayer::ColCurDownAll(int _R, int _G, int _B)
 	return false;
 }
 
-bool CPlayer::ColCurUpAll(int _R, int _G, int _B)
+bool CPlayer::ColCurUpAll(Color _Color)
 {
 	int iStart = pPos.fCurULPos.ix();
 	int iEnd = pPos.fCurURPos.ix() + 1;
@@ -303,7 +313,7 @@ bool CPlayer::ColCurUpAll(int _R, int _G, int _B)
 
 	for (; iStart < iEnd; ++iStart)
 	{
-		if (RGB(_R, _G, _B) == m_pColImage->GetPixelColor(float4{ static_cast<float>(iStart),YPos }, RGB(_R, _G, _B)))
+		if (RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(float4{ static_cast<float>(iStart),YPos }, RGB(_Color.R, _Color.G, _Color.B)))
 		{
 			return true;
 		}
@@ -311,87 +321,87 @@ bool CPlayer::ColCurUpAll(int _R, int _G, int _B)
 	return false;
 }
 
-bool CPlayer::ColLeftUp(int _R, int _G, int _B)
+bool CPlayer::ColLeftUp(Color _Color)
 {
-	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fLeftUpPos, RGB(_R, _G, _B));
+	return RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(pPos.fLeftUpPos, RGB(_Color.R, _Color.G, _Color.B));
 }
 
-bool CPlayer::ColRightUp(int _R, int _G, int _B)
+bool CPlayer::ColRightUp(Color _Color)
 {
-	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fRightUpPos, RGB(_R, _G, _B));
+	return RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(pPos.fRightUpPos, RGB(_Color.R, _Color.G, _Color.B));
 }
 
-bool CPlayer::ColLeftDown(int _R, int _G, int _B)
+bool CPlayer::ColLeftDown(Color _Color)
 {
-	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fLeftDownPos, RGB(_R, _G, _B));
+	return RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(pPos.fLeftDownPos, RGB(_Color.R, _Color.G, _Color.B));
 }
 
-bool CPlayer::ColDownR(int _R, int _G, int _B)
+bool CPlayer::ColDownR(Color _Color)
 {
-	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fDownRPos, RGB(_R, _G, _B));
+	return RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(pPos.fDownRPos, RGB(_Color.R, _Color.G, _Color.B));
 }
 
-bool CPlayer::ColDownL(int _R, int _G, int _B)
+bool CPlayer::ColDownL(Color _Color)
 {
-	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fDownLPos, RGB(_R, _G, _B));
-}
-
-
-bool CPlayer::ColCurDR(int _R, int _G, int _B)
-{
-	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fCurDRPos, RGB(_R, _G, _B));
-
-}
-
-bool CPlayer::ColCurDL(int _R, int _G, int _B)
-{
-	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fCurDLPos, RGB(_R, _G, _B));
+	return RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(pPos.fDownLPos, RGB(_Color.R, _Color.G, _Color.B));
 }
 
 
-bool CPlayer::ColCurUR(int _R, int _G, int _B)
+bool CPlayer::ColCurDR(Color _Color)
 {
-	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fCurURPos, RGB(_R, _G, _B));
+	return RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(pPos.fCurDRPos, RGB(_Color.R, _Color.G, _Color.B));
 
 }
 
-bool CPlayer::ColCurUL(int _R, int _G, int _B)
+bool CPlayer::ColCurDL(Color _Color)
 {
-	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fCurULPos, RGB(_R, _G, _B));
+	return RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(pPos.fCurDLPos, RGB(_Color.R, _Color.G, _Color.B));
 }
 
 
-bool CPlayer::ColUpR(int _R, int _G, int _B)
+bool CPlayer::ColCurUR(Color _Color)
 {
-	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fUpRPos, RGB(_R, _G, _B));
+	return RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(pPos.fCurURPos, RGB(_Color.R, _Color.G, _Color.B));
+
 }
 
-bool CPlayer::ColUpL(int _R, int _G, int _B)
+bool CPlayer::ColCurUL(Color _Color)
 {
-	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fUpLPos, RGB(_R, _G, _B));
+	return RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(pPos.fCurULPos, RGB(_Color.R, _Color.G, _Color.B));
 }
 
-bool CPlayer::ColRightDown(int _R, int _G, int _B)
+
+bool CPlayer::ColUpR(Color _Color)
 {
-	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fRightDownPos, RGB(_R, _G, _B));
+	return RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(pPos.fUpRPos, RGB(_Color.R, _Color.G, _Color.B));
 }
 
-bool CPlayer::ColLeftAll(int _R, int _G, int _B)
+bool CPlayer::ColUpL(Color _Color)
 {
-	return ColLeftUp(_R,_G,_B) || ColLeftDown(_R, _G, _B);
+	return RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(pPos.fUpLPos, RGB(_Color.R, _Color.G, _Color.B));
 }
 
-bool CPlayer::ColRightAll(int _R, int _G, int _B)
+bool CPlayer::ColRightDown(Color _Color)
 {
-	return ColRightUp(_R, _G, _B) || ColRightDown(_R, _G, _B);
+	return RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(pPos.fRightDownPos, RGB(_Color.R, _Color.G, _Color.B));
 }
 
-bool CPlayer::ColUpAll(int _R, int _G, int _B)
+bool CPlayer::ColLeftAll(Color _Color)
 {
-	return ColUpR(_R, _G, _B) || ColUpL(_R, _G, _B);
+	return ColLeftUp(_Color) || ColLeftDown(_Color);
 }
 
-bool CPlayer::ColDownAll(int _R, int _G, int _B)
+bool CPlayer::ColRightAll(Color _Color)
+{
+	return ColRightUp(_Color) || ColRightDown(_Color);
+}
+
+bool CPlayer::ColUpAll(Color _Color)
+{
+	return ColUpR(_Color) || ColUpL(_Color);
+}
+
+bool CPlayer::ColDownAll(Color _Color)
 {
 	int iStart = pPos.fDownLPos.ix();
 	int iEnd = pPos.fDownRPos.ix() + 1;
@@ -400,7 +410,7 @@ bool CPlayer::ColDownAll(int _R, int _G, int _B)
 
 	for (; iStart < iEnd; ++iStart)
 	{
-		if (RGB(_R, _G, _B) == m_pColImage->GetPixelColor(float4{ static_cast<float>(iStart),YPos }, RGB(_R, _G, _B)))
+		if (RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(float4{ static_cast<float>(iStart),YPos }, RGB(_Color.R, _Color.G, _Color.B)))
 		{
 			return true;
 		}
@@ -432,3 +442,4 @@ void CPlayer::pPosUpdate()
 
 	pPos.fCurULPos = PlayerPos + float4{ -20,-40 };
 	pPos.fCurURPos = PlayerPos + float4{ 20,0 };
+}
