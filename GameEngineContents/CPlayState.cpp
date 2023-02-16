@@ -101,10 +101,23 @@ void CPlayer::IdleUpdate(float _Time)
 		ChangeState(PlayerState::JUMP_READY);
 		return;
 	}
+
+	//왼쪽이 벽
+	if (ColLeftAll() && m_MoveDir.x < 0)
+	{
+		m_MoveDir.x = 0.f;
+	}
+
+	//오른쪽이 벽
+	if (ColRightAll() && m_MoveDir.x > 0)
+	{
+		m_MoveDir.x = 0.f;
+	}
+
 	// 얼음장판일시 서서히 줄이기
 	if (((false == GameEngineInput::IsPress("LeftMove") || false == GameEngineInput::IsPress("RightMove"))) && ColDownAll(m_Sky))
 	{
-		m_MoveDir.x += -(m_MoveDir.x*0.01);
+		//m_MoveDir.x += -(m_MoveDir.x*0.01);
 		return;
 	}
 
