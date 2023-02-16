@@ -18,25 +18,6 @@ const float4 float4::Null = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 std::vector<unsigned int> GameEngineMath::GetDigits(int _Value)
 {
-	// std::vector<unsigned int> ResultValue = std::vector<unsigned int>();
-
-	//if (0 == _Value)
-	//{
-	//	ResultValue.push_back(0);
-	//	return ResultValue;
-	//}
-
-	//int Lenth = GetLenth(_Value);
-	//ResultValue.resize(Lenth);
-
-	//int Value = _Value;
-	//int HighestDigitValue = 0;
-	//for (size_t i = 0; i < Lenth; i++)
-	//{
-	//	HighestDigitValue = Value / pow(10, Lenth - (1 + i));
-	//	ResultValue[i] = HighestDigitValue;
-	//	Value -= HighestDigitValue * pow(10, Lenth - (1 + i));
-	//}
 
 	std::vector<unsigned int> ResultValue = std::vector<unsigned int>();
 
