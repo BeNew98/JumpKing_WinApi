@@ -6,29 +6,36 @@ struct PlayerPos
 {
 	float4 fRightUpPos		= float4::Zero;
 	float4 fRightDownPos	= float4::Zero;
+
 	float4 fLeftUpPos		= float4::Zero;
 	float4 fLeftDownPos		= float4::Zero;
+
 	float4 fDownLPos		= float4::Zero;
 	float4 fDownRPos		= float4::Zero;
-	float4 fDownCPos		= float4::Zero;
+
 	float4 fUpLPos			= float4::Zero;
 	float4 fUpRPos			= float4::Zero;
-	float4 fCurLPos			= float4::Zero;
-	float4 fCurRPos			= float4::Zero;
-	float4 fCurCPos			= float4::Zero;
+
+	float4 fCurDLPos		= float4::Zero;
+	float4 fCurDRPos		= float4::Zero;
+
+	float4 fCurULPos		= float4::Zero;
+	float4 fCurURPos		= float4::Zero;
 
 	void operator +=(float4 _Pos)
 	{
-		fRightUpPos		+=_Pos;
-		fRightDownPos	+=_Pos;
-		fLeftUpPos		+=_Pos;
-		fLeftDownPos	+=_Pos;
-		fDownLPos		+=_Pos;
-		fDownRPos		+=_Pos;
-		fUpLPos			+=_Pos;
-		fUpRPos			+=_Pos;
-		fCurLPos	 += _Pos;
-		fCurRPos	 += _Pos;
+		fRightUpPos		+= _Pos;
+		fRightDownPos	+= _Pos;
+		fLeftUpPos		+= _Pos;
+		fLeftDownPos	+= _Pos;
+		fDownLPos		+= _Pos;
+		fDownRPos		+= _Pos;
+		fUpLPos			+= _Pos;
+		fUpRPos			+= _Pos;
+		fCurDLPos		+= _Pos;
+		fCurDRPos		+= _Pos;
+		fCurULPos		+= _Pos;
+		fCurURPos		+= _Pos;
 	}
 };
 
@@ -135,19 +142,29 @@ private:
 
 	bool ColLeftUp(int _R = 0, int _G = 0, int _B = 0);
 	bool ColRightUp(int _R = 0, int _G = 0, int _B = 0);
+
 	bool ColLeftDown(int _R = 0, int _G = 0, int _B = 0);
 	bool ColRightDown(int _R = 0, int _G = 0, int _B = 0);
+
 	bool ColDownR(int _R = 0, int _G = 0, int _B = 0);
 	bool ColDownL(int _R = 0, int _G = 0, int _B = 0);
-	bool ColCurR(int _R = 0, int _G = 0, int _B = 0);
-	bool ColCurL(int _R = 0, int _G = 0, int _B = 0);
+
+	bool ColCurDR(int _R = 0, int _G = 0, int _B = 0);
+	bool ColCurDL(int _R = 0, int _G = 0, int _B = 0);
+
+	bool ColCurUR(int _R = 0, int _G = 0, int _B = 0);
+	bool ColCurUL(int _R = 0, int _G = 0, int _B = 0);
+
 	bool ColUpR(int _R = 0, int _G = 0, int _B = 0);
 	bool ColUpL(int _R = 0, int _G = 0, int _B = 0);
+
 	bool ColLeftAll(int _R = 0, int _G = 0, int _B = 0);
 	bool ColRightAll(int _R = 0, int _G = 0, int _B = 0);
 	bool ColUpAll(int _R = 0, int _G = 0, int _B = 0);
 	bool ColDownAll(int _R = 0, int _G = 0, int _B = 0);
-	bool ColCurAll(int _R = 0, int _G = 0, int _B = 0);
-	bool ColCur(int _R = 0, int _G = 0, int _B = 0);
+	bool ColCurDownAll(int _R = 0, int _G = 0, int _B = 0);
+	bool ColCurUpAll(int _R = 0, int _G = 0, int _B = 0);
+
+	bool ColCurDown(int _R = 0, int _G = 0, int _B = 0);
 };
 

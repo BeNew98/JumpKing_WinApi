@@ -35,6 +35,10 @@ public:
 		CameraEffect = _EffectSetting;
 	}
 
+
+	void On() override;
+	void Off() override;
+
 	void SetMove(float4 _RenderPos);
 	void SetAlign(Align _Align);
 
@@ -43,6 +47,14 @@ public:
 	inline int GetValue()
 	{
 		return Value;
+	}
+
+	inline void SetNumOfDigits(int _Num) { // 랜더 할 숫자 길이 설정
+		NumOfDigits = _Num;
+	}
+
+	inline void ResetDigits() { // 숫자길이 리셋 (Value만큼 랜더)
+		SetNumOfDigits(-1);
 	}
 
 protected:
@@ -57,6 +69,8 @@ private:
 	Align AlignState = Align::Left;
 	bool Negative = false;
 
+	int NumOfDigits = -1; // 렌더할 숫자 길이
+
 	bool CameraEffect = false;
 
 	std::string_view ImageName = std::string_view();;
@@ -64,6 +78,9 @@ private:
 	std::string_view NegativeName = std::string_view();
 
 	std::vector<GameEngineRender*> NumberRenders = std::vector<GameEngineRender*>();
-	GameEngineRender* NegativeRender;
+	GameEngineRender* NegativeRender = nullptr;
+
+	void SetNumberRenders(size_t _Index, int _TransColor, float4 _Pos, const std::string_view& _ImageName, float4 _Scale, bool _CameraEffect, int _Frame = -1);
+
 };
 

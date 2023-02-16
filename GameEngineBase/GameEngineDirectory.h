@@ -3,6 +3,7 @@
 #include <vector>
 #include "GameEnginePath.h"
 // Ό³Έν :
+class GameEngineFile;
 class GameEngineDirectory
 {
 public:
@@ -26,6 +27,8 @@ public:
 	bool Move(const std::string_view& _String);
 
 	GameEnginePath GetPlusFileName(const std::string_view& _String);
+
+	std::vector<GameEngineFile> GetAllFile(const std::string_view& _Ext = "");
 
 protected:
 

@@ -272,20 +272,37 @@ void CPlayer::TestRender()
 }
 
 
-bool CPlayer::ColCur(int _R, int _G, int _B)
+bool CPlayer::ColCurDown(int _R, int _G, int _B)
 {
-	return ColCurL(_R, _G, _B) || ColCurR(_R, _G, _B);
+	return ColCurDL(_R, _G, _B) || ColCurDR(_R, _G, _B);
 }
 
-bool CPlayer::ColCurAll(int _R, int _G, int _B)
+bool CPlayer::ColCurDownAll(int _R, int _G, int _B)
 {
-	int iStart = pPos.fCurLPos.ix();
-	int iEnd = pPos.fCurRPos.ix() + 1;
-	float YPos = pPos.fCurLPos.y;
+	int iStart = pPos.fCurDLPos.ix();
+	int iEnd = pPos.fCurDRPos.ix() + 1;
+	float YPos = pPos.fCurDLPos.y;
 	bool Col = false;
 
 	for (;iStart < iEnd; ++iStart)
 	{		
+		if (RGB(_R, _G, _B) == m_pColImage->GetPixelColor(float4{ static_cast<float>(iStart),YPos }, RGB(_R, _G, _B)))
+		{
+			return true;
+		}
+	};
+	return false;
+}
+
+bool CPlayer::ColCurUpAll(int _R, int _G, int _B)
+{
+	int iStart = pPos.fCurULPos.ix();
+	int iEnd = pPos.fCurURPos.ix() + 1;
+	float YPos = pPos.fCurULPos.y;
+	bool Col = false;
+
+	for (; iStart < iEnd; ++iStart)
+	{
 		if (RGB(_R, _G, _B) == m_pColImage->GetPixelColor(float4{ static_cast<float>(iStart),YPos }, RGB(_R, _G, _B)))
 		{
 			return true;
@@ -320,15 +337,27 @@ bool CPlayer::ColDownL(int _R, int _G, int _B)
 }
 
 
-bool CPlayer::ColCurR(int _R, int _G, int _B)
+bool CPlayer::ColCurDR(int _R, int _G, int _B)
 {
-	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fCurRPos, RGB(_R, _G, _B));
+	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fCurDRPos, RGB(_R, _G, _B));
 
 }
 
-bool CPlayer::ColCurL(int _R, int _G, int _B)
+bool CPlayer::ColCurDL(int _R, int _G, int _B)
 {
-	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fCurLPos, RGB(_R, _G, _B));
+	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fCurDLPos, RGB(_R, _G, _B));
+}
+
+
+bool CPlayer::ColCurUR(int _R, int _G, int _B)
+{
+	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fCurURPos, RGB(_R, _G, _B));
+
+}
+
+bool CPlayer::ColCurUL(int _R, int _G, int _B)
+{
+	return RGB(_R, _G, _B) == m_pColImage->GetPixelColor(pPos.fCurULPos, RGB(_R, _G, _B));
 }
 
 
@@ -388,14 +417,18 @@ void CPlayer::pPosUpdate()
 	// 위 아래 오른쪽 왼쪽에 점을 한개씩 찍어서 픽셀체크에 필요한 좌표를 적용
 	pPos.fRightUpPos = PlayerPos + float4::Right + float4{ 20,-40 };
 	pPos.fRightDownPos = PlayerPos + float4::Right + float4{ 20,0 };
+
 	pPos.fLeftUpPos = PlayerPos + float4::Left + float4{ -20,-40 };
 	pPos.fLeftDownPos = PlayerPos + float4::Left + float4{ -20,0 };
+
 	pPos.fDownLPos = PlayerPos + float4::Down + float4{ -20,0 };
 	pPos.fDownRPos = PlayerPos + float4::Down + float4{ 20,0 };
-	pPos.fDownCPos = PlayerPos + float4::Down;
+
 	pPos.fUpLPos = PlayerPos + float4::Up + float4{ -20,-40 };
 	pPos.fUpRPos = PlayerPos + float4::Up + float4{ 20,-40 };
-	pPos.fCurLPos = PlayerPos + float4{ -20,0 };
-	pPos.fCurRPos = PlayerPos + float4{ 20,0 };
-	pPos.fCurCPos = PlayerPos;
-}
+
+	pPos.fCurDLPos = PlayerPos + float4{ -20,0 };
+	pPos.fCurDRPos = PlayerPos + float4{ 20,0 };
+
+	pPos.fCurULPos = PlayerPos + float4{ -20,-40 };
+	pPos.fCurURPos = PlayerPos + float4{ 20,0 };

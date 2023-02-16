@@ -5,6 +5,9 @@
 // Ό³Έν :
 class GameEnginePath
 {
+	friend class GameEngineFile;
+	friend class GameEngineDirectory;
+
 public:
 	// constrcuter destructer
 	GameEnginePath();

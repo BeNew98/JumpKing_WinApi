@@ -29,7 +29,7 @@ public:
 
 	void SetScale(float4 _Scale);
 	
-	void SetClickCallBack(void(*_ClickPtr)())
+	void SetClickCallBack(void(*_ClickPtr)(Button* _Btn))
 	{
 		ClickPtr = _ClickPtr;
 	}
@@ -67,6 +67,34 @@ public:
 		return ButtonCollision;
 	}
 
+	ButtonState GetState()
+	{
+		return State;
+	}
+
+	int GetHoverIndex()
+	{
+		return HoverIndex;
+	}
+
+	int GetReleaseIndex()
+	{
+		return ReleaseIndex;
+	}
+
+	int GetPressIndex()
+	{
+		return PressIndex;
+	}
+
+	void SetCollisionOrder(int _Order);
+
+	float4 GetScale()
+	{
+		return Scale;
+	}
+
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -76,7 +104,7 @@ private:
 	GameEngineCollision* ButtonCollision = nullptr;
 	int PointTargetGroup = 0;
 	CollisionType ButtonCollisionType = CollisionType::CT_Rect;
-	void(*ClickPtr)() = nullptr;
+	void(*ClickPtr)(Button* _Btn) = nullptr;
 
 	float4 Scale;
 	ButtonState State;

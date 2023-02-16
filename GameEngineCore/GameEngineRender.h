@@ -3,6 +3,13 @@
 #include <map>
 #include "GameEngineComponent.h"
 
+enum class TextAlign
+{
+	Left = TA_LEFT,
+	Right = TA_RIGHT,
+	Center = TA_CENTER
+};
+
 class FrameAnimationParameter
 {
 public:
@@ -22,11 +29,11 @@ public:
 // ¼³¸í :
 class GameEngineActor;
 class GameEngineLevel;
-
 class GameEngineRender : public GameEngineComponent
 {
 	friend GameEngineActor;
 	friend GameEngineLevel;
+
 public:
 	// constrcuter destructer
 	GameEngineRender();
@@ -38,14 +45,6 @@ public:
 	GameEngineRender& operator=(const GameEngineRender& _Other) = delete;
 	GameEngineRender& operator=(GameEngineRender&& _Other) noexcept = delete;
 
-	void SetImage(const std::string_view& _ImageName);
-
-	void SetImageToScaleToImage(const std::string_view& _ImageName);
-
-	void SetScaleToImage();
-
-	void SetFrame(int _Frame);
-
 	inline GameEngineImage* GetImage()
 	{
 		return Image;
@@ -56,7 +55,7 @@ public:
 		return Frame;
 	}
 
-	void SetTransColor(int _Color)
+	inline void SetTransColor(int _Color)
 	{
 		TransColor = _Color;
 	}
@@ -76,15 +75,32 @@ public:
 		SetEffectCamera(true);
 	}
 
+	inline int GetTextHeight()
+	{
+		return TextHeight;
+	}
+
+	inline void SetAlpha(int _Alpha)
+	{
+		Alpha = _Alpha;
+	}
+
+	void SetImage(const std::string_view& _ImageName);
+
+	void SetImageToScaleToImage(const std::string_view& _ImageName);
+
+	void SetScaleToImage();
+
+	void SetFrame(int _Frame);
+
 	bool IsAnimationEnd();
-	void CreateAnimation(const FrameAnimationParameter& _Parameter);
+	void CreateAnimation(const FrameAnimationParameter& _Paramter);
 	void ChangeAnimation(const std::string_view& _AnimationName, bool _ForceChange = false);
 
 	void SetOrder(int _Order) override;
 
-	void SetText(const std::string_view& _Text);
 
-protected:
+	void SetText(const std::string_view& _Text, const int _TextHeight = 20, const std::string_view& _TextType = "±¼¸²", const TextAlign _TextAlign = TextAlign::Center, const COLORREF _TextColor = RGB(0, 0, 0));
 
 private:
 	GameEngineImage* Image = nullptr;
@@ -93,7 +109,9 @@ private:
 	int TransColor = RGB(255, 0, 255);
 
 	int Frame = 0;
-	
+
+	int Alpha = 255;
+
 	void Render(float _DeltaTime);
 
 	void TextRender(float _DeltaTime);
@@ -126,7 +144,12 @@ private:
 	std::map<std::string, FrameAnimation> Animation;
 	FrameAnimation* CurrentAnimation = nullptr;
 
-	std::string RenderText;
+	std::string RenderText = std::string();
+	int TextHeight = 0;
+	std::string TextType = std::string();
+	TextAlign Align = TextAlign::Left;
+	COLORREF TextColor = RGB(0, 0, 0);
+
 
 };
 

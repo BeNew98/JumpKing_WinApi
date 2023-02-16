@@ -96,7 +96,7 @@ void CPlayer::IdleUpdate(float _Time)
 		//사선 충돌 계산
 
 		//사선을 감지
-		if ((ColCurAll(255, 0, 0) || ColCurAll(0, 0, 255)))
+		if ((ColCurDownAll(255, 0, 0) || ColCurDownAll(0, 0, 255)))
 		{
 			m_MoveDir.x *= 0.f;
 			m_iCollide = true;
@@ -104,7 +104,7 @@ void CPlayer::IdleUpdate(float _Time)
 
 
 			//빨간 픽셀이면 왼쪽으로
-			if (ColCurAll(255, 0, 0))
+			if (ColCurDownAll(255, 0, 0))
 			{
 				m_MoveDir.x += float4::Left.x * m_fJumpMoveLimit;
 
@@ -117,7 +117,7 @@ void CPlayer::IdleUpdate(float _Time)
 				return;
 			}
 			//파란 픽셀이면 오른쪽으로
-			else if (ColCurAll(0, 0, 255))
+			else if (ColCurDownAll(0, 0, 255))
 			{
 				m_MoveDir.x += float4::Right.x * m_fJumpMoveLimit;
 
@@ -350,7 +350,7 @@ void  CPlayer::JumpUpdate(float _Time)
 	}
 
 
-	if ((ColCurAll(255, 0, 0) || ColCurAll(0, 0, 255)))
+	if ((ColCurDownAll(255, 0, 0) || ColCurDownAll(0, 0, 255)))
 	{
 		m_MoveDir.x *= 0.f;
 		m_iCollide = true;
@@ -400,7 +400,7 @@ void CPlayer::DownUpdate(float _Time)
 		//사선 충돌 계산
 
 		//사선을 감지
-		if ((ColCurAll(255, 0, 0) || ColCurAll(0, 0, 255)))
+		if ((ColCurDownAll(255, 0, 0) || ColCurDownAll(0, 0, 255)))
 		{
 			m_MoveDir.x *= 0.f;
 			m_iCollide = true;
@@ -408,7 +408,7 @@ void CPlayer::DownUpdate(float _Time)
 
 
 			//빨간 픽셀이면 왼쪽으로
-			if (ColCurAll(255, 0, 0))
+			if (ColCurDownAll(255, 0, 0))
 			{
 				m_MoveDir.x += float4::Left.x * m_fJumpMoveLimit;
 
@@ -421,7 +421,7 @@ void CPlayer::DownUpdate(float _Time)
 				return;
 			}
 			//파란 픽셀이면 오른쪽으로
-			else if (ColCurAll(0, 0, 255))
+			else if (ColCurDownAll(0, 0, 255))
 			{
 				m_MoveDir.x += float4::Right.x * m_fJumpMoveLimit;
 

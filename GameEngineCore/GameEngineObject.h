@@ -26,16 +26,21 @@ public:
 		return nullptr != Parent ? ((true == ObjectDeath && Parent->IsDeath())&& true == Parent->IsUpdate()) : (ObjectUpdate && false == IsDeath());
 	}
 
-	void On()
+	void Death()
+	{
+		ObjectDeath = true;
+	}
+
+	virtual void On()
 	{
 		ObjectUpdate = true;
 	}
-	void Off()
+	virtual void Off()
 	{
 		ObjectUpdate = false;
 	}
 
-	void OnOffSwtich()
+	virtual void OnOffSwtich()
 	{
 		ObjectUpdate = !ObjectUpdate;
 	}

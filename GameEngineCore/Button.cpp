@@ -33,7 +33,11 @@ void Button::SetScale(float4 _Scale)
 {
 	Scale = _Scale;
 	ButtonCollision->SetScale(Scale);
-	// Render->SetScale(_Scale);
+}
+
+void Button::SetCollisionOrder(int _Order)
+{
+	ButtonCollision->SetOrder(_Order);
 }
 
 void Button::Update(float _DeltaTime)
@@ -44,7 +48,7 @@ void Button::Update(float _DeltaTime)
 	{
 		if (true == GameEngineInput::IsUp("EngineMouseLeft") && nullptr != ClickPtr)
 		{
-			ClickPtr();
+			ClickPtr(this);
 		}
 		else if (true == GameEngineInput::IsFree("EngineMouseLeft"))
 		{
