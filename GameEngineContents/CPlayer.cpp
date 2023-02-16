@@ -192,7 +192,7 @@ void CPlayer::Movecalculation(float _DeltaTime)
 	}
 
 
-	SetMove(m_MoveDir );
+	SetMove(m_MoveDir * _DeltaTime);
 }
 
 void CPlayer::ColRender()
