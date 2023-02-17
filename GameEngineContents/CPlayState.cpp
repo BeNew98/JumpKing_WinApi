@@ -488,7 +488,7 @@ void CPlayer::DownUpdate(float _Time)
 
 
 	//바닥에 안착시
-	if (ColDownAll() || ColDownAll(m_Sky) || ColDownAll(m_Green))
+	if (ColDownAll() || ColDownAll(m_Sky) || ColDownAll(m_Green)||false == ColUpAll())
 	{
 		// (점프시 최대 높이 - 내 현재 높이)가 화면 사이즈 절반보다 크다면 Fall로 전환
 		if (m_HighestPos.y - GetPos().y < -GameEngineWindow::GetScreenSize().hy())
