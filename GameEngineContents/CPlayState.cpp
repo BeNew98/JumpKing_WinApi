@@ -242,6 +242,8 @@ void  CPlayer::JumpStart()
 {
 	DirCheck("Jump");
 
+	Jump.PauseOff();
+
 	// 점프키 클릭 시간을 6단계로 나누어서 점프력 보정
 	if (m_fJumpPressTime <= 0.1f)
 	{

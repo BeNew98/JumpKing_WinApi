@@ -27,6 +27,8 @@ void CPlayer::Start()
 	GameEngineInput::CreateKey("RightMove", VK_RIGHT);
 	GameEngineInput::CreateKey("Jump", VK_SPACE);
 
+	Jump = GameEngineResources::GetInst().SoundPlayToControl("king_land.wav");
+	Jump.Stop();
 
 	m_pAnimationRender = CreateRender(RenderOrder::PLAYER);
 	

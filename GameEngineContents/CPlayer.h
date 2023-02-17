@@ -1,6 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
-#include <GameEnginePlatform/GameEngineImage.h>
+#include <GameEngineCore/GameEngineResources.h>
 
 struct Color
 {
@@ -105,6 +105,8 @@ private:
 	Color m_Blue					= { 0,0,255 };
 	Color m_Sky						= { 0,255,255 };
 	Color m_Black					= { 0,0,0 };
+
+	GameEngineSoundPlayer Jump;
 
 
 	std::string m_DirString			= "R_";
