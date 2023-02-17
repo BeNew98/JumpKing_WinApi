@@ -87,6 +87,40 @@ void CPlayer::IdleUpdate(float _Time)
 		return;
 	}
 
+	//빨간 픽셀이면 왼쪽으로
+	if (ColCurDownAll(m_Red))
+	{
+		m_MoveDir.x *= 0.f;
+		m_iCollide = true;
+		AnimChange("Collide");
+
+		m_MoveDir.x += float4::Left.x * m_fJumpMoveLimit;
+
+		if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
+		{
+			m_MoveDir.x = -m_fJumpMoveLimit;
+		}
+		m_MoveDir.y = -m_MoveDir.x;
+
+		return;
+	}
+	//파란 픽셀이면 오른쪽으로
+	else if (ColCurDownAll(m_Blue))
+	{
+		m_MoveDir.x *= 0.f;
+		m_iCollide = true;
+		AnimChange("Collide");
+
+		m_MoveDir.x += float4::Right.x * m_fJumpMoveLimit;
+
+		if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
+		{
+			m_MoveDir.x = m_fJumpMoveLimit;
+		}
+		m_MoveDir.y = m_MoveDir.x;
+
+		return;
+	}
 
 	//방향키 누르면 move로 전환
 	if (GameEngineInput::IsPress("LeftMove") || GameEngineInput::IsPress("RightMove"))
@@ -416,6 +450,37 @@ void CPlayer::DownStart()
 
 void CPlayer::DownUpdate(float _Time)
 {
+	FloorCalibration();
+
+	// 벽에 박힌거 빼기
+	while (ColCurDL() && false == ColCurDR())
+	{
+		SetPos(GetPos() + float4::Right);
+		pPosUpdate();
+	}
+
+	// 벽에 박힌거 빼기
+	while (ColCurDR() && false == ColCurDL())
+	{
+		SetPos(GetPos() + float4::Left);
+		pPosUpdate();
+	}
+
+	//오른쪽으로 하강중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
+	if (m_MoveDir.x > 0 && ColRightAll())
+	{
+		m_MoveDir.x *= -m_fRecoilCoeff;
+		m_iCollide = true;
+		AnimChange("Collide");
+	}
+
+	//왼쪽으로 하강중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
+	if (m_MoveDir.x < 0 && ColLeftAll())
+	{
+		m_MoveDir.x *= -m_fRecoilCoeff;
+		m_iCollide = true;
+		AnimChange("Collide");
+	}
 
 	//빨간 픽셀이면 왼쪽으로
 	if (ColCurDownAll(m_Red))
@@ -451,44 +516,13 @@ void CPlayer::DownUpdate(float _Time)
 
 		return;
 	}
+	
 
-
-	FloorCalibration();
-
-	// 벽에 박힌거 빼기
-	while (ColCurDL() && false == ColCurDR())
-	{
-		SetPos(GetPos() + float4::Right);
-		pPosUpdate();
-	}
-
-	// 벽에 박힌거 빼기
-	while (ColCurDR() && false == ColCurDL())
-	{
-		SetPos(GetPos() + float4::Left);
-		pPosUpdate();
-	}
-
-	//오른쪽으로 하강중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
-	if (m_MoveDir.x > 0 && ColRightAll())
-	{
-		m_MoveDir.x *= -m_fRecoilCoeff;
-		m_iCollide = true;
-		AnimChange("Collide");
-	}
-
-	//왼쪽으로 하강중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
-	if (m_MoveDir.x < 0 && ColLeftAll())
-	{
-		m_MoveDir.x *= -m_fRecoilCoeff;
-		m_iCollide = true;
-		AnimChange("Collide");
-	}
 
 
 
 	//바닥에 안착시
-	if (ColDownAll() || ColDownAll(m_Sky) || ColDownAll(m_Green)||false == ColUpAll())
+	if ((ColDownAll() || ColDownAll(m_Sky) || ColDownAll(m_Green)) && false == ColUpAll())
 	{
 		// (점프시 최대 높이 - 내 현재 높이)가 화면 사이즈 절반보다 크다면 Fall로 전환
 		if (m_HighestPos.y - GetPos().y < -GameEngineWindow::GetScreenSize().hy())
@@ -506,7 +540,6 @@ void CPlayer::DownUpdate(float _Time)
 			return;
 		}
 	}
-
 }
 void CPlayer::DownEnd()
 {
