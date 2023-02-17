@@ -306,6 +306,20 @@ void  CPlayer::JumpStart()
 
 void  CPlayer::JumpUpdate(float _Time)
 {
+	// 벽에 박힌거 빼기
+	while (ColCurDL() && false == ColCurDR())
+	{
+		SetPos(GetPos() + float4::Right);
+		pPosUpdate();
+	}
+
+	// 벽에 박힌거 빼기
+	while (ColCurDR() && false == ColCurDL())
+	{
+		SetPos(GetPos() + float4::Left);
+		pPosUpdate();
+	}
+
 	//오른쪽으로 점프중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x > 0 && ColRightAll())
 	{

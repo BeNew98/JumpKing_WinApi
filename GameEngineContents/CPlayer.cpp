@@ -421,7 +421,19 @@ bool CPlayer::ColRightAll(Color _Color)
 
 bool CPlayer::ColUpAll(Color _Color)
 {
-	return ColUpR(_Color) || ColUpL(_Color);
+	int iStart = pPos.fUpLPos.ix();
+	int iEnd = pPos.fUpRPos.ix() + 1;
+	float YPos = pPos.fUpLPos.y;
+	bool Col = false;
+
+	for (; iStart < iEnd; ++iStart)
+	{
+		if (RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(float4{ static_cast<float>(iStart),YPos }, RGB(_Color.R, _Color.G, _Color.B)))
+		{
+			return true;
+		}
+	};
+	return false;
 }
 
 bool CPlayer::ColDownAll(Color _Color)
