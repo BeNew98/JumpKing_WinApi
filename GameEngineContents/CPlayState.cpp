@@ -15,8 +15,8 @@ void CPlayer::ChangeState(PlayerState _State)
 
 	switch (NextState)
 	{
-	case PlayerState::IDLE:	
-		IdleStart();	
+	case PlayerState::IDLE:
+		IdleStart();
 		break;
 	case PlayerState::MOVE:
 		MoveStart();
@@ -85,14 +85,14 @@ void CPlayer::IdleUpdate(float _Time)
 	{
 		ChangeState(PlayerState::DOWN);
 		return;
-	}	
+	}
 
 
 	//방향키 누르면 move로 전환
 	if (GameEngineInput::IsPress("LeftMove") || GameEngineInput::IsPress("RightMove"))
 	{
 		ChangeState(PlayerState::MOVE);
-		return; 
+		return;
 	}
 
 	// 스페이스 누르면 jump ready로 전환
@@ -112,10 +112,10 @@ void CPlayer::IdleUpdate(float _Time)
 	if (ColRightAll() && m_MoveDir.x > 0)
 	{
 		m_MoveDir.x = 0.f;
-	}	
+	}
 
 	// 방향키 누르지 않았을때 x값 0으로 변경해서 바로 멈추기
-	if ((false == GameEngineInput::IsPress("LeftMove") || false == GameEngineInput::IsPress("RightMove"))&&false == ColDownAll(m_Sky))
+	if ((false == GameEngineInput::IsPress("LeftMove") || false == GameEngineInput::IsPress("RightMove")) && false == ColDownAll(m_Sky))
 	{
 		m_MoveDir.x = 0;
 		return;
@@ -194,7 +194,7 @@ void CPlayer::MoveUpdate(float _Time)
 	DirCheck("Move");
 }
 
-void CPlayer::MoveEnd() 
+void CPlayer::MoveEnd()
 {
 }
 
@@ -202,7 +202,7 @@ void CPlayer::MoveEnd()
 void CPlayer::JumpReadyStart()
 {
 	//jump가 준비중일때 x는 얼음 맵이 아니면 항상 0으로 전환
-	if (false==ColDownAll(m_Sky))
+	if (false == ColDownAll(m_Sky))
 	{
 		m_MoveDir.x = 0.0f;
 	}
@@ -212,7 +212,7 @@ void CPlayer::JumpReadyStart()
 }
 
 void CPlayer::JumpReadyUpdate(float _Time)
-{	
+{
 	//점프키를 누르고있을때 점프키 누른시간 체크
 	if (true == GameEngineInput::IsPress("Jump"))
 	{
@@ -233,7 +233,7 @@ void CPlayer::JumpReadyUpdate(float _Time)
 		return;
 	}
 }
-void CPlayer::JumpReadyEnd() 
+void CPlayer::JumpReadyEnd()
 {
 }
 
@@ -297,7 +297,7 @@ void  CPlayer::JumpStart()
 		{
 			m_MoveDir.x = -m_fJumpMoveLimit;
 		}
-		else 
+		else
 		{
 			m_MoveDir.x = m_fJumpMoveLimit;
 		}
@@ -330,7 +330,7 @@ void  CPlayer::JumpUpdate(float _Time)
 	}
 
 	// 위가 사선일때
-	
+
 	//빨간 픽셀이면 오른쪽으로 
 	if (ColCurUpAll(m_Red))
 	{
@@ -359,7 +359,7 @@ void  CPlayer::JumpUpdate(float _Time)
 
 		return;
 	}
-	
+
 
 	//위쪽이 충돌했을 시 y값 0으로 만들어서 바로 떨어뜨리기
 	if (ColCurUpAll())
@@ -400,7 +400,7 @@ void CPlayer::DownStart()
 
 void CPlayer::DownUpdate(float _Time)
 {
-	
+
 	//빨간 픽셀이면 왼쪽으로
 	if (ColCurDownAll(m_Red))
 	{
@@ -435,7 +435,7 @@ void CPlayer::DownUpdate(float _Time)
 
 		return;
 	}
-	
+
 
 	FloorCalibration();
 
@@ -467,12 +467,12 @@ void CPlayer::DownUpdate(float _Time)
 		m_MoveDir.x *= -m_fRecoilCoeff;
 		m_iCollide = true;
 		AnimChange("Collide");
-	}	
+	}
 
-	
+
 
 	//바닥에 안착시
-	if (ColDownAll()|| ColDownAll(m_Sky) || ColDownAll(m_Green))
+	if (ColDownAll() || ColDownAll(m_Sky) || ColDownAll(m_Green))
 	{
 		// (점프시 최대 높이 - 내 현재 높이)가 화면 사이즈 절반보다 크다면 Fall로 전환
 		if (m_HighestPos.y - GetPos().y < -GameEngineWindow::GetScreenSize().hy())
@@ -490,9 +490,9 @@ void CPlayer::DownUpdate(float _Time)
 			return;
 		}
 	}
-	
+
 }
-void CPlayer::DownEnd() 
+void CPlayer::DownEnd()
 {
 }
 
@@ -511,7 +511,7 @@ void CPlayer::FallUpdate(float _Time)
 
 	//녹다운시 1초뒤에 움직이는것이 가능
 	m_fKnockTime += _Time;
-	if (m_fKnockTime <1.f)
+	if (m_fKnockTime < 1.f)
 	{
 		return;
 	}
