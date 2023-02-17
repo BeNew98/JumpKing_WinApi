@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
+#include <GameEngineBase/GameEngineFile.h>
 
 #include "CPlayer.h"
 #include "CMidGround.h"
@@ -17,8 +18,24 @@ CPlayLevel::~CPlayLevel()
 {
 }
 
+void CPlayLevel::SoundLoad()
+{
+	GameEngineDirectory Dir;
+	Dir.MoveParentToDirectory("ContentsResources");
+	Dir.Move("ContentsResources");
+	Dir.Move("Sound");
+
+	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+
+	for (size_t i = 0; i < Files.size(); i++)
+	{
+		GameEngineResources::GetInst().SoundLoad(Files[i].GetFullPath());
+	}
+}
+
 void CPlayLevel::Loading()
 {	
+	SoundLoad();
 	GameEngineDirectory Dir;
 
 	Dir.MoveParentToDirectory("ContentsResources");
@@ -26,6 +43,7 @@ void CPlayLevel::Loading()
 	Dir.Move("Image");
 	Dir.Move("Play");
 
+	
 	GameEngineImage* pImage_L = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("L_basecut.bmp"));
 	pImage_L->Cut(4, 4);
 
