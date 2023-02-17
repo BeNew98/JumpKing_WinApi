@@ -340,19 +340,18 @@ void  CPlayer::JumpStart()
 
 void  CPlayer::JumpUpdate(float _Time)
 {
-	// 벽에 박힌거 빼기
-	while (ColCurDL() && false == ColCurDR())
+	while (ColCurUpAll() && false == ColCurDownAll())
 	{
-		SetPos(GetPos() + float4::Right);
+		SetPos(GetPos() + float4::Down);
 		pPosUpdate();
 	}
 
-	// 벽에 박힌거 빼기
-	while (ColCurDR() && false == ColCurDL())
+	if (ColUpAll())
 	{
-		SetPos(GetPos() + float4::Left);
-		pPosUpdate();
+		m_MoveDir.y = 0.f;
 	}
+
+	WallCalibration();
 
 	//오른쪽으로 점프중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x > 0 && ColRightAll())
@@ -411,12 +410,6 @@ void  CPlayer::JumpUpdate(float _Time)
 	}
 
 
-	//위쪽이 충돌했을 시 y값 0으로 만들어서 바로 떨어뜨리기
-	if (ColUpAll())
-	{
-		m_MoveDir.y = 0.f;
-	}
-
 	//점프중에 아래로 떨어지기 시작할시 down으로 전환
 	if (m_MoveDir.y >= 0)
 	{
@@ -452,19 +445,7 @@ void CPlayer::DownUpdate(float _Time)
 {
 	FloorCalibration();
 
-	// 벽에 박힌거 빼기
-	while (ColCurDL() && false == ColCurDR())
-	{
-		SetPos(GetPos() + float4::Right);
-		pPosUpdate();
-	}
-
-	// 벽에 박힌거 빼기
-	while (ColCurDR() && false == ColCurDL())
-	{
-		SetPos(GetPos() + float4::Left);
-		pPosUpdate();
-	}
+	WallCalibration();
 
 	//오른쪽으로 하강중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x > 0 && ColRightAll())

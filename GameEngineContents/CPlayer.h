@@ -184,5 +184,6 @@ private:
 	bool ColCurDown(Color _Color = {0,0,0});
 
 	void FloorCalibration();
+	void WallCalibration();
 };
 

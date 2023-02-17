@@ -310,6 +310,36 @@ void CPlayer::FloorCalibration()
 	}
 }
 
+void CPlayer::WallCalibration() 
+{
+	// º®¿¡ ¹ÚÈù°Å »©±â
+	while (ColCurDL() && false == ColCurDR())
+	{
+		SetPos(GetPos() + float4::Right);
+		pPosUpdate();
+	}
+
+	// º®¿¡ ¹ÚÈù°Å »©±â
+	while (ColCurDR() && false == ColCurDL())
+	{
+		SetPos(GetPos() + float4::Left);
+		pPosUpdate();
+	}
+
+	while (ColCurUL() && false == ColCurUR())
+	{
+		SetPos(GetPos() + float4::Right);
+		pPosUpdate();
+	}
+
+	// º®¿¡ ¹ÚÈù°Å »©±â
+	while (ColCurUR() && false == ColCurUL())
+	{
+		SetPos(GetPos() + float4::Left);
+		pPosUpdate();
+	}
+}
+
 bool CPlayer::ColCurDownAll(Color _Color)
 {
 	int iStart = pPos.fCurDLPos.ix();
