@@ -362,7 +362,7 @@ void  CPlayer::JumpUpdate(float _Time)
 
 
 	//위쪽이 충돌했을 시 y값 0으로 만들어서 바로 떨어뜨리기
-	if (ColCurUpAll())
+	if (ColUpAll())
 	{
 		m_MoveDir.y = 0.f;
 	}
