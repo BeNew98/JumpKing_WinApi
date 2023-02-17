@@ -312,6 +312,7 @@ void  CPlayer::JumpUpdate(float _Time)
 		m_MoveDir.x *= -m_fRecoilCoeff;
 		m_iCollide = true;
 		AnimChange("Collide");
+		return;
 	}
 	//왼쪽으로 점프중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x < 0 && ColLeftAll())
@@ -319,6 +320,7 @@ void  CPlayer::JumpUpdate(float _Time)
 		m_MoveDir.x *= -m_fRecoilCoeff;
 		m_iCollide = true;
 		AnimChange("Collide");
+		return;
 	}
 
 	//바닥이 사선일시 x값 0으로 해서 멈추게하기
