@@ -25,5 +25,7 @@ protected:
 private:
 	int m_iMapNumber = 0;
 	void SoundLoad();
+	void ImageLoad();
+	void KeyLoad();
 };
 

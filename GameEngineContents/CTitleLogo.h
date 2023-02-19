@@ -2,7 +2,6 @@
 #include <GameEngineCore/GameEngineActor.h>
 
 // Ό³Έν :
-
 class CTitleLogo : public GameEngineActor
 {
 public:
@@ -18,6 +17,7 @@ public:
 
 protected:
 	void Start() override;
+
 private:
 
 };

@@ -14,8 +14,5 @@ CBackGround::~CBackGround()
 
 void CBackGround::Start()
 {
-	GameEngineRender* pRender = CreateRender("title_logo.bmp", RenderOrder::BACKGROUND);
-	pRender->SetPosition({ GameEngineWindow::GetScreenSize().half() });
-	pRender->SetScale({ 784,222 });
 }
 

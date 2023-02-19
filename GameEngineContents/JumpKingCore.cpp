@@ -16,9 +16,9 @@ void JumpKingCore::Start()
 {
 	GameEngineWindow::SettingWindowSize({ 960, 720 });
 
-	CreateLevel<CPlayLevel>("Play");
 	CreateLevel<CTitleLevel>("Title");
-	ChangeLevel("Play");
+	CreateLevel<CPlayLevel>("Play");
+	ChangeLevel("Title");
 }
 
 void JumpKingCore::Update()

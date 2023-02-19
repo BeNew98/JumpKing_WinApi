@@ -15,10 +15,11 @@ public:
 	CBackGround(CBackGround&& _Other) noexcept = delete;
 	CBackGround& operator=(const CBackGround& _Other) = delete;
 	CBackGround& operator=(CBackGround&& _Other) noexcept = delete;
-
+	
 protected:
-	void Start() override;
-private:
 
+	void Start() override;
+
+private:
 };
 

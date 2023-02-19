@@ -8,6 +8,8 @@
 
 #include "CPlayer.h"
 #include "CMidGround.h"
+#include "CBackGround.h"
+#include "CForeGround.h"
 #include "EnumHeader.h"
 
 CPlayLevel::CPlayLevel() 
@@ -33,9 +35,8 @@ void CPlayLevel::SoundLoad()
 	}
 }
 
-void CPlayLevel::Loading()
-{	
-	SoundLoad();
+void CPlayLevel::ImageLoad()
+{
 	GameEngineDirectory Dir;
 
 	Dir.MoveParentToDirectory("ContentsResources");
@@ -43,39 +44,52 @@ void CPlayLevel::Loading()
 	Dir.Move("Image");
 	Dir.Move("Play");
 
-	
-	GameEngineImage* pImage_L = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("L_basecut.bmp"));
+	GameEngineImage* pImage_L = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("L_basecut.bmp").GetPathToString());
 	pImage_L->Cut(4, 4);
 
 
-	GameEngineImage* pImage_R = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("R_basecut.bmp"));
+	GameEngineImage* pImage_R = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("R_basecut.bmp").GetPathToString());
 	pImage_R->Cut(4, 4);
 
+
+	Dir.MoveParentToDirectory("ContentsResources");
+	Dir.Move("ContentsResources");
+	Dir.Move("Image");
+	Dir.Move("Play");
+	Dir.Move("MidGround");
+
+	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	for (size_t i = 0; i < Files.size(); i++)
 	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ColMap.bmp"));
-	}
+		GameEngineResources::GetInst().ImageLoad(Files[i].GetFullPath());
+	}	
+
+	Dir.MoveParentToDirectory("ContentsResources");
+	Dir.Move("ContentsResources");
+	Dir.Move("Image");
+	Dir.Move("Play");
+	Dir.Move("ForeGround");
+
+	Files = Dir.GetAllFile();
+	for (size_t i = 0; i < Files.size(); i++)
 	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AllMap1_10.bmp"));
-	}
-	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AllMap11_20.bmp"));
-	}
-	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AllMap21_30.bmp"));
-	}
-	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AllMap31_40.bmp"));
-	}
-	{
-		GameEngineImage* pMidGround_col = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AllMap41_43.bmp"));
+		GameEngineResources::GetInst().ImageLoad(Files[i].GetFullPath());
 	}
 
-	CMidGround* pMidGround = CreateActor<CMidGround>();
-	CPlayer* pActor = CreateActor<CPlayer>();
+	Dir.MoveParentToDirectory("ContentsResources");
+	Dir.Move("ContentsResources");
+	Dir.Move("Image");
+	Dir.Move("Play");
+	Dir.Move("BackGround");
 
-	//pActor->SetPos(float4{ 841,3934 });
-	pActor->SetPos(float4{ CMidGround::m_MapSize.hx(),CMidGround::m_MapSize.y - 70 });
-	
+	Files = Dir.GetAllFile();
+	for (size_t i = 0; i < Files.size(); i++)
+	{
+		GameEngineResources::GetInst().ImageLoad(Files[i].GetFullPath());
+	}
+}
+void CPlayLevel::KeyLoad()
+{
 	if (false == GameEngineInput::IsKey("DebugRenderSwitch"))
 	{
 		GameEngineInput::CreateKey("DebugRenderSwitch", 'R');
@@ -115,6 +129,21 @@ void CPlayLevel::Loading()
 	{
 		GameEngineInput::CreateKey("Number2", '2');
 	}
+}
+void CPlayLevel::Loading()
+{	
+	SoundLoad();
+	ImageLoad();
+	KeyLoad();
+
+	CMidGround* pMidGround = CreateActor<CMidGround>();
+	CBackGround* pBackGround = CreateActor<CBackGround>();
+	CForeGround* pForeGround = CreateActor<CForeGround>();
+	CPlayer* pActor = CreateActor<CPlayer>();
+
+	//pActor->SetPos(float4{ 841,3934 });
+	pActor->SetPos(float4{ CMidGround::m_MapSize.hx(),CMidGround::m_MapSize.y - 70 });
+	
 }
 
 void CPlayLevel::Update(float _DeltaTime)

@@ -9,13 +9,19 @@
     <ClInclude Include="CTitleLevel.h">
       <Filter>TitleLevel</Filter>
     </ClInclude>
-    <ClInclude Include="CBackGround.h">
-      <Filter>TitleLevel</Filter>
-    </ClInclude>
     <ClInclude Include="CPlayer.h">
       <Filter>PlayLevel</Filter>
     </ClInclude>
     <ClInclude Include="CMidGround.h">
+      <Filter>PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CTitleLogo.h">
+      <Filter>TitleLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CBackGround.h">
+      <Filter>PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CForeGround.h">
       <Filter>PlayLevel</Filter>
     </ClInclude>
   </ItemGroup>
@@ -27,9 +33,6 @@
     <ClCompile Include="CTitleLevel.cpp">
       <Filter>TitleLevel</Filter>
     </ClCompile>
-    <ClCompile Include="CBackGround.cpp">
-      <Filter>TitleLevel</Filter>
-    </ClCompile>
     <ClCompile Include="CPlayer.cpp">
       <Filter>PlayLevel</Filter>
     </ClCompile>
@@ -37,6 +40,15 @@
       <Filter>PlayLevel</Filter>
     </ClCompile>
     <ClCompile Include="CMidGround.cpp">
+      <Filter>PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CTitleLogo.cpp">
+      <Filter>TitleLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CBackGround.cpp">
+      <Filter>PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CForeGround.cpp">
       <Filter>PlayLevel</Filter>
     </ClCompile>
   </ItemGroup>

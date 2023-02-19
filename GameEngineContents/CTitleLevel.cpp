@@ -5,6 +5,7 @@
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 
+#include "CTitleLogo.h"
 #include "CBackGround.h"
 
 CTitleLevel::CTitleLevel() 
@@ -26,7 +27,7 @@ void CTitleLevel::Loading()
 	GameEngineImage* pImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("title_logo.bmp"));
 
 
-	CreateActor<CBackGround>();
+	CreateActor<CTitleLogo>();
 }
 
 void CTitleLevel::Update(float _DeltaTime)
@@ -35,5 +36,7 @@ void CTitleLevel::Update(float _DeltaTime)
 	{
 		GameEngineCore::GetInst()->ChangeLevel("Play");
 	}
+
+
 }
 

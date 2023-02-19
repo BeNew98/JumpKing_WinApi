@@ -5,8 +5,8 @@ enum class RenderOrder
 	COLLIDEMAP,// 삭제예정
 
 	BACKGROUND,
-	FOREGROUND,
 	MIDGROUND,
+	FOREGROUND,
 	DEBUG, // 삭제예정
 	PLAYER,
 	MONSTER,

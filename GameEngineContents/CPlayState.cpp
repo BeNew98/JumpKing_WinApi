@@ -311,7 +311,7 @@ void  CPlayer::JumpUpdate(float _Time)
 		pPosUpdate();
 	}
 
-	if (ColUpAll())
+	if (ColUpAll() && false == ColCurDownAll())
 	{
 		m_MoveDir.y = 0.f;
 	}
