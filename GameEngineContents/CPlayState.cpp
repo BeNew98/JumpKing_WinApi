@@ -212,6 +212,12 @@ void CPlayer::JumpReadyStart()
 
 void CPlayer::JumpReadyUpdate(float _Time)
 {
+	if (m_MoveDir.y > 0)
+	{
+		ChangeState(PlayerState::DOWN);
+		return;
+	}
+
 	//점프키를 누르고있을때 점프키 누른시간 체크
 	if (true == GameEngineInput::IsPress("Jump"))
 	{
@@ -231,6 +237,7 @@ void CPlayer::JumpReadyUpdate(float _Time)
 		ChangeState(PlayerState::JUMP);
 		return;
 	}
+
 }
 void CPlayer::JumpReadyEnd()
 {
