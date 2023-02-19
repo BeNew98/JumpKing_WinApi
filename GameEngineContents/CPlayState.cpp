@@ -87,41 +87,6 @@ void CPlayer::IdleUpdate(float _Time)
 		return;
 	}
 
-	//빨간 픽셀이면 왼쪽으로
-	if (ColCurDownAll(m_Red))
-	{
-		m_MoveDir.x *= 0.f;
-		m_iCollide = true;
-		AnimChange("Collide");
-
-		m_MoveDir.x += float4::Left.x * m_fJumpMoveLimit;
-
-		if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
-		{
-			m_MoveDir.x = -m_fJumpMoveLimit;
-		}
-		m_MoveDir.y = -m_MoveDir.x;
-
-		return;
-	}
-	//파란 픽셀이면 오른쪽으로
-	else if (ColCurDownAll(m_Blue))
-	{
-		m_MoveDir.x *= 0.f;
-		m_iCollide = true;
-		AnimChange("Collide");
-
-		m_MoveDir.x += float4::Right.x * m_fJumpMoveLimit;
-
-		if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
-		{
-			m_MoveDir.x = m_fJumpMoveLimit;
-		}
-		m_MoveDir.y = m_MoveDir.x;
-
-		return;
-	}
-
 	//방향키 누르면 move로 전환
 	if (GameEngineInput::IsPress("LeftMove") || GameEngineInput::IsPress("RightMove"))
 	{
@@ -196,12 +161,12 @@ void CPlayer::MoveUpdate(float _Time)
 	}
 
 	//왼쪽 방향키를 눌렀으면서 왼쪽 벽 체크해서 true시 x값 0으로 못가게하기
-	if ((true == GameEngineInput::IsPress("LeftMove") && ColLeftAll() && m_MoveDir.x < 0))
+	if ((true == GameEngineInput::IsPress("LeftMove") && (ColLeftAll() || ColLeftAll(m_Red) || ColLeftAll(m_Blue)) && m_MoveDir.x < 0))
 	{
 		m_MoveDir.x = 0.f;
 	}
 	//오른쪽 방향키를 눌렀으면서 오른쪽 벽 체크해서 true시 x값 0으로 못가게하기
-	if ((true == GameEngineInput::IsPress("RightMove") && ColRightAll() && m_MoveDir.x > 0))
+	if ((true == GameEngineInput::IsPress("RightMove") && (ColRightAll() || ColRightAll(m_Red) || ColRightAll(m_Blue)) && m_MoveDir.x > 0))
 	{
 		m_MoveDir.x = 0.f;
 	}
