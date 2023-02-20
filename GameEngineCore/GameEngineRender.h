@@ -85,6 +85,11 @@ public:
 		Alpha = _Alpha;
 	}
 
+	inline void SetTextBoxScale(float4 _TextBoxScale)
+	{
+		TextBoxScale = _TextBoxScale;
+	}
+
 	void SetImage(const std::string_view& _ImageName);
 
 	void SetImageToScaleToImage(const std::string_view& _ImageName);
@@ -100,7 +105,7 @@ public:
 	void SetOrder(int _Order) override;
 
 
-	void SetText(const std::string_view& _Text, const int _TextHeight = 20, const std::string_view& _TextType = "±¼¸²", const TextAlign _TextAlign = TextAlign::Center, const COLORREF _TextColor = RGB(0, 0, 0));
+	void SetText(const std::string_view& _Text, const int _TextHeight = 20, const std::string_view& _TextType = "±¼¸²", const TextAlign _TextAlign = TextAlign::Center, const COLORREF _TextColor = RGB(0, 0, 0), float4 TextBoxScale = float4::Zero);
 
 private:
 	GameEngineImage* Image = nullptr;
@@ -149,7 +154,7 @@ private:
 	std::string TextType = std::string();
 	TextAlign Align = TextAlign::Left;
 	COLORREF TextColor = RGB(0, 0, 0);
-
+	float4 TextBoxScale;
 
 };
 

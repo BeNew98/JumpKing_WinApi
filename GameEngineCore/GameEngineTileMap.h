@@ -22,11 +22,19 @@ public:
 
 	void SetTileFrame(int _ZIndex, float4 _Pos, int _ImageFrame);
 
+	void SetTileFrame(int _ZIndex, int _X, int _Y, int _ImageFrame);
+
+	float4 ConvertIndexToTilePosition(float4 Pos);
+
+	float4 ConvertIndexToTilePosition(int _X, int _Y);
+
 	int GetTileFrame(int _ZIndex, float4 _Pos);
 
 	GameEngineRender* GetTile(int _ZIndex, float4 _Pos);
 
 	bool IsValidIndex(int _Z, int _Y, int _X);
+
+	float4 GetIndex(float4 _Pos);
 
 protected:
 

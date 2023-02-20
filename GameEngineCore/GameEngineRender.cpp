@@ -60,13 +60,14 @@ void GameEngineRender::SetOrder(int _Order)
 	GetActor()->GetLevel()->PushRender(this,_Order);
 }
 
-void GameEngineRender::SetText(const std::string_view& _Text, const int _TextHeight, const std::string_view& _TextType, const TextAlign _TextAlign, const COLORREF _TextColor)
+void GameEngineRender::SetText(const std::string_view& _Text, const int _TextHeight, const std::string_view& _TextType, const TextAlign _TextAlign, const COLORREF _TextColor, float4 _TextBoxScale)
 {
 	RenderText = _Text;
 	TextHeight = _TextHeight;
 	TextType = _TextType;
 	Align = _TextAlign;
 	TextColor = _TextColor;
+	TextBoxScale = _TextBoxScale;
 }
 
 void GameEngineRender::Render(float _DeltaTime)
@@ -117,7 +118,17 @@ void GameEngineRender::TextRender(float _DeltaTime)
 	SetTextColor(hdc, TextColor);
 	SetBkMode(hdc, TRANSPARENT);
 
-	TextOutA(GameEngineWindow::GetDoubleBufferImage()->GetImageDC(), RenderPos.ix(), RenderPos.iy(), RenderText.c_str(), static_cast<int>(RenderText.size()));
+	RECT Rect;
+	Rect.left = RenderPos.ix();
+	Rect.top = RenderPos.iy();
+	Rect.right = RenderPos.ix() + TextBoxScale.ix();
+	Rect.bottom = RenderPos.iy() + TextBoxScale.iy();
+
+	DrawTextA(GameEngineWindow::GetDoubleBufferImage()->GetImageDC(), RenderText.c_str(), static_cast<int>(RenderText.size()), &Rect, DT_LEFT);
+
+
+	// TextOutA(GameEngineWindow::GetDoubleBufferImage()->GetImageDC(), RenderPos.ix(), RenderPos.iy(), RenderText.c_str(), static_cast<int>(RenderText.size()));
+
 
 	SelectObject(hdc, OldFont);
 	DeleteObject(hFont);

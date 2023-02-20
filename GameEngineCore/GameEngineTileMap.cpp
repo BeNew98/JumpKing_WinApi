@@ -95,16 +95,19 @@ void GameEngineTileMap::SetFloorSetting(int _ZIndex, const std::string_view& _Im
 void GameEngineTileMap::SetTileFrame(int _ZIndex, float4 _Pos, int _ImageFrame)
 {
 
-    float4 Index = _Pos;
-    Index.x /= TileScale.x;
-    Index.y /= TileScale.y;
+    float4 Index = GetIndex(_Pos);
 
-    IsValidIndex(_ZIndex, Index.iy(), Index.ix());
+    SetTileFrame(_ZIndex, Index.ix(), Index.iy(), _ImageFrame);
+}
+
+void GameEngineTileMap::SetTileFrame(int _ZIndex, int _X, int _Y, int _ImageFrame)
+{
+    IsValidIndex(_ZIndex, _Y, _X);
 
     std::vector<std::vector<GameEngineRender*>>& FloorRenders = TileRenders[_ZIndex];
 
     // ĳĪ
-    GameEngineRender* TileRender = FloorRenders[Index.iy()][Index.ix()];
+    GameEngineRender* TileRender = FloorRenders[_Y][_X];
 
     TileRender->On();
     TileRender->SetFrame(_ImageFrame);
@@ -112,12 +115,21 @@ void GameEngineTileMap::SetTileFrame(int _ZIndex, float4 _Pos, int _ImageFrame)
     return;
 }
 
+float4 GameEngineTileMap::ConvertIndexToTilePosition(float4 _Pos)
+{
+    float4 Index = GetIndex(_Pos);
+    return ConvertIndexToTilePosition(Index.ix(), Index.iy());
+}
+
+float4 GameEngineTileMap::ConvertIndexToTilePosition(int _X, int _Y)
+{
+    return float4(_X * TileScale.x + TileScale.hx(), _Y * TileScale.y + TileScale.hy(), 0.0f, 0.0f) + GetPos();
+}
+
 int GameEngineTileMap::GetTileFrame(int _ZIndex, float4 _Pos)
 {
+    float4 Index = GetIndex(_Pos);
 
-    float4 Index = _Pos;
-    Index.x /= TileScale.x;
-    Index.y /= TileScale.y;
 
     IsValidIndex(_ZIndex, Index.iy(), Index.ix());
 
@@ -156,11 +168,18 @@ bool GameEngineTileMap::IsValidIndex(int _Z, int _Y, int _X)
     return true;
 }
 
-GameEngineRender* GameEngineTileMap::GetTile(int _ZIndex, float4 _Pos)
+float4 GameEngineTileMap::GetIndex(float4 _Pos)
 {
-    float4 Index = _Pos;
+    float4 Index = _Pos - GetPos();
     Index.x /= TileScale.x;
     Index.y /= TileScale.y;
+
+    return Index;
+}
+
+GameEngineRender* GameEngineTileMap::GetTile(int _ZIndex, float4 _Pos)
+{
+    float4 Index = GetIndex(_Pos);
 
     IsValidIndex(_ZIndex, Index.iy(), Index.ix());
 
