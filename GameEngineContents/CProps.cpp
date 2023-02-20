@@ -60,12 +60,5 @@ void CProps::Start()
 		//AnimationRender->SetScale(float4(ImgScale.x / 2 , ImgScale.y / 2 ));
 		AnimationRender->CreateAnimation({ .AnimationName = "Candle",.ImageName = "Candle.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.1f });
 	}
-}
 
-void CProps::Update(float _DeltaTime)
-{
-	size_t CutCount = AnimationRender->GetImage()->GetImageCuttingCount();
-	AnimationRender->SetScaleToImage();
-	AnimationRender->SetScale({ AnimationRender->GetScale().x / CutCount,AnimationRender->GetScale().y / CutCount });
 }
-

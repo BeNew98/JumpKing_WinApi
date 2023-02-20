@@ -28,6 +28,7 @@ void CPlayLevel::SoundLoad()
 	Dir.MoveParentToDirectory("ContentsResources");
 	Dir.Move("ContentsResources");
 	Dir.Move("Sound");
+	Dir.Move("jump_king");
 
 	std::vector<GameEngineFile> Files = Dir.GetAllFile();
 
@@ -182,8 +183,11 @@ void CPlayLevel::Update(float _DeltaTime)
 		DebugRenderSwitch(); 
 		GameEngineCore::GetInst()->DebugSwitch();
 	}	
+
 	if (GameEngineCore::GetInst()->IsDebug())
 	{
+		GameEngineInput::MouseCursorOn();
+
 		if (GameEngineInput::IsDown("PlayerSetOn"))
 		{
 			CPlayer::MainPlayer->SetPos(GetMousePosToCamera());
@@ -222,6 +226,7 @@ void CPlayLevel::Update(float _DeltaTime)
 	}
 	else
 	{
+		GameEngineInput::MouseCursorOff();
 		float4 fPlayerPos = CPlayer::MainPlayer->GetPos();
 		m_iMapNumber = fPlayerPos.iy()/ GameEngineWindow::GetScreenSize().iy();
 		SetCameraPos(float4{ 0,(m_iMapNumber * GameEngineWindow::GetScreenSize().y) });

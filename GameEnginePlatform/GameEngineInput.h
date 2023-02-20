@@ -53,6 +53,8 @@ public:
 
 	static void MouseCursorOff();
 
+	static void MouseCursorOn();
+
 	static bool IsAnyKey()
 	{
 		return IsAnyKeyValue;
@@ -61,12 +63,15 @@ public:
 protected:
 
 private:
+	static bool CursorSwitch;
+
 	// constrcuter destructer
 	GameEngineInput();
 	~GameEngineInput();
 
 	static std::map<std::string, GameEngineKey> Keys;
 	static bool IsAnyKeyValue;
+	
 
 	static void IsAnyKeyOn()
 	{

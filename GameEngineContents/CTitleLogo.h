@@ -16,9 +16,12 @@ public:
 	CTitleLogo& operator=(CTitleLogo&& _Other) noexcept = delete;
 
 protected:
-	void Start() override;
+	virtual void Start() override;
+	virtual void Update(float _Deltatime) override;
 
 private:
-
+	float MoveSpeed = 10.f;
+	GameEngineRender* pLogoRender = nullptr;
+	GameEngineRender* pBlackScreenRender = nullptr;
 };
 

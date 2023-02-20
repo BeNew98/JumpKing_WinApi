@@ -155,3 +155,8 @@ void GameEngineInput::MouseCursorOff()
 {
 	ShowCursor(FALSE);
 }
+
+void GameEngineInput::MouseCursorOn()
+{
+	ShowCursor(TRUE);
+}

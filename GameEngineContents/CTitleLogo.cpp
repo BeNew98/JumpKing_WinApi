@@ -16,9 +16,23 @@ CTitleLogo::~CTitleLogo()
 
 void CTitleLogo::Start()
 {
-	GameEngineRender* pRender = CreateRender("title_logo.bmp", RenderOrder::BACKGROUND);
-	pRender->SetPosition({ GameEngineWindow::GetScreenSize().half() });
-	pRender->SetScale({ 784,222 });
-	
+	pLogoRender = CreateRender("title_logo.bmp", RenderOrder::MIDGROUND);
+	pLogoRender->SetPosition({ GameEngineWindow::GetScreenSize().half() });
+	pLogoRender->SetScale({ 784,222 });
+	pLogoRender->SetMove({ 0,-pLogoRender->GetScale().hy() });
+
+	pBlackScreenRender = CreateRender("BlackScreen.bmp", RenderOrder::BACKGROUND);
+	pBlackScreenRender->SetPosition({ GameEngineWindow::GetScreenSize().half() });
+	pBlackScreenRender->SetScaleToImage();
+}
+
+void CTitleLogo::Update(float _Deltatime)
+{
+	pLogoRender->SetMove(float4::Up * MoveSpeed * _Deltatime);
+
+	if (214 == pLogoRender->GetPosition().iy())
+	{
+		MoveSpeed = 0.f;
+	}
 }
 
