@@ -5,9 +5,9 @@
 
 enum class TextAlign
 {
-	Left = TA_LEFT,
-	Right = TA_RIGHT,
-	Center = TA_CENTER
+	Left = DT_LEFT,
+	Right = DT_RIGHT,
+	Center = DT_CENTER
 };
 
 class FrameAnimationParameter
