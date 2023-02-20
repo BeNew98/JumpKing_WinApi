@@ -20,6 +20,7 @@ void GameEngineRender::SetImage(const std::string_view& _ImageName)
 	//SetScaleToImage();
 }
 
+
 void GameEngineRender::SetImageToScaleToImage(const std::string_view& _ImageName)
 {
 	Image = GameEngineResources::GetInst().ImageFind(_ImageName);

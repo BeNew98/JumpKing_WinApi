@@ -10,7 +10,9 @@
 #include "CMidGround.h"
 #include "CBackGround.h"
 #include "CForeGround.h"
+#include "CProps.h"
 #include "EnumHeader.h"
+
 
 CPlayLevel::CPlayLevel() 
 {
@@ -87,6 +89,24 @@ void CPlayLevel::ImageLoad()
 	{
 		GameEngineResources::GetInst().ImageLoad(Files[i].GetFullPath());
 	}
+
+	Dir.MoveParentToDirectory("ContentsResources");
+	Dir.Move("ContentsResources");
+	Dir.Move("Image");
+	Dir.Move("Play");
+	Dir.Move("Props");
+
+	GameEngineImage* pR_Flag = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("R_Flag.bmp").GetPathToString());
+	pR_Flag->Cut(2, 5);
+
+	GameEngineImage* pL_Flag = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("L_Flag.bmp").GetPathToString());
+	pL_Flag->Cut(2, 5);
+
+	GameEngineImage* pCandle = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Candle.bmp").GetPathToString());
+	pCandle->Cut(2, 2);
+
+	GameEngineImage* pBonfire = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Bonfire.bmp").GetPathToString());
+	pBonfire->Cut(1, 3);
 }
 void CPlayLevel::KeyLoad()
 {
@@ -139,6 +159,15 @@ void CPlayLevel::Loading()
 	CMidGround* pMidGround = CreateActor<CMidGround>();
 	CBackGround* pBackGround = CreateActor<CBackGround>();
 	CForeGround* pForeGround = CreateActor<CForeGround>();
+	CProps* pProps0 = CreateActor<CProps>();
+	pProps0->AnimChange("R_Flag");
+	pProps0->SetPos({ 201, 13085 });
+
+	CProps* pProps1= CreateActor<CProps>();
+	pProps1->AnimChange("R_Flag");
+	pProps1->SetPos({ 486, 13154 });
+
+
 	CPlayer* pActor = CreateActor<CPlayer>();
 
 	//pActor->SetPos(float4{ 841,3934 });

@@ -27,8 +27,8 @@ void CPlayer::Start()
 	GameEngineInput::CreateKey("RightMove", VK_RIGHT);
 	GameEngineInput::CreateKey("Jump", VK_SPACE);
 
-	Jump = GameEngineResources::GetInst().SoundPlayToControl("king_land.wav");
-	Jump.Stop();
+	//Jump = GameEngineResources::GetInst().SoundPlayToControl("king_land.wav");
+	//Jump.Stop();
 
 	m_pAnimationRender = CreateRender(RenderOrder::PLAYER);
 	
@@ -284,14 +284,14 @@ void CPlayer::TestRender()
 	std::string PlayerPos = "PlayerPos : ";
 	PlayerPos += GetPos().ToString();
 
-	std::string CamPos = "CamPos : ";
-	CamPos += GetLevel()->GetCameraPos().ToString();
+	std::string MousePos = "MousePos : ";
+	MousePos += GetLevel()->GetMousePosToCamera().ToString();
 
 	GameEngineLevel::DebugTextPush(Ground);
 	GameEngineLevel::DebugTextPush(Wall);
 	GameEngineLevel::DebugTextPush(Dir);
 	GameEngineLevel::DebugTextPush(PlayerPos);
-	GameEngineLevel::DebugTextPush(CamPos);
+	GameEngineLevel::DebugTextPush(MousePos);
 }
 
 

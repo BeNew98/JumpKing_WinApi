@@ -24,6 +24,9 @@
     <ClInclude Include="CForeGround.h">
       <Filter>PlayLevel</Filter>
     </ClInclude>
+    <ClInclude Include="CProps.h">
+      <Filter>PlayLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JumpKingCore.cpp" />
@@ -49,6 +52,9 @@
       <Filter>PlayLevel</Filter>
     </ClCompile>
     <ClCompile Include="CForeGround.cpp">
+      <Filter>PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CProps.cpp">
       <Filter>PlayLevel</Filter>
     </ClCompile>
   </ItemGroup>

@@ -6,8 +6,9 @@ enum class RenderOrder
 
 	BACKGROUND,
 	MIDGROUND,
-	FOREGROUND,
+	PROPS,
 	DEBUG, // 삭제예정
 	PLAYER,
+	FOREGROUND,
 	MONSTER,
 };
