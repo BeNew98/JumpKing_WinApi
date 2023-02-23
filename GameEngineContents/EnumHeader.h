@@ -10,5 +10,6 @@ enum class RenderOrder
 	DEBUG, // 삭제예정
 	PLAYER,
 	FOREGROUND,
+	PARTICLE,
 	MONSTER,
 };

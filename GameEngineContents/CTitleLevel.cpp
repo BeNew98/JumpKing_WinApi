@@ -2,9 +2,12 @@
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineFile.h>
-#include <GameEngineCore/GameEngineResources.h>
-#include <GameEngineCore/GameEngineCore.h>
+
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEnginePlatform/GameEngineSound.h>
+
+#include <GameEngineCore/GameEngineCore.h>
+#include <GameEngineCore/GameEngineResources.h>
 
 #include "CTitleLogo.h"
 #include "CBackGround.h"
@@ -28,9 +31,9 @@ void CTitleLevel::Loading()
 	Dir.Move("music");
 	Dir.Move("menu loop");
 
-	GameEngineSound* pSound = GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("menu_intro.wav"));
-	pSound->Play();
+	Intro = GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("menu_intro.wav"));
 
+	
 	Dir.MoveParentToDirectory("ContentsResources");
 	Dir.Move("ContentsResources");
 	Dir.Move("Image");
@@ -45,7 +48,7 @@ void CTitleLevel::Loading()
 
 	CreateActor<CTitleLogo>();
 	
-	GameEngineInput::MouseCursorOff();
+	//GameEngineInput::MouseCursorOff();
 
 
 	GameEngineInput::CreateKey("Space", ' ');
@@ -58,5 +61,16 @@ void CTitleLevel::Update(float _DeltaTime)
 		GameEngineCore::GetInst()->ChangeLevel("Play");
 	}
 
+
+}
+
+void CTitleLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
+{
+	BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl("menu_intro.wav");
+}
+
+void CTitleLevel::LevelChangeEnd(GameEngineLevel* _NextLevel)
+{
+	BGMPlayer.Stop();
 }
 

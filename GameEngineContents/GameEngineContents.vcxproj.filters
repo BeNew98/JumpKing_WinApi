@@ -12,20 +12,23 @@
     <ClInclude Include="CPlayer.h">
       <Filter>PlayLevel</Filter>
     </ClInclude>
-    <ClInclude Include="CMidGround.h">
-      <Filter>PlayLevel</Filter>
-    </ClInclude>
     <ClInclude Include="CTitleLogo.h">
       <Filter>TitleLevel</Filter>
     </ClInclude>
     <ClInclude Include="CBackGround.h">
-      <Filter>PlayLevel</Filter>
+      <Filter>PlayLevel\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="CForeGround.h">
-      <Filter>PlayLevel</Filter>
+      <Filter>PlayLevel\BackGround</Filter>
     </ClInclude>
-    <ClInclude Include="CProps.h">
-      <Filter>PlayLevel</Filter>
+    <ClInclude Include="CMidGround.h">
+      <Filter>PlayLevel\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="CFlag.h">
+      <Filter>PlayLevel\Props</Filter>
+    </ClInclude>
+    <ClInclude Include="CSnow.h">
+      <Filter>PlayLevel\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -42,20 +45,23 @@
     <ClCompile Include="CPlayState.cpp">
       <Filter>PlayLevel</Filter>
     </ClCompile>
-    <ClCompile Include="CMidGround.cpp">
-      <Filter>PlayLevel</Filter>
-    </ClCompile>
     <ClCompile Include="CTitleLogo.cpp">
       <Filter>TitleLevel</Filter>
     </ClCompile>
     <ClCompile Include="CBackGround.cpp">
-      <Filter>PlayLevel</Filter>
+      <Filter>PlayLevel\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="CForeGround.cpp">
-      <Filter>PlayLevel</Filter>
+      <Filter>PlayLevel\BackGround</Filter>
     </ClCompile>
-    <ClCompile Include="CProps.cpp">
-      <Filter>PlayLevel</Filter>
+    <ClCompile Include="CMidGround.cpp">
+      <Filter>PlayLevel\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="CFlag.cpp">
+      <Filter>PlayLevel\Props</Filter>
+    </ClCompile>
+    <ClCompile Include="CSnow.cpp">
+      <Filter>PlayLevel\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +70,15 @@
     </Filter>
     <Filter Include="TitleLevel">
       <UniqueIdentifier>{15735971-2b6c-4acc-86a2-3bfc174a338f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayLevel\BackGround">
+      <UniqueIdentifier>{4d92d3c5-1624-42ca-a77e-c8302808ec5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayLevel\Props">
+      <UniqueIdentifier>{0e08255c-92e6-4010-8f17-fc12e88686f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayLevel\Particle">
+      <UniqueIdentifier>{f502f0ec-97c7-4fde-9232-0d6396e5c7e1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

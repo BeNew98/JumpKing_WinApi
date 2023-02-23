@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
+#include <GameEngineCore/GameEngineResources.h>
 
 // Ό³Έν :
 class CTitleLevel : public GameEngineLevel
@@ -19,11 +20,13 @@ protected:
 	void Loading()override;
 	void Update(float _DeltaTime) override;
 
-	virtual void LevelChangeStart(GameEngineLevel* _PrevLevel) override {}
-	virtual void LevelChangeEnd(GameEngineLevel* _NextLevel) override {}
+	virtual void LevelChangeStart(GameEngineLevel* _PrevLevel);
+	virtual void LevelChangeEnd(GameEngineLevel* _NextLevel);
 
+
+	GameEngineSoundPlayer BGMPlayer;
 
 private:
-
+	GameEngineSound* Intro = nullptr;
 };
 

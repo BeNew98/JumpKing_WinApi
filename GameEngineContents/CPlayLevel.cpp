@@ -10,7 +10,8 @@
 #include "CMidGround.h"
 #include "CBackGround.h"
 #include "CForeGround.h"
-#include "CProps.h"
+#include "CFlag.h"
+#include "CSnow.h"
 #include "EnumHeader.h"
 
 
@@ -108,6 +109,18 @@ void CPlayLevel::ImageLoad()
 
 	GameEngineImage* pBonfire = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Bonfire.bmp").GetPathToString());
 	pBonfire->Cut(1, 3);
+
+
+	Dir.MoveParentToDirectory("ContentsResources");
+	Dir.Move("ContentsResources");
+	Dir.Move("Image");
+	Dir.Move("Play");
+	Dir.Move("Particle");
+	
+	GameEngineImage* pSnow = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("snow.bmp").GetPathToString());
+	pSnow->Cut(1, 4);
+
+
 }
 void CPlayLevel::KeyLoad()
 {
@@ -160,18 +173,15 @@ void CPlayLevel::Loading()
 	CMidGround* pMidGround = CreateActor<CMidGround>();
 	CBackGround* pBackGround = CreateActor<CBackGround>();
 	CForeGround* pForeGround = CreateActor<CForeGround>();
-	CProps* pProps0 = CreateActor<CProps>();
-	pProps0->AnimChange("R_Flag");
-	pProps0->SetPos({ 201, 13085 });
 
-	CProps* pProps1= CreateActor<CProps>();
-	pProps1->AnimChange("R_Flag");
-	pProps1->SetPos({ 486, 13154 });
+	CFlag* pFlag = CreateActor<CFlag>();
+	pFlag->SetPos({ 615, 15326 }); 
 
+	CSnow* pSnow = CreateActor<CSnow>();
+	pSnow->SetPos(float4{ CMidGround::m_MapSize.hx(),CMidGround::m_MapSize.y - 270 });
 
 	CPlayer* pActor = CreateActor<CPlayer>();
 
-	//pActor->SetPos(float4{ 841,3934 });
 	pActor->SetPos(float4{ CMidGround::m_MapSize.hx(),CMidGround::m_MapSize.y - 70 });
 	
 }
@@ -186,7 +196,7 @@ void CPlayLevel::Update(float _DeltaTime)
 
 	if (GameEngineCore::GetInst()->IsDebug())
 	{
-		GameEngineInput::MouseCursorOn();
+		//GameEngineInput::MouseCursorOn();
 
 		if (GameEngineInput::IsDown("PlayerSetOn"))
 		{
@@ -215,7 +225,7 @@ void CPlayLevel::Update(float _DeltaTime)
 
 		if (GameEngineInput::IsDown("Number1"))
 		{
-			CPlayer::MainPlayer->SetPos(float4{ 600,4848 });
+			CPlayer::MainPlayer->SetPos(float4{ 615,15326 });
 		}
 		if (GameEngineInput::IsDown("Number2"))
 		{
@@ -226,7 +236,7 @@ void CPlayLevel::Update(float _DeltaTime)
 	}
 	else
 	{
-		GameEngineInput::MouseCursorOff();
+		//GameEngineInput::MouseCursorOff();
 		float4 fPlayerPos = CPlayer::MainPlayer->GetPos();
 		m_iMapNumber = fPlayerPos.iy()/ GameEngineWindow::GetScreenSize().iy();
 		SetCameraPos(float4{ 0,(m_iMapNumber * GameEngineWindow::GetScreenSize().y) });

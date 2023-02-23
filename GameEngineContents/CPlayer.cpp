@@ -112,7 +112,7 @@ void CPlayer::Render(float _DeltaTime)
 
 	if (GameEngineCore::GetInst()->IsDebug())
 	{
-	TestRender();
+		TestRender();
 	}
 }
 

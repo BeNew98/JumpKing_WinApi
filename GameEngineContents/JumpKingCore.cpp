@@ -18,7 +18,7 @@ void JumpKingCore::Start()
 
 	CreateLevel<CTitleLevel>("Title");
 	CreateLevel<CPlayLevel>("Play");
-	ChangeLevel("Title");
+	ChangeLevel("Play");
 }
 
 void JumpKingCore::Update()

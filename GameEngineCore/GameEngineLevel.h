@@ -164,6 +164,8 @@ protected:
 
 	void PushRender(GameEngineRender* _Render, int _ChangeOrder);
 
+	std::map<int, float> TimeScales;
+
 	std::map<int, std::list<GameEngineCollision*>> Collisions;
 	void PushCollision(GameEngineCollision* _Collision, int _ChangeOrder);
 
