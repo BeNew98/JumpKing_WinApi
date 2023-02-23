@@ -267,3 +267,28 @@ void GameEngineImage::AlphaCopy(const GameEngineImage* _OtherImage, float4 _Copy
 		_OtherImageSize.iy(),
 		BF);
 }
+
+
+void GameEngineImage::PlgCopy(const GameEngineImage* _OtherImage, float4 _CopyCenterPos, float4 _CopySize, float4 _OtherImagePos, float4 _OtherImageSize, float _Angle, GameEngineImage* _FilterImage)
+{
+	POINT ArrRotPoint[3];
+
+	PlgBlt(ImageDC, 
+		ArrRotPoint,
+		_OtherImage->GetImageDC(),
+		_OtherImagePos.ix(),
+		_OtherImagePos.iy(),
+		_OtherImageSize.ix(), 
+		_OtherImageSize.iy(),
+		_FilterImage->BitMap,
+		_OtherImagePos.ix(),
+		_OtherImagePos.iy()
+	);
+
+}
+
+
+void GameEngineImage::PlgCopy(const GameEngineImage* _OtherImage, int _CutIndex, float4 _CopyCenterPos, float4 _CopySize, float _Angle, GameEngineImage* _FilterImage)
+{
+
+}

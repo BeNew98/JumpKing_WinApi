@@ -141,12 +141,13 @@ void GameEngineTileMap::SetTileFrame(int _ZIndex, float4 _Pos, int _ImageFrame)
 
 void GameEngineTileMap::SetTileFrame(int _ZIndex, int _X, int _Y, int _ImageFrame)
 {
-    IsValidIndex(_ZIndex, _Y, _X);
+    IsValidIndex(_ZIndex, static_cast<float>(_Y), static_cast<float>(_X));
 
     std::vector<std::vector<GameEngineRender*>>& FloorRenders = TileRenders[_ZIndex];
-
     // 캐칭
     GameEngineRender* TileRender = FloorRenders[_Y][_X];
+
+    // operator[]
 
     TileRender->On();
     TileRender->SetFrame(_ImageFrame);
@@ -167,10 +168,10 @@ float4 GameEngineTileMap::ConvertIndexToTilePosition(int _X, int _Y)
 
 int GameEngineTileMap::GetTileFrame(int _ZIndex, float4 _Pos)
 {
+
     float4 Index = GetIndex(_Pos);
 
-
-    IsValidIndex(_ZIndex, Index.iy(), Index.ix());
+    IsValidIndex(_ZIndex, Index.y, Index.x);
 
     std::vector<std::vector<GameEngineRender*>>& FloorRenders = TileRenders[_ZIndex];
 
@@ -184,28 +185,48 @@ int GameEngineTileMap::GetTileFrame(int _ZIndex, float4 _Pos)
     return TileRender->GetFrame();
 }
 
-bool GameEngineTileMap::IsValidIndex(int _Z, int _Y, int _X)
+bool GameEngineTileMap::IsValidIndex(int _Z, float _Y, float _X)
 {
+    if (0 > _Z)
+    {
+        // MsgAssert("Z인덱스가 오버했습니다.");
+        return false;
+    }
+
+    if (0 > _Y)
+    {
+        // MsgAssert("Y인덱스가 오버했습니다.");
+        return false;
+    }
+
+    if (0 > _X)
+    {
+        // MsgAssert("X인덱스가 오버했습니다.");
+        return false;
+    }
+
+
     if (TileRenders.size() <= _Z)
     {
-        MsgAssert("Z인덱스가 오버했습니다.");
+        // MsgAssert("Z인덱스가 오버했습니다.");
         return false;
     }
 
     if (TileRenders[_Z].size() <= _Y)
     {
-        MsgAssert("Y인덱스가 오버했습니다.");
+        // MsgAssert("Y인덱스가 오버했습니다.");
         return false;
     }
 
-    if (TileRenders[_Z][_Y].size() <= _X)
+    if (TileRenders[_Z][static_cast<int>(_Y)].size() <= _X)
     {
-        MsgAssert("X인덱스가 오버했습니다.");
+        // MsgAssert("X인덱스가 오버했습니다.");
         return false;
     }
 
     return true;
 }
+
 
 float4 GameEngineTileMap::GetIndex(float4 _Pos)
 {
@@ -220,17 +241,16 @@ GameEngineRender* GameEngineTileMap::GetTile(int _ZIndex, float4 _Pos)
 {
     float4 Index = GetIndex(_Pos);
 
-    IsValidIndex(_ZIndex, Index.iy(), Index.ix());
+    IsValidIndex(_ZIndex, Index.y, Index.x);
 
     return TileRenders[_ZIndex][Index.iy()][Index.ix()];
 }
-
 
 GameEngineCollision* GameEngineTileMap::GetTileCollision(int _ZIndex, float4 _Pos)
 {
     float4 Index = GetIndex(_Pos);
 
-    IsValidIndex(_ZIndex, Index.iy(), Index.ix());
+    IsValidIndex(_ZIndex, Index.y, Index.x);
 
     return TileCollision[_ZIndex][Index.iy()][Index.ix()];
 }

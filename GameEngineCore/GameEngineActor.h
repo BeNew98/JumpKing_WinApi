@@ -91,6 +91,7 @@ protected:
 	virtual void LevelChangeStart(GameEngineLevel* _PrevLevel);
 
 private:
+	float TimeScale = 0.0;
 	GameEngineLevel* Level = nullptr;
 	
 	float LiveTime = 0.0;

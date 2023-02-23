@@ -110,6 +110,39 @@ public:
 		return w * 0.5f;
 	}
 
+	float GetAngleDeg()
+	{
+		return GetAngleRad() * GameEngineMath::RadToDeg;
+	}
+
+	float GetAngleRad()
+	{
+		float4 AngleCheck = (*this);
+		AngleCheck.Normalize();		
+
+		float Result = acosf(AngleCheck.x);
+
+		if (AngleCheck.y > 0)
+		{
+			Result = GameEngineMath::PIE2 - Result;
+		}
+		return Result;
+
+	}
+
+	void RotaitonZDeg(float _Deg)
+	{
+		RotaitonZRad(_Deg * GameEngineMath::RadToDeg);
+	}
+
+	void RotaitonZRad(float _Rad)
+	{
+		float4 Copy = *this;
+		x = Copy.x * cosf(_Rad) - Copy.y * sinf(_Rad);
+		y = Copy.x * sinf(_Rad) + Copy.y * cosf(_Rad);
+	}
+
+
 	float4 half() const
 	{
 		return { x * 0.5f,y * 0.5f,z * 0.5f,w };

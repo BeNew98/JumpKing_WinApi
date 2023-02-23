@@ -2,6 +2,7 @@
 #include <GameEngineBase/GameEngineMath.h>
 #include "GameEngineActor.h"
 
+
 // Ό³Έν :
 class GameEngineCollision;
 class GameEngineTileMap : public GameEngineActor
@@ -37,7 +38,7 @@ public:
 
 	GameEngineCollision* GetTileCollision(int _ZIndex, float4 _Pos);
 
-	bool IsValidIndex(int _Z, int _Y, int _X);
+	bool IsValidIndex(int _Z, float _Y, float _X);
 
 	float4 GetIndex(float4 _Pos);
 

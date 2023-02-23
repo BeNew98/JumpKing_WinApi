@@ -106,6 +106,17 @@ public:
 		DebugTexts.push_back(_DebugText);
 	}
 
+	template<typename EnumType>
+	void SetTimeScale(EnumType _GroupIndex, float _Time)
+	{
+		SetTimeScale(static_cast<int>(_GroupIndex), _Time);
+	}
+
+	void SetTimeScale(int _GroupIndex, float _Time)
+	{
+		TimeScales[_GroupIndex] = _Time;
+	}
+
 	std::vector<GameEngineActor*> GetActors(int _GroupIndex)
 	{
 		std::vector<GameEngineActor*> Result;
