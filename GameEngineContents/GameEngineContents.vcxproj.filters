@@ -30,6 +30,9 @@
     <ClInclude Include="CSnow.h">
       <Filter>PlayLevel\Particle</Filter>
     </ClInclude>
+    <ClInclude Include="CCandle.h">
+      <Filter>PlayLevel\Props</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JumpKingCore.cpp" />
@@ -62,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="CSnow.cpp">
       <Filter>PlayLevel\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="CCandle.cpp">
+      <Filter>PlayLevel\Props</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

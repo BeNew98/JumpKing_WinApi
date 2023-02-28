@@ -12,6 +12,7 @@
 #include "CForeGround.h"
 #include "CFlag.h"
 #include "CSnow.h"
+#include "CCandle.h"
 #include "EnumHeader.h"
 
 
@@ -107,6 +108,9 @@ void CPlayLevel::ImageLoad()
 	GameEngineImage* pCandle = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Candle.bmp").GetPathToString());
 	pCandle->Cut(2, 2);
 
+	GameEngineImage* pCandleEffect = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CandleEffect.bmp").GetPathToString());
+	pCandleEffect->Cut(2, 2);
+
 	GameEngineImage* pBonfire = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Bonfire.bmp").GetPathToString());
 	pBonfire->Cut(1, 3);
 
@@ -118,7 +122,7 @@ void CPlayLevel::ImageLoad()
 	Dir.Move("Particle");
 	
 	GameEngineImage* pSnow = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("snow.bmp").GetPathToString());
-	pSnow->Cut(1, 4);
+	pSnow->Cut(2, 2);
 
 
 }
@@ -180,6 +184,79 @@ void CPlayLevel::Loading()
 	CSnow* pSnow = CreateActor<CSnow>();
 	pSnow->SetPos(float4{ CMidGround::m_MapSize.hx(),CMidGround::m_MapSize.y - 270 });
 
+	{
+		CCandle* pCandle0 = CreateActor<CCandle>();
+		pCandle0->SetPos(float4{ 199,7486 });
+
+
+		CCandle* pCandle1 = CreateActor<CCandle>();
+		pCandle1->SetPos(pCandle0->GetPos()+float4{16,0});
+
+
+		CCandle* pCandle2 = CreateActor<CCandle>();
+		pCandle2->SetPos(pCandle0->GetPos() + float4{ 8,18 });
+
+
+		CCandle* pCandle3 = CreateActor<CCandle>();
+		pCandle3->SetPos(pCandle0->GetPos()+float4{ 48,0 });
+
+
+		CCandle* pCandle4 = CreateActor<CCandle>();
+		pCandle4->SetPos(pCandle3->GetPos() + float4{ 16,0 });
+
+
+		CCandle* pCandle5 = CreateActor<CCandle>();
+		pCandle5->SetPos(pCandle3->GetPos() + float4{ 8,18 });
+	}
+
+	{
+		CCandle* pCandle0 = CreateActor<CCandle>();
+		pCandle0->SetPos(float4{ 230,7215 });
+
+
+		CCandle* pCandle1 = CreateActor<CCandle>();
+		pCandle1->SetPos(pCandle0->GetPos() + float4{ 16,0 });
+
+
+		CCandle* pCandle2 = CreateActor<CCandle>();
+		pCandle2->SetPos(pCandle0->GetPos() + float4{ 8,18 });
+
+
+		CCandle* pCandle3 = CreateActor<CCandle>();
+		pCandle3->SetPos(pCandle0->GetPos() + float4{ 48,0 });
+
+
+		CCandle* pCandle4 = CreateActor<CCandle>();
+		pCandle4->SetPos(pCandle3->GetPos() + float4{ 16,0 });
+
+
+		CCandle* pCandle5 = CreateActor<CCandle>();
+		pCandle5->SetPos(pCandle3->GetPos() + float4{ 8,18 });
+	}
+	{
+		CCandle* pCandle0 = CreateActor<CCandle>();
+		pCandle0->SetPos(float4{ 677,7215 });
+
+
+		CCandle* pCandle1 = CreateActor<CCandle>();
+		pCandle1->SetPos(pCandle0->GetPos() + float4{ 16,0 });
+
+
+		CCandle* pCandle2 = CreateActor<CCandle>();
+		pCandle2->SetPos(pCandle0->GetPos() + float4{ 8,18 });
+
+
+		CCandle* pCandle3 = CreateActor<CCandle>();
+		pCandle3->SetPos(pCandle0->GetPos() + float4{ 48,0 });
+
+
+		CCandle* pCandle4 = CreateActor<CCandle>();
+		pCandle4->SetPos(pCandle3->GetPos() + float4{ 16,0 });
+
+
+		CCandle* pCandle5 = CreateActor<CCandle>();
+		pCandle5->SetPos(pCandle3->GetPos() + float4{ 8,18 });
+	}
 	CPlayer* pActor = CreateActor<CPlayer>();
 
 	pActor->SetPos(float4{ CMidGround::m_MapSize.hx(),CMidGround::m_MapSize.y - 70 });
@@ -229,7 +306,7 @@ void CPlayLevel::Update(float _DeltaTime)
 		}
 		if (GameEngineInput::IsDown("Number2"))
 		{
-			CPlayer::MainPlayer->SetPos(float4{ 465,3729 });
+			CPlayer::MainPlayer->SetPos(float4{ 202,7486 });
 		}
 
 		SetCameraPos(float4{ 0,(m_iMapNumber * GameEngineWindow::GetScreenSize().y) });

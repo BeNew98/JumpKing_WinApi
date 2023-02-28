@@ -14,13 +14,19 @@ CSnow::~CSnow()
 
 void CSnow::Start()
 {
-	GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
-	pSnow->SetScale({ 480, 480 });
-	pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 1, .End = 1 , .InterTime = 1.f });
-	pSnow->ChangeAnimation("snow");
+	{
+		GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
+		pSnow->SetScale({ 1440,720 });
+		pSnow->SetAlpha(200);
+
+		pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
+		pSnow->ChangeAnimation("snow");
+	}
 
 
+}
 
-	//pSnow->SetPosition(pSnow->GetScale().half());
+void CSnow::Update(float _DeltaTime)
+{
 }
 
