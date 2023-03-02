@@ -71,6 +71,10 @@ public:
 	CPlayer& operator=(const CPlayer& _Other) = delete;
 	CPlayer& operator=(CPlayer&& _Other) noexcept = delete;
 
+	void AddMoveDir(float4 _Dir)
+	{
+		m_MoveDir += _Dir;
+	}
 
 protected:
 	void Start() override;

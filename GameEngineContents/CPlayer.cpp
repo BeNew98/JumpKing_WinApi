@@ -108,10 +108,9 @@ void CPlayer::AnimChange(const std::string_view& _AnimationName)
 
 void CPlayer::Render(float _DeltaTime)
 {
-	ColRender();
-
 	if (GameEngineCore::GetInst()->IsDebug())
 	{
+		ColRender();
 		TestRender();
 	}
 }

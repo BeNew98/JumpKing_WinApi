@@ -182,7 +182,7 @@ void CPlayLevel::Loading()
 	pFlag->SetPos({ 615, 15326 }); 
 
 	CSnow* pSnow = CreateActor<CSnow>();
-	pSnow->SetPos(float4{ CMidGround::m_MapSize.hx(),CMidGround::m_MapSize.y - 270 });
+	//pSnow->SetPos(float4{ CMidGround::m_MapSize.hx(),CMidGround::m_MapSize.y - 270 });
 
 	{
 		CCandle* pCandle0 = CreateActor<CCandle>();
@@ -302,7 +302,7 @@ void CPlayLevel::Update(float _DeltaTime)
 
 		if (GameEngineInput::IsDown("Number1"))
 		{
-			CPlayer::MainPlayer->SetPos(float4{ 615,15326 });
+			CPlayer::MainPlayer->SetPos(float4{ 193,13070 });
 		}
 		if (GameEngineInput::IsDown("Number2"))
 		{

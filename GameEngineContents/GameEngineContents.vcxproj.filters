@@ -9,9 +9,6 @@
     <ClInclude Include="CTitleLevel.h">
       <Filter>TitleLevel</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayer.h">
-      <Filter>PlayLevel</Filter>
-    </ClInclude>
     <ClInclude Include="CTitleLogo.h">
       <Filter>TitleLevel</Filter>
     </ClInclude>
@@ -33,6 +30,12 @@
     <ClInclude Include="CCandle.h">
       <Filter>PlayLevel\Props</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>PlayLevel\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CBabe.h">
+      <Filter>PlayLevel\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JumpKingCore.cpp" />
@@ -41,9 +44,6 @@
     </ClCompile>
     <ClCompile Include="CTitleLevel.cpp">
       <Filter>TitleLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlayer.cpp">
-      <Filter>PlayLevel</Filter>
     </ClCompile>
     <ClCompile Include="CPlayState.cpp">
       <Filter>PlayLevel</Filter>
@@ -69,6 +69,12 @@
     <ClCompile Include="CCandle.cpp">
       <Filter>PlayLevel\Props</Filter>
     </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>PlayLevel\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CBabe.cpp">
+      <Filter>PlayLevel\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PlayLevel">
@@ -85,6 +91,9 @@
     </Filter>
     <Filter Include="PlayLevel\Particle">
       <UniqueIdentifier>{f502f0ec-97c7-4fde-9232-0d6396e5c7e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayLevel\Object">
+      <UniqueIdentifier>{2cf83272-1163-4ae1-a809-5a42026e262f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

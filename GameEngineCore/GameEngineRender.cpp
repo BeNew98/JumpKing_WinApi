@@ -291,7 +291,7 @@ void GameEngineRender::CreateAnimation(const FrameAnimationParameter& _Parameter
 	NewAnimation.Parent = this;
 }
 
-void GameEngineRender::ChangeAnimation(const std::string_view& _AnimationName, bool _ForceChange)
+void GameEngineRender::ChangeAnimation(const std::string_view& _AnimationName, int _CurIndex, bool _ForceChange)
 {
 	std::string UpperName = GameEngineString::ToUpper(_AnimationName);
 
@@ -307,7 +307,7 @@ void GameEngineRender::ChangeAnimation(const std::string_view& _AnimationName, b
 
 	CurrentAnimation = &Animation[UpperName];
 
-	CurrentAnimation->CurrentIndex = 0;
+	CurrentAnimation->CurrentIndex = _CurIndex;
 
 	CurrentAnimation->CurrentTime = CurrentAnimation->FrameTime[CurrentAnimation->CurrentIndex];
 }

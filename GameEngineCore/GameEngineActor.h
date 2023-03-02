@@ -39,6 +39,11 @@ public:
 		Pos += _MovePos;
 	}
 
+	void MultiMove(const float4 & _MovePos)
+	{
+		Pos *= _MovePos;
+	}
+
 	GameEngineLevel* GetLevel();
 
 
