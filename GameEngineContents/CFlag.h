@@ -15,6 +15,8 @@ public:
 	CFlag& operator=(const CFlag& _Other) = delete;
 	CFlag& operator=(CFlag&& _Other) noexcept = delete;
 
+	void AnimChange(const std::string_view& _AnimationName);
+
 protected:
 	virtual void Start() override;
 

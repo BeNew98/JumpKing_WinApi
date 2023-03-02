@@ -281,8 +281,14 @@ void CPlayLevel::Loading()
 
 	CJump* pJumpParticle = CreateActor<CJump>();
 
-	CFlag* pFlag = CreateActor<CFlag>();
-	pFlag->SetPos({ 615, 15326 }); 
+	CFlag* pFlag0 = CreateActor<CFlag>();
+	pFlag0->SetPos({ 615, 15326 });
+	pFlag0->AnimChange("L_Flag");
+
+	CFlag* pFlag1 = CreateActor<CFlag>();
+	pFlag1->SetPos({ 199, 13081 });
+	CFlag* pFlag2 = CreateActor<CFlag>();
+	pFlag2->SetPos({ 487, 13141 });
 
 	CSnow* pSnow = CreateActor<CSnow>();
 	//pSnow->SetPos(float4{ CMidGround::m_MapSize.hx(),CMidGround::m_MapSize.y - 270 });
