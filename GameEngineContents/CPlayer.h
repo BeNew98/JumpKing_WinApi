@@ -56,6 +56,7 @@ enum class PlayerState
 };
 // Ό³Έν :
 class CMidGround;
+class CJump;
 class CPlayer : public GameEngineActor
 {
 public:
@@ -121,6 +122,7 @@ private:
 	GameEngineCollision*	m_pBodyCollision	= nullptr;
 
 	GameEngineImage*		m_pColImage			= nullptr;
+
 
 	void DirCheck(const std::string_view& _AnimationName);
 

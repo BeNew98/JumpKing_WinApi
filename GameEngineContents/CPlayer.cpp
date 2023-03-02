@@ -31,7 +31,6 @@ void CPlayer::Start()
 	//Jump.Stop();
 
 	m_pAnimationRender = CreateRender(RenderOrder::PLAYER);
-	
 	m_pAnimationRender->SetScale({ 128,128 });
 
 	//move

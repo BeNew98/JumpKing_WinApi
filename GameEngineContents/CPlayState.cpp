@@ -4,6 +4,8 @@
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+
+#include "CJump.h"
 #include "EnumHeader.h"
 
 void CPlayer::ChangeState(PlayerState _State)
@@ -42,6 +44,9 @@ void CPlayer::ChangeState(PlayerState _State)
 		break;
 	case PlayerState::JUMP:
 		JumpEnd();
+		break;
+	case PlayerState::JUMP_READY:
+		JumpReadyEnd();
 		break;
 	}
 }
@@ -241,12 +246,15 @@ void CPlayer::JumpReadyUpdate(float _Time)
 }
 void CPlayer::JumpReadyEnd()
 {
+	float4 PlayerPos = GetPos();
+	CJump::JumpParticle->AnimChange("JumpParticle", PlayerPos);
 }
 
 
 void  CPlayer::JumpStart()
 {
 	DirCheck("Jump");
+	CJump::JumpParticle->AnimChange("IdleParticle", float4::Zero);
 
 	//Jump.PauseOff();
 

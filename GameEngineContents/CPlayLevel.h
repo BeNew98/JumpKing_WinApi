@@ -24,6 +24,11 @@ protected:
 
 private:
 	int m_iMapNumber = 0;
+
+	void SetCandle(float _X, float _Y);
+	void SetCandleMiddle(float _X, float _Y);
+	void SetCandleLarge(float _X, float _Y);
+
 	void SoundLoad();
 	void ImageLoad();
 	void KeyLoad();

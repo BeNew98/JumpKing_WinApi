@@ -36,6 +36,9 @@
     <ClInclude Include="CBabe.h">
       <Filter>PlayLevel\Object</Filter>
     </ClInclude>
+    <ClInclude Include="CJump.h">
+      <Filter>PlayLevel\Particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JumpKingCore.cpp" />
@@ -74,6 +77,9 @@
     </ClCompile>
     <ClCompile Include="CBabe.cpp">
       <Filter>PlayLevel\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CJump.cpp">
+      <Filter>PlayLevel\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
