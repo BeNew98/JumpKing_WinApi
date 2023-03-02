@@ -31,7 +31,7 @@ void CJump::Start()
 
 	//Jump_Particle
 	m_pJumpParticle->CreateAnimation({ .AnimationName = "IdleParticle",.ImageName = "jump_particle.bmp",.Start = 5,.End = 5,.Loop = true });
-	m_pJumpParticle->CreateAnimation({ .AnimationName = "JumpParticle",.ImageName = "jump_particle.bmp",.Start = 0,.End = 5,.InterTime = 0.07,.Loop = false  });
+	m_pJumpParticle->CreateAnimation({ .AnimationName = "JumpParticle",.ImageName = "jump_particle.bmp",.Start = 0,.End = 5,.InterTime = 0.07f,.Loop = false  });
 	m_pJumpParticle->ChangeAnimation("IdleParticle");
 }
 

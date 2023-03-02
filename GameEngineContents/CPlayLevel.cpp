@@ -269,6 +269,11 @@ void CPlayLevel::Loading()
 	SetCandle(678, 7156);
 
 
+	SetCandleLarge(283, 5941);
+	SetCandleLarge(490, 6069);
+
+
+
 
 	CMidGround* pMidGround = CreateActor<CMidGround>();
 	CBackGround* pBackGround = CreateActor<CBackGround>();
@@ -327,7 +332,7 @@ void CPlayLevel::Update(float _DeltaTime)
 
 		if (GameEngineInput::IsDown("Number1"))
 		{
-			CPlayer::MainPlayer->SetPos(float4{ 193,13070 });
+			CPlayer::MainPlayer->SetPos(float4{ 486,12860 });
 		}
 		if (GameEngineInput::IsDown("Number2"))
 		{
