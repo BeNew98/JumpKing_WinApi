@@ -111,7 +111,6 @@ private:
 	Color m_Sky						= { 0,255,255 };
 	Color m_Black					= { 0,0,0 };
 
-	GameEngineSoundPlayer Jump;
 
 
 	std::string m_DirString			= "R_";
