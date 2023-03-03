@@ -256,7 +256,7 @@ void  CPlayer::JumpStart()
 	DirCheck("Jump");
 	CJump::JumpParticle->AnimChange("IdleParticle", float4::Zero);
 
-	GameEngineResources::GetInst().SoundPlay("king_land.wav");
+	GameEngineResources::GetInst().SoundPlay("king_Jump.wav");
 
 	// 점프키 클릭 시간을 6단계로 나누어서 점프력 보정
 	if (m_fJumpPressTime <= 0.1f)
@@ -339,6 +339,7 @@ void  CPlayer::JumpUpdate(float _Time)
 		m_MoveDir.x *= -m_fRecoilCoeff;
 		m_iCollide = true;
 		AnimChange("Collide");
+		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 		return;
 	}
 	//왼쪽으로 점프중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
@@ -347,6 +348,7 @@ void  CPlayer::JumpUpdate(float _Time)
 		m_MoveDir.x *= -m_fRecoilCoeff;
 		m_iCollide = true;
 		AnimChange("Collide");
+		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 		return;
 	}
 
@@ -356,6 +358,7 @@ void  CPlayer::JumpUpdate(float _Time)
 		m_MoveDir.x *= 0.f;
 		m_iCollide = true;
 		AnimChange("Collide");
+		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 	}
 
 	// 위가 사선일때
@@ -365,6 +368,7 @@ void  CPlayer::JumpUpdate(float _Time)
 	{
 		m_iCollide = true;
 		AnimChange("Collide");
+		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 		m_MoveDir.x += -m_MoveDir.y;
 
 		if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
@@ -379,6 +383,7 @@ void  CPlayer::JumpUpdate(float _Time)
 	{
 		m_iCollide = true;
 		AnimChange("Collide");
+		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 		m_MoveDir.x += m_MoveDir.y;
 
 		if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
@@ -433,6 +438,7 @@ void CPlayer::DownUpdate(float _Time)
 		m_MoveDir.x *= -m_fRecoilCoeff;
 		m_iCollide = true;
 		AnimChange("Collide");
+		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 	}
 
 	//왼쪽으로 하강중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
@@ -441,6 +447,7 @@ void CPlayer::DownUpdate(float _Time)
 		m_MoveDir.x *= -m_fRecoilCoeff;
 		m_iCollide = true;
 		AnimChange("Collide");
+		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 	}
 
 	//빨간 픽셀이면 왼쪽으로
@@ -449,6 +456,7 @@ void CPlayer::DownUpdate(float _Time)
 		m_MoveDir.x *= 0.f;
 		m_iCollide = true;
 		AnimChange("Collide");
+		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 
 		m_MoveDir.x += float4::Left.x * m_fJumpMoveLimit;
 
@@ -466,6 +474,7 @@ void CPlayer::DownUpdate(float _Time)
 		m_MoveDir.x *= 0.f;
 		m_iCollide = true;
 		AnimChange("Collide");
+		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 
 		m_MoveDir.x += float4::Right.x * m_fJumpMoveLimit;
 
@@ -489,6 +498,7 @@ void CPlayer::DownUpdate(float _Time)
 		if (m_HighestPos.y - GetPos().y < -GameEngineWindow::GetScreenSize().hy())
 		{
 			m_iCollide = false;
+			GameEngineResources::GetInst().SoundPlay("king_splat.wav");
 			ChangeState(PlayerState::FALL);
 			return;
 		}
@@ -497,6 +507,7 @@ void CPlayer::DownUpdate(float _Time)
 		else
 		{
 			m_iCollide = false;
+			GameEngineResources::GetInst().SoundPlay("king_land.wav");
 			ChangeState(PlayerState::IDLE);
 			return;
 		}
