@@ -23,5 +23,6 @@ private:
 	float MoveSpeed = 10.f;
 	GameEngineRender* pLogoRender = nullptr;
 	GameEngineRender* pBlackScreenRender = nullptr;
+	GameEngineRender* pStartRender = nullptr;
 };
 

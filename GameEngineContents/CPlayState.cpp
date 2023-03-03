@@ -326,9 +326,11 @@ void  CPlayer::JumpUpdate(float _Time)
 		pPosUpdate();
 	}
 
+	//점프시 천장 막힘
 	if (ColUpAll() && false == ColCurDownAll())
 	{
 		m_MoveDir.y = 0.f;
+		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 	}
 
 	WallCalibration();
