@@ -74,6 +74,24 @@ void CPlayer::Start()
 	//CrownEnd
 	m_pAnimationRender->CreateAnimation({ .AnimationName = "CrownEnd",.ImageName = "CrownKing.bmp",.Start = 2,.End = 3,.InterTime = 1.f,.Loop = false });
 
+
+	//KingBabeJR
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBJR",.ImageName = "CrownKing.bmp",.Start = 2,.End = 2, });
+
+	//KingBabeR
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBR",.ImageName = "CrownKing.bmp",.Start = 1,.End = 1, });
+
+	//KingBabeL
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBL",.ImageName = "CrownKing.bmp",.Start = 0,.End = 0, });
+
+	//KingBabeLM
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBLM",.ImageName = "CrownKing.bmp",.Start = 3,.End = 5, });
+
+	//KingBabeRM
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBRM",.ImageName = "CrownKing.bmp",.Start = 6,.End = 8, });
+
+
+
 	m_pAnimationRender->SetScale({ 128,128 });
 
 	{
