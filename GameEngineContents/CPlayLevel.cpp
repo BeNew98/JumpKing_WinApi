@@ -407,7 +407,7 @@ void CPlayLevel::Update(float _DeltaTime)
 			CPlayer::MainPlayer->SetPos(float4{ 300,286 });
 		}
 
-		if (CPlayer::MainPlayer->m_Ending)
+		if (CPlayer::MainPlayer->IsEnd())
 		{
 			float4 CenterPos = { 200,-200 };
 			float4 CamPos = GetCameraPos();
@@ -420,7 +420,7 @@ void CPlayLevel::Update(float _DeltaTime)
 	}
 	else
 	{
-		if (CPlayer::MainPlayer->m_Ending)
+		if (CPlayer::MainPlayer->IsEnd())
 		{
 			return;
 		}

@@ -31,5 +31,8 @@ struct EndingAct
 	bool Act4 = false;
 	bool Act5 = false;
 	bool Act6 = false;
+	bool Act7 = false;
+	bool Act8 = false;
+	bool Act9 = false;
 
 };

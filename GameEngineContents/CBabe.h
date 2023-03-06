@@ -28,6 +28,7 @@ public:
 	{
 		return m_Ending;
 	}
+
 	// delete Function
 	CBabe(const CBabe& _Other) = delete;
 	CBabe(CBabe&& _Other) noexcept = delete;

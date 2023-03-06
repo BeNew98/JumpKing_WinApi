@@ -76,19 +76,19 @@ void CPlayer::Start()
 
 
 	//KingBabeJR
-	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBJR",.ImageName = "CrownKing.bmp",.Start = 2,.End = 2, });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBJR",.ImageName = "KingBabe.bmp",.Start = 2,.End = 2, });
 
 	//KingBabeR
-	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBR",.ImageName = "CrownKing.bmp",.Start = 1,.End = 1, });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBR",.ImageName = "KingBabe.bmp",.Start = 1,.End = 1, });
 
 	//KingBabeL
-	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBL",.ImageName = "CrownKing.bmp",.Start = 0,.End = 0, });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBL",.ImageName = "KingBabe.bmp",.Start = 0,.End = 0, });
 
 	//KingBabeLM
-	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBLM",.ImageName = "CrownKing.bmp",.Start = 3,.End = 5, });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBLM",.ImageName = "KingBabe.bmp",.Start = 3,.End = 5, });
 
 	//KingBabeRM
-	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBRM",.ImageName = "CrownKing.bmp",.Start = 6,.End = 8, });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBRM",.ImageName = "KingBabe.bmp",.Start = 6,.End = 8, .InterTime = 0.5f});
 
 
 
@@ -130,6 +130,16 @@ void CPlayer::DirCheck(const std::string_view& _AnimationName)
 		m_pAnimationRender->ChangeAnimation(m_DirString + _AnimationName.data());
 	}
 	
+}
+
+void CPlayer::EndAnimChange(const std::string_view& _AnimationName)
+{
+	bool IsEnd = m_pAnimationRender->IsAnimationEnd();
+
+	if (IsEnd)
+	{
+		m_pAnimationRender->ChangeAnimation(_AnimationName.data());
+	}
 }
 
 void CPlayer::AnimChange(const std::string_view& _AnimationName)
@@ -438,6 +448,7 @@ void CPlayer::EndingScene(float _DeltaTime)
 		{	
 			Act.Act1 = true;
 			m_EndTime = 0.f;
+			GameEngineResources::GetInst().SoundPlay("king_Jump.wav");
 		}
 	}
 
@@ -472,8 +483,56 @@ void CPlayer::EndingScene(float _DeltaTime)
 	if (Act.Act4 == true && Act.Act5 == false && ColDownAll())
 	{
 		m_EndTime += _DeltaTime;
+		if (m_EndTime<0.01f)
+		{
+			GameEngineResources::GetInst().SoundPlay("king_land.wav");
+		}
 		m_pAnimationRender->ChangeAnimation("CrownEnd");
 		
+		if (m_EndTime > 1.f)
+		{
+			m_EndTime = 0.f;
+			Act.Act5 = true;
+			m_pAnimationRender->ChangeAnimation("KBR");
+			GameEngineResources::GetInst().SoundPlay("babe pickup.wav");
+		}
+	}
+	if (Act.Act5 == true && Act.Act6 == false)
+	{
+		m_EndTime += _DeltaTime;
+		if (m_EndTime<0.01f)
+		{
+			m_pAnimationRender->ChangeAnimation("KBL");
+		}
+		if (m_EndTime>1.f)
+		{
+			EndAnimChange("KBLM");
+			m_MoveDir += float4::Left * m_fMoveSpeed;
+			if (GetPos().x <480)
+			{
+				m_EndTime = 0.f;
+				Act.Act6 = true;
+			}
+		}
+	}
+	if (Act.Act6 == true && Act.Act7 == false)
+	{
+
+		m_EndTime += _DeltaTime;
+		if (m_EndTime < 0.01f)
+		{
+			m_pAnimationRender->ChangeAnimation("KBR");
+		}
+		if (m_EndTime > 1.f)
+		{
+			EndAnimChange("KBRM");
+			m_MoveDir += float4::Right * m_fMoveSpeed*2.f;
+			if (GetPos().x > 770)
+			{
+				m_EndTime = 0.f;
+				Act.Act7 = true;
+			}
+		}
 	}
 }
 

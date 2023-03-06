@@ -85,9 +85,15 @@ public:
 		m_MoveDir += _Dir;
 	}
 
-	bool m_Ending = false;
+	bool IsEnd()
+	{
+		return m_Ending;
+	}
 
-
+	EndingAct bAct() const
+	{
+		return Act;
+	}
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -117,8 +123,13 @@ private:
 	float		m_fJumpPressTime	= 0.f;
 	float		m_fKnockTime		= 0.f;
 	float4		m_HighestPos		= float4{ 0,99999 };
+
+
+
 	float4		m_EndingPos			= float4::Zero;
 	float		m_EndTime			= 0.f;
+
+	bool m_Ending = false;
 
 	Color m_Red						= { 255,0,0 };
 	Color m_Green					= { 0,255,0 };
@@ -138,7 +149,7 @@ private:
 
 
 	void DirCheck(const std::string_view& _AnimationName);
-
+	void EndAnimChange(const std::string_view& _AnimationName);
 	void AnimChange(const std::string_view& _AnimationName);
 
 	void ChangeState(PlayerState _State);

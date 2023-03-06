@@ -47,7 +47,7 @@ void CBabe::Update(float _DeltaTime)
 	{
 		return;
 	}
-	if (CPlayer::MainPlayer->m_Ending)
+	if (CPlayer::MainPlayer->IsEnd())
 	{
 		float4 CamPos = GetLevel()->GetCameraPos();
 		m_EndTime += _DeltaTime;		
@@ -63,10 +63,13 @@ void CBabe::Update(float _DeltaTime)
 			Act.Act1 = true;
 			ChangeState(BabeState::JUMP);
 		}
-		if (m_EndTime>1.f&& Act.Act1&& Act.Act2 ==false)
+		if (Act.Act1&& Act.Act2 ==false)
 		{
+			if (m_EndTime > 1.f)
+			{
 			ChangeState(BabeState::MOVE);
 			Act.Act2 = true;
+			}
 		}
 
 		if (Act.Act2 && m_pBodyCollision->Collision({ .TargetGroup = static_cast<int>(CollisionOrder::PLAYER) }) && Act.Act3 == false)
@@ -96,10 +99,16 @@ void CBabe::Update(float _DeltaTime)
 	}
 	Movecalculation(_DeltaTime);
 
+	
+
 }
 
 void CBabe::Render(float _DeltaTime)
 {
+	if (true == CPlayer::MainPlayer->bAct().Act5)
+	{
+		m_pAnimationRender->Off();
+	}
 	if (GameEngineCore::GetInst()->IsDebug())
 	{
 		ColRender();
@@ -294,6 +303,7 @@ void CBabe::JumpUpdate(float _Time)
 {
 	if (ColDown()&&m_MoveDir.y == 0)
 	{
+		GameEngineResources::GetInst().SoundPlay("king_land.wav");
 		ChangeState(BabeState::IDLE);
 	}
 }
