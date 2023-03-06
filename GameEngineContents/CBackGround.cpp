@@ -3,7 +3,7 @@
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
-#include "CMidGround.h"
+#include "CColMap.h"
 #include "EnumHeader.h"
 
 CBackGround::CBackGround() 
@@ -24,7 +24,7 @@ void CBackGround::Start()
 	}
 
 	float ImgYSize = 720.f;
-	float4 AllMapSize = CMidGround::m_MapSize;
+	float4 AllMapSize = CColMap::m_MapSize;
 
 	GameEngineRender* BG = CreateRender(RenderOrder::BACKGROUND);
 	BG->GameEngineRender::SetImageToScaleToImage("bg4.bmp");

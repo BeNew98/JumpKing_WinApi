@@ -6,8 +6,8 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCore.h>
-#include "EnumHeader.h"
 #include "CBabe.h"
+#include "CAngel.h"
 
 CPlayer* CPlayer::MainPlayer = nullptr;
 
@@ -89,7 +89,6 @@ void CPlayer::Start()
 
 void CPlayer::Update(float _DeltaTime)
 {
-	EndingScene(_DeltaTime);
 	Movecalculation(_DeltaTime);
 }
 
@@ -147,6 +146,7 @@ void CPlayer::Movecalculation(float _DeltaTime)
 
 	UpdateState(_DeltaTime);
 
+	EndingScene(_DeltaTime);
 
 	//µð¹ö±ë¿ëÈ­¸é Ãâ·Â ¶¥¿¡ ´ê¾Ò´ÂÁö È®ÀÎ
 	if (ColDownAll() || ColDownAll(m_Sky) || ColDownAll(m_Green))
@@ -388,21 +388,74 @@ void CPlayer::EndingScene(float _DeltaTime)
 	if (true == m_pBodyCollision->Collision({ .TargetGroup = static_cast<int>(CollisionOrder::ENDING) }) && false == m_Ending)
 	{
 		m_Ending = true;
-		EndingPos = GetPos();
+		m_EndingPos = GetPos();
 		ChangeState(PlayerState::IDLE);
 		GameEngineResources::GetInst().SoundPlay("ending.wav");
 	}
-	if (m_Ending == true)
+	if (false == m_Ending)
 	{
+		return;
+	}
+	if (m_Ending == true && m_EndTime<5.f&&Act.Act0==false)
+	{
+		m_EndTime += _DeltaTime;
 		SetPos({ 670,290 });
 		float4 CenterPos = { 200,-200 };
 		float4 CamPos = GetLevel()->GetCameraPos();
 		GetLevel()->SetCameraMove({ (CenterPos - CamPos) * 1.f * _DeltaTime });
 	}
-	if (CBabe::MainBabe->IsEnd())
+	if (CBabe::MainBabe->IsEnd()&&CAngel::MainAngel->IsEnd() == false)
 	{
+		m_EndTime = 0.f;
 		m_pAnimationRender->ChangeAnimation("LookUp");
 		m_pAnimationRender->SetScale({ 256,256 });
+		Act.Act0 = true;
+	}
+	if (CBabe::MainBabe->IsEnd() && CAngel::MainAngel->IsEnd()&&Act.Act0 == true&& Act.Act1 ==false)
+	{
+		m_pAnimationRender->SetScale({ 128,128 });
+		m_pAnimationRender->ChangeAnimation("R_JumpReady");
+		m_EndTime += _DeltaTime;
+		if (m_EndTime>0.5f)
+		{	
+			Act.Act1 = true;
+			m_EndTime = 0.f;
+		}
+	}
+
+	if (Act.Act1&& Act.Act2 ==false)
+	{
+		m_pAnimationRender->ChangeAnimation("R_Jump");
+		m_MoveDir += float4::Up * m_fJumpSpeed;
+		Act.Act2 = true;
+	}
+
+	if (Act.Act2==true&& true==m_pBodyCollision->Collision({ .TargetGroup = static_cast<int>(CollisionOrder::ANGEL) })&&Act.Act3 == false)
+	{
+		m_pAnimationRender->ChangeAnimation("CrownJump");
+		m_pAnimationRender->SetScale({ 256,256 });
+
+		Act.Act3 = true;		
+	}
+
+	if (Act.Act3 == true&& Act.Act4 ==false)
+	{
+		m_MoveDir = float4::Zero;
+		m_EndTime += _DeltaTime;
+		if (m_EndTime > 0.5f)
+		{
+			m_EndTime = 0.f;
+			m_pAnimationRender->ChangeAnimation("CrownDown");
+			m_MoveDir.y = -100.f;
+			Act.Act4 = true;
+		}
+	}
+
+	if (Act.Act4 == true && Act.Act5 == false && ColDownAll())
+	{
+		m_EndTime += _DeltaTime;
+		m_pAnimationRender->ChangeAnimation("CrownEnd");
+		
 	}
 }
 

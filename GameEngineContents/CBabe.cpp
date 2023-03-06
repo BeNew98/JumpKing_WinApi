@@ -7,7 +7,7 @@
 #include <GameEngineCore/GameEngineCore.h>
 
 #include "CPlayer.h"
-#include"EnumHeader.h"
+#include "CJump.h"
 
 CBabe* CBabe::MainBabe = nullptr;
 
@@ -51,25 +51,28 @@ void CBabe::Update(float _DeltaTime)
 	{
 		float4 CamPos = GetLevel()->GetCameraPos();
 		m_EndTime += _DeltaTime;		
-		if (m_EndTime > 5.f && false== m_bJump)
+		if (m_EndTime > 5.f && false== Act.Act0)
 		{
 			m_EndTime = 0.f;
 			ChangeState(BabeState::JUMP_READY);
+			Act.Act0 = true;
 		}
-		if (m_EndTime > 1.f&&m_StateValue == BabeState::JUMP_READY&& m_bJump == false)
+		if (m_EndTime > 1.f&&m_StateValue == BabeState::JUMP_READY&& Act.Act0)
 		{
 			m_EndTime = 0.f;
-			m_bJump = true;
+			Act.Act1 = true;
 			ChangeState(BabeState::JUMP);
 		}
-		if (m_EndTime>1.f&& m_bJump)
+		if (m_EndTime>1.f&& Act.Act1&& Act.Act2 ==false)
 		{
 			ChangeState(BabeState::MOVE);
+			Act.Act2 = true;
 		}
 
-		if (m_StateValue != BabeState::KISS&&m_pBodyCollision->Collision({ .TargetGroup = static_cast<int>(CollisionOrder::PLAYER) }))
+		if (Act.Act2 && m_pBodyCollision->Collision({ .TargetGroup = static_cast<int>(CollisionOrder::PLAYER) }) && Act.Act3 == false)
 		{
 			ChangeState(BabeState::KISS);
+			Act.Act3 = true;
 		}
 
 		if (m_StateValue == BabeState::KISS)
@@ -274,12 +277,17 @@ void CBabe::JumpReadyUpdate(float _Time)
 
 void CBabe::JumpReadyEnd()
 {
+	float4 PlayerPos = GetPos();
+	CJump::JumpParticle->AnimChange("JumpParticle", PlayerPos);
 }
 
 void CBabe::JumpStart()
 {
 	m_pAnimationRender->ChangeAnimation("BabeJump");
-	m_MoveDir += float4::Up * m_fJumpSpeed;
+
+	GameEngineResources::GetInst().SoundPlay("babe jump.wav");
+ 
+	m_MoveDir += float4::Up * m_fJumpSpeed ;
 }
 
 void CBabe::JumpUpdate(float _Time)
@@ -297,6 +305,7 @@ void CBabe::JumpEnd()
 void CBabe::KissStart()
 {
 	m_pAnimationRender->ChangeAnimation("BabeKiss");
+	GameEngineResources::GetInst().SoundPlay("babe kiss.wav");
 	m_MoveDir = float4::Zero;
 }
 

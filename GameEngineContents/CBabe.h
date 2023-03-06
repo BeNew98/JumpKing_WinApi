@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include "EnumHeader.h"
 
 enum class BabeState
 {
@@ -39,12 +40,14 @@ protected:
 	void Render(float _DeltaTime) override;
 
 private:
+	EndingAct	Act;
 	bool		m_Ending = false;
 	float		m_fMoveSpeed = 10.0f;
 	float		m_fGravity = 1600.f;
 	float		m_fGravityLimit = 850.f;
 	float		m_fMoveLimit = 40.f;
-	float		m_fJumpSpeed = 400.f; 
+	float		m_fJumpSpeed = 400.f;
+	float		m_fJumpPressTime = 0.f;
 
 	float		m_EndTime = 0.f;
 	float		m_KissTime = 0.f;
@@ -58,7 +61,6 @@ private:
 	GameEngineImage* m_pColImage = nullptr;
 
 	float4 PlayerPos = float4::Zero;
-	bool m_bJump = false;
 	void ChangeState(BabeState _State);
 	void UpdateState(float _Time);
 

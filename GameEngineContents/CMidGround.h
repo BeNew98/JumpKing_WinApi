@@ -9,7 +9,6 @@ public:
 	CMidGround();
 	~CMidGround();
 	
-	static float4 m_MapSize;
 
 	// delete Function
 	CMidGround(const CMidGround& _Other) = delete;
@@ -28,7 +27,6 @@ private:
 	GameEngineRender* m_pRenderMap3 = nullptr;
 	GameEngineRender* m_pRenderMap4 = nullptr;
 
-	GameEngineRender* m_pColMap = nullptr;
 
 };
 

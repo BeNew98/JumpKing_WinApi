@@ -42,6 +42,9 @@
     <ClInclude Include="CAngel.h">
       <Filter>PlayLevel\Object</Filter>
     </ClInclude>
+    <ClInclude Include="CColMap.h">
+      <Filter>PlayLevel\BackGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JumpKingCore.cpp" />
@@ -86,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="CAngel.cpp">
       <Filter>PlayLevel\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CColMap.cpp">
+      <Filter>PlayLevel\BackGround</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

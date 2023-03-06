@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineResources.h>
+#include "EnumHeader.h"
 
 struct Wind 
 {
@@ -93,6 +94,7 @@ protected:
 	void Render(float _DeltaTime) override;
 
 private:
+	EndingAct	Act;
 	PlayerPos	pPos;
 	Wind		m_Wind;
 
@@ -115,7 +117,8 @@ private:
 	float		m_fJumpPressTime	= 0.f;
 	float		m_fKnockTime		= 0.f;
 	float4		m_HighestPos		= float4{ 0,99999 };
-	float4		EndingPos			= float4::Zero;
+	float4		m_EndingPos			= float4::Zero;
+	float		m_EndTime			= 0.f;
 
 	Color m_Red						= { 255,0,0 };
 	Color m_Green					= { 0,255,0 };

@@ -2,7 +2,7 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineCore.h>
-#include "CMidGround.h"
+#include "CColMap.h"
 #include "EnumHeader.h"
 
 CForeGround::CForeGround() 
@@ -16,7 +16,7 @@ CForeGround::~CForeGround()
 void CForeGround::Start()
 {
 	float ImgYSize = 720.f;
-	float4 AllMapSize = CMidGround::m_MapSize;
+	float4 AllMapSize = CColMap::m_MapSize;
 
 	GameEngineRender* BG = CreateRender(RenderOrder::FOREGROUND);
 	BG->GameEngineRender::SetImageToScaleToImage("fg1.bmp");

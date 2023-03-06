@@ -10,12 +10,14 @@
 #include "CMidGround.h"
 #include "CBackGround.h"
 #include "CForeGround.h"
+#include "CColMap.h"
 #include "CFlag.h"
 #include "CSnow.h"
 #include "CCandle.h"
 #include "CJump.h"
-#include "EnumHeader.h"
 #include "CBabe.h"
+#include "CAngel.h"
+#include "EnumHeader.h"
 
 
 CPlayLevel::CPlayLevel() 
@@ -324,6 +326,7 @@ void CPlayLevel::Loading()
 
 
 
+	CColMap* pColMap = CreateActor<CColMap>();
 	CMidGround* pMidGround = CreateActor<CMidGround>();
 	CBackGround* pBackGround = CreateActor<CBackGround>();
 	CForeGround* pForeGround = CreateActor<CForeGround>();
@@ -344,10 +347,13 @@ void CPlayLevel::Loading()
 
 	CPlayer* pActor = CreateActor<CPlayer>();
 
-	pActor->SetPos(float4{ CMidGround::m_MapSize.hx(),CMidGround::m_MapSize.y - 70 });
+	pActor->SetPos(float4{ CColMap::m_MapSize.hx(),CColMap::m_MapSize.y - 70 });
 
 	CBabe* pBabe = CreateActor<CBabe>();
 	pBabe->SetPos({ 787,258 });
+
+	CAngel* pAngel = CreateActor<CAngel>();
+	pAngel->SetPos({ 1200, -300 });
 	
 }
 
@@ -401,7 +407,16 @@ void CPlayLevel::Update(float _DeltaTime)
 			CPlayer::MainPlayer->SetPos(float4{ 300,286 });
 		}
 
-		SetCameraPos(float4{ 0,(m_iMapNumber * GameEngineWindow::GetScreenSize().y) });
+		if (CPlayer::MainPlayer->m_Ending)
+		{
+			float4 CenterPos = { 200,-200 };
+			float4 CamPos = GetCameraPos();
+			SetCameraMove({ (CenterPos - CamPos) * 1.f * _DeltaTime });
+		}
+		else
+		{
+			SetCameraPos(float4{ 0,(m_iMapNumber * GameEngineWindow::GetScreenSize().y) });
+		}
 	}
 	else
 	{
