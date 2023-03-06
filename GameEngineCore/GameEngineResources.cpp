@@ -89,7 +89,7 @@ GameEngineSound* GameEngineResources::SoundLoad(const std::string_view& _Path, c
 
 	if (AllSound.end() != AllSound.find(UpperName))
 	{
-		MsgAssert("이미 로드한 이미지를 또 로드하려고 했습니다." + UpperName);
+		MsgAssert("이미 로드한 사운드를 또 로드하려고 했습니다." + UpperName);
 		return nullptr;
 	}
 

@@ -390,6 +390,7 @@ void CPlayer::EndingScene(float _DeltaTime)
 		m_Ending = true;
 		EndingPos = GetPos();
 		ChangeState(PlayerState::IDLE);
+		GameEngineResources::GetInst().SoundPlay("ending.wav");
 	}
 	if (m_Ending == true)
 	{
@@ -401,6 +402,7 @@ void CPlayer::EndingScene(float _DeltaTime)
 	if (CBabe::MainBabe->IsEnd())
 	{
 		m_pAnimationRender->ChangeAnimation("LookUp");
+		m_pAnimationRender->SetScale({ 256,256 });
 	}
 }
 

@@ -28,18 +28,21 @@ void CTitleLevel::Loading()
 	Dir.MoveParentToDirectory("ContentsResources");
 	Dir.Move("ContentsResources");
 	Dir.Move("Sound");
-	Dir.Move("music");
-	Dir.Move("menu loop");
+	Dir.Move("Title");
 
-	Intro = GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("menu_intro.wav"));
+	std::vector<GameEngineFile> Files = Dir.GetAllFile();
 
+	for (size_t i = 0; i < Files.size(); i++)
+	{
+		GameEngineResources::GetInst().SoundLoad(Files[i].GetFullPath());
+	}
 	
 	Dir.MoveParentToDirectory("ContentsResources");
 	Dir.Move("ContentsResources");
 	Dir.Move("Image");
 	Dir.Move("Title");
 
-	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	Files = Dir.GetAllFile();
 	for (size_t i = 0; i < Files.size(); i++)
 	{
 		GameEngineResources::GetInst().ImageLoad(Files[i].GetFullPath());

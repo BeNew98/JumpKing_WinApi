@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CAngel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CBabe.h">
       <SubType>
       </SubType>
@@ -74,6 +78,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAngel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CBabe.cpp">
       <SubType>
       </SubType>

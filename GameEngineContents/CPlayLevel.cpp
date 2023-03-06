@@ -111,6 +111,28 @@ void CPlayLevel::SoundLoad()
 	{
 		GameEngineResources::GetInst().SoundLoad(Files[i].GetFullPath());
 	}
+
+	Dir.MoveParentToDirectory("ContentsResources");
+	Dir.Move("ContentsResources");
+	Dir.Move("Sound");
+	Dir.Move("babe");
+
+	Files = Dir.GetAllFile();
+	for (size_t i = 0; i < Files.size(); i++)
+	{
+		GameEngineResources::GetInst().SoundLoad(Files[i].GetFullPath());
+	}
+
+	Dir.MoveParentToDirectory("ContentsResources");
+	Dir.Move("ContentsResources");
+	Dir.Move("Sound");
+	Dir.Move("music");
+
+	Files = Dir.GetAllFile();
+	for (size_t i = 0; i < Files.size(); i++)
+	{
+		GameEngineResources::GetInst().SoundLoad(Files[i].GetFullPath());
+	}
 }
 
 void CPlayLevel::ImageLoad()
