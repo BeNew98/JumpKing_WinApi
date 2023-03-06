@@ -10,6 +10,11 @@
 
 void CPlayer::ChangeState(PlayerState _State)
 {
+
+	if (m_Ending&& m_StateValue==PlayerState::IDLE)
+	{
+		return;
+	}
 	PlayerState NextState = _State;
 	PlayerState PrevState = m_StateValue;
 

@@ -2,6 +2,13 @@
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineResources.h>
 
+struct Wind 
+{
+	float m_fPower = 100.f;
+	float4 m_DirLeft = float4::Left;
+	float4 m_DirRight = float4::Right;
+	float m_fTime = 0.f;
+};
 struct Color
 {
 	int R = 0;
@@ -77,6 +84,9 @@ public:
 		m_MoveDir += _Dir;
 	}
 
+	bool m_Ending = false;
+
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -84,12 +94,13 @@ protected:
 
 private:
 	PlayerPos	pPos;
+	Wind		m_Wind;
 
 	float		m_fAccTime			= 0.0f;
 	int			m_iStartFrame		= 0;
 	float		m_fMoveSpeed		= 170.0f;
 	float		m_fJumpMoveSpeed	= 400.0f;
-	float		m_fGravity			= 1600.f; /*2.2f;*/
+	float		m_fGravity			= 1600.f;
 	float		m_fGravityLimit		= 850.f;
 	float		m_fMoveLimit		= 170.f;
 	float		m_fJumpMoveLimit	= 400.f;
@@ -104,13 +115,13 @@ private:
 	float		m_fJumpPressTime	= 0.f;
 	float		m_fKnockTime		= 0.f;
 	float4		m_HighestPos		= float4{ 0,99999 };
+	float4		EndingPos			= float4::Zero;
 
 	Color m_Red						= { 255,0,0 };
 	Color m_Green					= { 0,255,0 };
 	Color m_Blue					= { 0,0,255 };
 	Color m_Sky						= { 0,255,255 };
 	Color m_Black					= { 0,0,0 };
-
 
 
 	std::string m_DirString			= "R_";
@@ -154,12 +165,10 @@ private:
 	void FallUpdate(float _Time);
 	void FallEnd();
 
-	void Movecalculation(float _DeltaTime);
 
 	void TestRender();
 	void ColRender();
 
-	void pPosUpdate();
 
 	bool ColLeftUp	(Color _Color = {0,0,0});
 	bool ColRightUp	(Color _Color = {0,0,0});
@@ -188,7 +197,14 @@ private:
 
 	bool ColCurDown(Color _Color = {0,0,0});
 
+	void Movecalculation(float _DeltaTime);
+	void GravityCalculation(float _DeltaTime);
 	void FloorCalibration();
+	void pPosUpdate();
 	void WallCalibration();
+	void WindCaculation(float _DeltaTime);
+
+
+	void EndingScene(float _DeltaTime);
 };
 

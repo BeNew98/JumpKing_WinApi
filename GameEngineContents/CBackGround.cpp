@@ -1,9 +1,10 @@
 #include "CBackGround.h"
-#include "EnumHeader.h"
-#include <GameEngineCore/GameEngineRender.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
-#include "CMidGround.h"
+#include <GameEngineCore/GameEngineRender.h>
+#include <GameEngineCore/GameEngineCollision.h>
 
+#include "CMidGround.h"
+#include "EnumHeader.h"
 
 CBackGround::CBackGround() 
 {
@@ -15,6 +16,13 @@ CBackGround::~CBackGround()
 
 void CBackGround::Start()
 {
+	{
+		m_pBodyCollision = CreateCollision(CollisionOrder::ENDING);
+		m_pBodyCollision->SetScale({ 180, 60 });
+		m_pBodyCollision->SetPosition({ 770,270 });
+		m_pBodyCollision->SetDebugRenderType(CT_Rect);
+	}
+
 	float ImgYSize = 720.f;
 	float4 AllMapSize = CMidGround::m_MapSize;
 
@@ -163,9 +171,10 @@ void CBackGround::Start()
 	BG->SetMove(BG->GetScale().half());
 	BG->SetMove(float4{ 0,AllMapSize.y - ImgYSize * 42 });
 
-	BG = CreateRender(RenderOrder::BACKGROUND);
-	BG->GameEngineRender::SetImageToScaleToImage("bg43.bmp");
-	BG->SetMove(BG->GetScale().half());
-	BG->SetMove(float4{ 0,AllMapSize.y - ImgYSize * 43 });
+	EndBG = CreateRender(RenderOrder::BACKGROUND);
+	EndBG->GameEngineRender::SetImageToScaleToImage("bg43.bmp");
+	EndBG->SetMove(BG->GetScale().half());
+	EndBG->SetMove(float4{ 0,AllMapSize.y - ImgYSize * 43 });
+	EndBG->EffectCameraOff();
 }
 

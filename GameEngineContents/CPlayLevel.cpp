@@ -15,6 +15,7 @@
 #include "CCandle.h"
 #include "CJump.h"
 #include "EnumHeader.h"
+#include "CBabe.h"
 
 
 CPlayLevel::CPlayLevel() 
@@ -200,6 +201,28 @@ void CPlayLevel::ImageLoad()
 	pSnow->Cut(2, 2);
 
 
+
+	Dir.MoveParentToDirectory("ContentsResources");
+	Dir.Move("ContentsResources");
+	Dir.Move("Image");
+	Dir.Move("Play");
+	Dir.Move("End");
+
+	GameEngineImage* Angel = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Angel.bmp").GetPathToString());
+	Angel->Cut(2, 2);
+
+	GameEngineImage* Babe = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Babe.bmp").GetPathToString());
+	Babe->Cut(4, 2);
+
+	GameEngineImage* CrownKing = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CrownKing.bmp").GetPathToString());
+	CrownKing->Cut(2, 3);
+
+	GameEngineImage* Fly = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Fly.bmp").GetPathToString());
+	Fly->Cut(3, 3);
+
+	GameEngineImage* KingBabe = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("KingBabe.bmp").GetPathToString());
+	KingBabe->Cut(3, 3);
+
 }
 void CPlayLevel::KeyLoad()
 {
@@ -241,6 +264,10 @@ void CPlayLevel::KeyLoad()
 	if (false == GameEngineInput::IsKey("Number2"))
 	{
 		GameEngineInput::CreateKey("Number2", '2');
+	}
+	if (false == GameEngineInput::IsKey("Number3"))
+	{
+		GameEngineInput::CreateKey("Number3", '3');
 	}
 }
 void CPlayLevel::Loading()
@@ -296,6 +323,9 @@ void CPlayLevel::Loading()
 	CPlayer* pActor = CreateActor<CPlayer>();
 
 	pActor->SetPos(float4{ CMidGround::m_MapSize.hx(),CMidGround::m_MapSize.y - 70 });
+
+	CBabe* pBabe = CreateActor<CBabe>();
+	pBabe->SetPos({ 787,258 });
 	
 }
 
@@ -344,12 +374,19 @@ void CPlayLevel::Update(float _DeltaTime)
 		{
 			CPlayer::MainPlayer->SetPos(float4{ 202,7486 });
 		}
+		if (GameEngineInput::IsDown("Number3"))
+		{
+			CPlayer::MainPlayer->SetPos(float4{ 300,286 });
+		}
 
 		SetCameraPos(float4{ 0,(m_iMapNumber * GameEngineWindow::GetScreenSize().y) });
 	}
 	else
 	{
-		//GameEngineInput::MouseCursorOff();
+		if (CPlayer::MainPlayer->m_Ending)
+		{
+			return;
+		}
 		float4 fPlayerPos = CPlayer::MainPlayer->GetPos();
 		m_iMapNumber = fPlayerPos.iy()/ GameEngineWindow::GetScreenSize().iy();
 		SetCameraPos(float4{ 0,(m_iMapNumber * GameEngineWindow::GetScreenSize().y) });

@@ -7,6 +7,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include "EnumHeader.h"
+#include "CBabe.h"
 
 CPlayer* CPlayer::MainPlayer = nullptr;
 
@@ -31,7 +32,6 @@ void CPlayer::Start()
 	//Jump.Stop();
 
 	m_pAnimationRender = CreateRender(RenderOrder::PLAYER);
-	m_pAnimationRender->SetScale({ 128,128 });
 
 	//move
 	m_pAnimationRender->CreateAnimation({ .AnimationName = "L_Move",.ImageName = "L_basecut.bmp",.Start = 1,.End = 3,.InterTime = 0.12f, });
@@ -62,12 +62,26 @@ void CPlayer::Start()
 	m_pAnimationRender->CreateAnimation({ .AnimationName = "R_Fall",.ImageName = "R_basecut.bmp",.Start = 7,.End = 7, });
 
 
-	//{
-	//	m_pBodyCollision = CreateCollision(RenderOrder::PLAYER);
-	//	m_pBodyCollision->SetScale({ 40, 40 });
-	//	m_pBodyCollision->SetPosition({ 0,-25 });
-	//	m_pBodyCollision->SetDebugRenderType(CT_Rect);
-	//}
+	//lookup
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "LookUp",.ImageName = "CrownKing.bmp",.Start = 4,.End = 4, });
+
+	//CrownJump
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "CrownJump",.ImageName = "CrownKing.bmp",.Start = 1,.End = 1, });
+
+	//CrownDown
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "CrownDown",.ImageName = "CrownKing.bmp",.Start = 0,.End = 0, });
+
+	//CrownEnd
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "CrownEnd",.ImageName = "CrownKing.bmp",.Start = 2,.End = 3,.InterTime = 1.f,.Loop = false });
+
+	m_pAnimationRender->SetScale({ 128,128 });
+
+	{
+		m_pBodyCollision = CreateCollision(CollisionOrder::PLAYER);
+		m_pBodyCollision->SetScale({ 40, 40 });
+		m_pBodyCollision->SetPosition({ 0,-25 });
+		m_pBodyCollision->SetDebugRenderType(CT_Rect);
+	}
 
 	ChangeState(PlayerState::FALL);
 
@@ -75,6 +89,7 @@ void CPlayer::Start()
 
 void CPlayer::Update(float _DeltaTime)
 {
+	EndingScene(_DeltaTime);
 	Movecalculation(_DeltaTime);
 }
 
@@ -118,55 +133,17 @@ void CPlayer::Movecalculation(float _DeltaTime)
 {
 	m_pColImage = GameEngineResources::GetInst().ImageFind("ColMap.BMP");
 
-	pPosUpdate();
 
 	if (nullptr == m_pColImage)
 	{
 		MsgAssert("충돌용 맵 이미지가 없습니다.");
 	}
 
-	// 중력 을 받을때 안받을때 결정
-	if (false==(ColDownAll()|| ColDownAll(m_Sky) || ColDownAll(m_Green)))
-	{
-		m_MoveDir += float4::Down * m_fGravity* _DeltaTime;
+	pPosUpdate();
 
-		
+	GravityCalculation(_DeltaTime);
 
-		//중력 최대 속도 제한
-		if (m_MoveDir.y > m_fGravityLimit)
-		{
-			m_MoveDir.y = m_fGravityLimit;
-		}
-	}
-	else
-	{
-		if (m_MoveDir.y > 0.f)
-		{
-			m_MoveDir.y = 0.f;
-		}
-
-		if (ColDownAll(m_Sky) && 0 != m_MoveDir.x)
-		{
-			float4 Friction = -m_MoveDir;
-			if (!Friction.IsZero())
-			{
-				Friction.Normalize();
-				Friction *= (m_fMoveSpeed * 2.0f)*_DeltaTime;
-			}
-
-			if (m_MoveDir.Size() <= Friction.Size())
-			{
-				m_MoveDir = float4(0.f, 0.f);
-			}
-			else
-			{
-				// 현재 속도 반대방향으로 마찰의 의한 속도 감소
-				m_MoveDir += Friction;
-			}
-		}
-		
-	}
-
+	//WindCaculation(_DeltaTime);
 
 	UpdateState(_DeltaTime);
 
@@ -335,6 +312,95 @@ void CPlayer::WallCalibration()
 	{
 		SetPos(GetPos() + float4::Left);
 		pPosUpdate();
+	}
+}
+
+void CPlayer::GravityCalculation(float _DeltaTime)
+{// 중력 을 받을때 안받을때 결정
+	if (false == (ColDownAll() || ColDownAll(m_Sky) || ColDownAll(m_Green)))
+	{
+		m_MoveDir += float4::Down * m_fGravity * _DeltaTime;
+
+
+
+		//중력 최대 속도 제한
+		if (m_MoveDir.y > m_fGravityLimit)
+		{
+			m_MoveDir.y = m_fGravityLimit;
+		}
+	}
+	else
+	{
+		if (m_MoveDir.y > 0.f)
+		{
+			m_MoveDir.y = 0.f;
+		}
+
+		if (ColDownAll(m_Sky) && 0 != m_MoveDir.x)
+		{
+			float4 Friction = -m_MoveDir;
+			if (!Friction.IsZero())
+			{
+				Friction.Normalize();
+				Friction *= (m_fMoveSpeed * 2.0f) * _DeltaTime;
+			}
+
+			if (m_MoveDir.Size() <= Friction.Size())
+			{
+				m_MoveDir = float4(0.f, 0.f);
+			}
+			else
+			{
+				// 현재 속도 반대방향으로 마찰의 의한 속도 감소
+				m_MoveDir += Friction;
+			}
+		}
+
+	}
+}
+
+void CPlayer::WindCaculation(float _DeltaTime)
+{
+	float4 Pos = GetPos();
+
+	if (false == (Pos.y > 7920.f && Pos.y < 12960.f))
+	{
+		return;
+	}
+	else
+	{
+		m_Wind.m_fTime += _DeltaTime;
+
+		if (m_Wind.m_fTime >= 5.f)
+		{
+			if (true)
+			{
+
+			}
+		}
+	}
+	
+	
+}
+
+void CPlayer::EndingScene(float _DeltaTime)
+{
+	if (true == m_pBodyCollision->Collision({ .TargetGroup = static_cast<int>(CollisionOrder::ENDING) }) && false == m_Ending)
+	{
+		m_Ending = true;
+		EndingPos = GetPos();
+		ChangeState(PlayerState::IDLE);
+	}
+	if (m_Ending == true)
+	{
+		SetPos({ 670,290 });
+		float4 CenterPos = { 200,-200 };
+		float4 CamPos = GetLevel()->GetCameraPos();
+		GetLevel()->SetCameraMove({ (CenterPos - CamPos) * 1.f * _DeltaTime });
+	}
+	if (CBabe::MainBabe->IsEnd())
+	{
+		m_pAnimationRender->ChangeAnimation("LookUp");
 	}
 }
 

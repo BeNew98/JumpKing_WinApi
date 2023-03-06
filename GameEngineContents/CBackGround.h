@@ -3,6 +3,7 @@
 
 // Ό³Έν :
 
+class GameEngineCollision;
 class CBackGround : public GameEngineActor
 {
 public:
@@ -21,5 +22,7 @@ protected:
 	void Start() override;
 
 private:
+	GameEngineRender* EndBG = nullptr;
+	GameEngineCollision* m_pBodyCollision = nullptr;
 };
 

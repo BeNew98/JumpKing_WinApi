@@ -9,7 +9,14 @@ enum class RenderOrder
 	PROPS,
 	DEBUG, // 삭제예정
 	PLAYER,
+	BABE,
 	FOREGROUND,
 	PARTICLE,
-	MONSTER,
+};
+
+enum class CollisionOrder
+{
+	PLAYER,
+	BABE,
+	ENDING
 };
