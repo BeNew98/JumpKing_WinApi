@@ -327,6 +327,8 @@ void CPlayLevel::Loading()
 
 
 	CColMap* pColMap = CreateActor<CColMap>();
+
+
 	CMidGround* pMidGround = CreateActor<CMidGround>();
 	CBackGround* pBackGround = CreateActor<CBackGround>();
 	CForeGround* pForeGround = CreateActor<CForeGround>();

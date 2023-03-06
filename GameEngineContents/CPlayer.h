@@ -60,7 +60,13 @@ enum class PlayerState
 	JUMP_READY,
 	JUMP,
 	DOWN,
-	FALL
+	FALL,
+	END_IDLE,
+	END_MOVE,
+	END_JUMP_READY,
+	END_JUMP,
+	END_DOWN,
+	END_FLY,
 };
 // Ό³Έν :
 class CMidGround;
@@ -220,5 +226,25 @@ private:
 
 
 	void EndingScene(float _DeltaTime);
+
+
+	void EndIdleStart();
+	void EndIdleUpdate(float _Time);
+	void EndIdleEnd();
+	void EndMoveStart();
+	void EndMoveUpdate(float _Time);
+	void EndMoveEnd();
+	void EndJumpReadyStart();
+	void EndJumpReadyUpdate(float _Time);
+	void EndJumpReadyEnd();
+	void EndJumpStart();
+	void EndJumpUpdate(float _Time);
+	void EndJumpEnd();
+	void EndDownStart();
+	void EndDownUpdate(float _Time);
+	void EndDownEnd();
+	void EndFlyStart();
+	void EndFlyUpdate(float _Time);
+	void EndFlyEnd();
 };
 

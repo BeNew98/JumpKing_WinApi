@@ -11,9 +11,9 @@
 void CPlayer::ChangeState(PlayerState _State)
 {
 
-	if (m_Ending&& m_StateValue==PlayerState::IDLE)
+	if (m_Ending&& static_cast<int>(_State) < 6)
 	{
-		return;
+		_State = static_cast<PlayerState>(static_cast<int>(_State) + 6);
 	}
 	PlayerState NextState = _State;
 	PlayerState PrevState = m_StateValue;
@@ -39,6 +39,25 @@ void CPlayer::ChangeState(PlayerState _State)
 		break;
 	case PlayerState::FALL:
 		FallStart();
+		break;
+
+	case PlayerState::END_IDLE:
+		EndIdleStart();
+		break;
+	case PlayerState::END_MOVE:
+		EndMoveStart();
+		break;
+	case PlayerState::END_JUMP_READY:
+		EndJumpReadyStart();
+		break;
+	case PlayerState::END_JUMP:
+		EndJumpStart();
+		break;
+	case PlayerState::END_DOWN:
+		EndDownStart();
+		break;
+	case PlayerState::END_FLY:
+		EndFlyStart();
 		break;
 	}
 
@@ -77,6 +96,25 @@ void CPlayer::UpdateState(float _Time)
 		break;
 	case PlayerState::FALL:
 		FallUpdate(_Time);
+		break;
+
+	case PlayerState::END_IDLE:
+		EndIdleUpdate(_Time);
+		break;
+	case PlayerState::END_MOVE:
+		EndMoveUpdate(_Time);
+		break;
+	case PlayerState::END_JUMP_READY:
+		EndJumpReadyUpdate(_Time);
+		break;
+	case PlayerState::END_JUMP:
+		EndJumpUpdate(_Time);
+		break;
+	case PlayerState::END_DOWN:
+		EndDownUpdate(_Time);
+		break;
+	case PlayerState::END_FLY:
+		EndFlyUpdate(_Time);
 		break;
 	}
 }
@@ -201,6 +239,7 @@ void CPlayer::MoveUpdate(float _Time)
 	}
 
 	DirCheck("Move");
+
 }
 
 void CPlayer::MoveEnd()
@@ -563,3 +602,99 @@ void CPlayer::FallEnd()
 {
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void CPlayer::EndIdleStart() 
+{
+}
+void CPlayer::EndIdleUpdate(float _Time) 
+{
+	m_MoveDir = float4::Zero;
+}
+void CPlayer::EndIdleEnd() {}
+
+void CPlayer::EndMoveStart() 
+{
+	DirCheck("KBM");
+}
+void CPlayer::EndMoveUpdate(float _Time) 
+{
+	// 좌우 이동 최대 속도 제한
+	if (m_fMoveLimit <= abs(m_MoveDir.x))
+	{
+		if (0 > m_MoveDir.x)
+		{
+			m_MoveDir.x = -m_fMoveLimit;
+		}
+		else {
+			m_MoveDir.x = m_fMoveLimit;
+		}
+	}
+
+	if (m_MoveDir.x == 0.f)
+	{
+		return;
+	}
+
+	DirCheck("KBM");
+}
+void CPlayer::EndMoveEnd() {}
+void CPlayer::EndJumpReadyStart() 
+{
+	m_MoveDir = float4::Zero;
+}
+void CPlayer::EndJumpReadyUpdate(float _Time) {}
+void CPlayer::EndJumpReadyEnd() {}
+void CPlayer::EndJumpStart() 
+{
+	GameEngineResources::GetInst().SoundPlay("king_Jump.wav");
+
+	// 점프키 클릭 시간을 6단계로 나누어서 점프력 보정
+	m_fJumpPressTime = 0.6f;
+
+
+	// 점프키를 누른 시간만큼에 비례하여 점프 스피드 결정. 0.6초가 최대고 나누어서 최대가 1.0으로 만듦	 
+	m_MoveDir += float4::Up * m_fJumpSpeed * (m_fJumpPressTime / 0.6f);
+}
+void CPlayer::EndJumpUpdate(float _Time) 
+{
+	if (m_MoveDir.y >= 0)
+	{
+		ChangeState(PlayerState::END_DOWN);
+		return;
+	}
+}
+void CPlayer::EndJumpEnd() {}
+void CPlayer::EndDownStart() {}
+void CPlayer::EndDownUpdate(float _Time) 
+{
+	//바닥에 안착시
+	if (ColDownAll())
+	{
+		GameEngineResources::GetInst().SoundPlay("king_land.wav");
+		ChangeState(PlayerState::END_IDLE);
+		return;
+	}
+}
+void CPlayer::EndDownEnd() {}
+void CPlayer::EndFlyStart()
+{
+	EndAnimChange("FlyIdle");
+}
+void CPlayer::EndFlyUpdate(float _Time) 
+{
+	
+}
+void CPlayer::EndFlyEnd() {}

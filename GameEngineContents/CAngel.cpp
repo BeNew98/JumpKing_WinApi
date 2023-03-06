@@ -63,7 +63,13 @@ void CAngel::Update(float _DeltaTime)
 		if (m_EndTime > 2.f)
 		{
 			SetMove((float4{ 1200, -300 } - GetPos()) * 2.f * _DeltaTime);
+			if ((m_EndTime > 5.f))
+			{
+				Off();
+				Act.Act2 = true;
+			}
 		}
+		
 	}
 }
 

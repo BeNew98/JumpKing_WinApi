@@ -76,20 +76,28 @@ void CPlayer::Start()
 
 
 	//KingBabeJR
-	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBJR",.ImageName = "KingBabe.bmp",.Start = 2,.End = 2, });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBJR",.ImageName = "KingBabe.bmp",.Start = 2,.End = 2 });
 
 	//KingBabeR
-	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBR",.ImageName = "KingBabe.bmp",.Start = 1,.End = 1, });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBR",.ImageName = "KingBabe.bmp",.Start = 1,.End = 1 });
 
 	//KingBabeL
 	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBL",.ImageName = "KingBabe.bmp",.Start = 0,.End = 0, });
 
 	//KingBabeLM
-	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBLM",.ImageName = "KingBabe.bmp",.Start = 3,.End = 5, });
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "L_KBM",.ImageName = "KingBabe.bmp",.Start = 3,.End = 5,.InterTime = 0.1f });
 
 	//KingBabeRM
-	m_pAnimationRender->CreateAnimation({ .AnimationName = "KBRM",.ImageName = "KingBabe.bmp",.Start = 6,.End = 8, .InterTime = 0.5f});
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "R_KBM",.ImageName = "KingBabe.bmp",.Start = 6,.End = 8,.InterTime = 0.1f });
 
+	//KingBabeFlyReady
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "FlyReady",.ImageName = "Fly.bmp",.Start = 0,.End = 0});
+
+	//KingBabeFlyIdle
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "FlyIdle",.ImageName = "Fly.bmp",.Start = 1,.End = 3 ,.InterTime = 0.2f});
+
+	//KingBabeLookUp
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "FlyLookUp",.ImageName = "Fly.bmp",.Start = 4,.End = 7 ,.InterTime = 0.4f });
 
 
 	m_pAnimationRender->SetScale({ 128,128 });
@@ -103,6 +111,7 @@ void CPlayer::Start()
 
 	ChangeState(PlayerState::FALL);
 
+	m_pColImage = GameEngineResources::GetInst().ImageFind("ColMap.BMP");
 }
 
 void CPlayer::Update(float _DeltaTime)
@@ -158,7 +167,6 @@ void CPlayer::Render(float _DeltaTime)
 
 void CPlayer::Movecalculation(float _DeltaTime)
 {
-	m_pColImage = GameEngineResources::GetInst().ImageFind("ColMap.BMP");
 
 
 	if (nullptr == m_pColImage)
@@ -415,10 +423,10 @@ void CPlayer::EndingScene(float _DeltaTime)
 {
 	if (true == m_pBodyCollision->Collision({ .TargetGroup = static_cast<int>(CollisionOrder::ENDING) }) && false == m_Ending)
 	{
-		m_Ending = true;
 		m_EndingPos = GetPos();
 		ChangeState(PlayerState::IDLE);
 		GameEngineResources::GetInst().SoundPlay("ending.wav");
+		m_Ending = true;
 	}
 	if (false == m_Ending)
 	{
@@ -426,6 +434,8 @@ void CPlayer::EndingScene(float _DeltaTime)
 	}
 	if (m_Ending == true && m_EndTime<5.f&&Act.Act0==false)
 	{
+
+		ChangeState(PlayerState::END_IDLE);
 		m_EndTime += _DeltaTime;
 		SetPos({ 670,290 });
 		float4 CenterPos = { 200,-200 };
@@ -435,33 +445,34 @@ void CPlayer::EndingScene(float _DeltaTime)
 	if (CBabe::MainBabe->IsEnd()&&CAngel::MainAngel->IsEnd() == false)
 	{
 		m_EndTime = 0.f;
-		m_pAnimationRender->ChangeAnimation("LookUp");
+		EndAnimChange("LookUp");
 		m_pAnimationRender->SetScale({ 256,256 });
 		Act.Act0 = true;
 	}
 	if (CBabe::MainBabe->IsEnd() && CAngel::MainAngel->IsEnd()&&Act.Act0 == true&& Act.Act1 ==false)
 	{
 		m_pAnimationRender->SetScale({ 128,128 });
-		m_pAnimationRender->ChangeAnimation("R_JumpReady");
+		EndAnimChange("R_JumpReady");
 		m_EndTime += _DeltaTime;
 		if (m_EndTime>0.5f)
 		{	
 			Act.Act1 = true;
 			m_EndTime = 0.f;
+
+			ChangeState(PlayerState::END_JUMP);
 			GameEngineResources::GetInst().SoundPlay("king_Jump.wav");
 		}
 	}
 
 	if (Act.Act1&& Act.Act2 ==false)
 	{
-		m_pAnimationRender->ChangeAnimation("R_Jump");
-		m_MoveDir += float4::Up * m_fJumpSpeed;
+		EndAnimChange("R_Jump");
 		Act.Act2 = true;
 	}
 
 	if (Act.Act2==true&& true==m_pBodyCollision->Collision({ .TargetGroup = static_cast<int>(CollisionOrder::ANGEL) })&&Act.Act3 == false)
 	{
-		m_pAnimationRender->ChangeAnimation("CrownJump");
+		EndAnimChange("CrownJump");
 		m_pAnimationRender->SetScale({ 256,256 });
 
 		Act.Act3 = true;		
@@ -474,65 +485,106 @@ void CPlayer::EndingScene(float _DeltaTime)
 		if (m_EndTime > 0.5f)
 		{
 			m_EndTime = 0.f;
-			m_pAnimationRender->ChangeAnimation("CrownDown");
+			EndAnimChange("CrownDown");
 			m_MoveDir.y = -100.f;
+			ChangeState(PlayerState::END_DOWN);
 			Act.Act4 = true;
 		}
 	}
 
 	if (Act.Act4 == true && Act.Act5 == false && ColDownAll())
 	{
+		EndAnimChange("CrownEnd");
 		m_EndTime += _DeltaTime;
-		if (m_EndTime<0.01f)
-		{
-			GameEngineResources::GetInst().SoundPlay("king_land.wav");
-		}
-		m_pAnimationRender->ChangeAnimation("CrownEnd");
 		
 		if (m_EndTime > 1.f)
 		{
 			m_EndTime = 0.f;
 			Act.Act5 = true;
-			m_pAnimationRender->ChangeAnimation("KBR");
+			EndAnimChange("KBR");
 			GameEngineResources::GetInst().SoundPlay("babe pickup.wav");
 		}
 	}
 	if (Act.Act5 == true && Act.Act6 == false)
 	{
 		m_EndTime += _DeltaTime;
-		if (m_EndTime<0.01f)
+		
+		if (m_StateValue != PlayerState::END_MOVE)
 		{
 			m_pAnimationRender->ChangeAnimation("KBL");
 		}
-		if (m_EndTime>1.f)
+		
+		if (m_EndTime > 1.f /*&& m_StateValue != PlayerState::END_MOVE*/)
 		{
-			EndAnimChange("KBLM");
-			m_MoveDir += float4::Left * m_fMoveSpeed;
-			if (GetPos().x <480)
-			{
-				m_EndTime = 0.f;
-				Act.Act6 = true;
-			}
+			m_DirString = "L_";
+			m_MoveDir += float4::Left*m_fMoveSpeed*0.5;
+			ChangeState(PlayerState::END_MOVE);			
+		}
+		if (GetPos().x < 480)
+		{
+			ChangeState(PlayerState::END_IDLE);
+			m_EndTime = 0.f;
+			Act.Act6 = true;
 		}
 	}
 	if (Act.Act6 == true && Act.Act7 == false)
 	{
 
 		m_EndTime += _DeltaTime;
-		if (m_EndTime < 0.01f)
+		if (m_StateValue != PlayerState::END_MOVE)
 		{
 			m_pAnimationRender->ChangeAnimation("KBR");
 		}
-		if (m_EndTime > 1.f)
-		{
-			EndAnimChange("KBRM");
-			m_MoveDir += float4::Right * m_fMoveSpeed*2.f;
-			if (GetPos().x > 770)
-			{
-				m_EndTime = 0.f;
-				Act.Act7 = true;
-			}
+		if (m_EndTime > 1.f/* && m_StateValue != PlayerState::END_MOVE*/)
+		{			
+			m_DirString ="R_";
+			m_MoveDir += float4::Right * m_fMoveSpeed;
+			ChangeState(PlayerState::END_MOVE);			
 		}
+		if (GetPos().x > 770)
+		{
+			m_EndTime = 0.f;
+			m_MoveDir = float4::Zero;
+
+			Act.Act7 = true;
+		}
+	}
+	if (Act.Act7 == true && Act.Act8 == false)
+	{
+		m_EndTime += _DeltaTime;
+		ChangeState(PlayerState::END_JUMP_READY);
+		EndAnimChange("KBJR");
+
+		if (m_EndTime>1.f)
+		{
+			m_EndTime = 0.f;
+			m_MoveDir += float4::Right * m_fJumpMoveSpeed*4.f;
+			m_MoveDir += float4::Down * m_fJumpSpeed * 0.3f;
+			m_pAnimationRender->ChangeAnimation("FlyReady");
+			ChangeState(PlayerState::END_JUMP);
+			GameEngineResources::GetInst().SoundPlay("babe scream.wav");
+			Act.Act8 = true;
+		}
+	}
+	if (Act.Act8 == true && Act.Act9 == false)
+	{
+		m_pColImage = GameEngineResources::GetInst().ImageFind("ColMap2.BMP");
+
+		float4 CamPos = GetLevel()->GetCameraPos();
+		CamPos += {480, 360 };
+		GetLevel()->SetCameraMove((GetPos()-CamPos) *_DeltaTime*10.f);
+		if (m_MoveDir.y >100.f)
+		{
+			ChangeState(PlayerState::END_FLY);
+			Act.Act9 = true;
+		}
+	}
+	if (Act.Act9 == true)
+	{
+		float4 CamPos = GetLevel()->GetCameraPos();
+		CamPos += {480, 360 };
+		GetLevel()->SetCameraMove((GetPos() - CamPos) * _DeltaTime);
+		m_MoveDir = float4::Zero;
 	}
 }
 
