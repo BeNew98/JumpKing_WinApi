@@ -198,12 +198,24 @@ void CPlayer::MoveUpdate(float _Time)
 	}
 
 	//왼쪽 방향키를 누르면 왼쪽으로
-	if (true == GameEngineInput::IsPress("LeftMove"))
+	if (true == GameEngineInput::IsPress("LeftMove") && true == ColDownAll(m_Sky))
+	{
+		m_MoveDir += float4::Left * 10.f;
+	}
+	//오른쪽 방향키를 누르면 오른쪽으로
+	else if (true == GameEngineInput::IsPress("RightMove")&&true == ColDownAll(m_Sky))
+	{
+		m_MoveDir += float4::Right * 10.f;
+	}
+
+
+	//왼쪽 방향키를 누르면 왼쪽으로
+	if (true == GameEngineInput::IsPress("LeftMove") && false == ColDownAll(m_Sky))
 	{
 		m_MoveDir += float4::Left * m_fMoveSpeed;
 	}
 	//오른쪽 방향키를 누르면 오른쪽으로
-	else if (true == GameEngineInput::IsPress("RightMove"))
+	else if (true == GameEngineInput::IsPress("RightMove") && false == ColDownAll(m_Sky))
 	{
 		m_MoveDir += float4::Right * m_fMoveSpeed;
 	}

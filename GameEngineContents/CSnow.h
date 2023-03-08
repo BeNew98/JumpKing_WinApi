@@ -15,16 +15,14 @@ public:
 	CSnow& operator=(const CSnow& _Other) = delete;
 	CSnow& operator=(CSnow&& _Other) noexcept = delete;
 
+	static CSnow* MainSnow;
+
 protected:
 	virtual void Start() override;
 	virtual void Update(float _DeltaTime) override;
 
 private:
 	float4 m_StartPos = { 480,8280 };
-	float m_WindSpeed = 20.f;
-	float m_ReverseTime = 0.f;
-	float m_ReverseTimeLimit = 5.f;
-	bool m_WindDir = false;
 
 	GameEngineRender* pSnow0 = nullptr;
 	GameEngineRender* pSnow1 = nullptr;
@@ -35,6 +33,5 @@ private:
 	GameEngineRender* pSnow6 = nullptr;
 
 	void SetSnow();
-	void SetSnowPos();
 };
 

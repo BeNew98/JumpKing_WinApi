@@ -9,6 +9,7 @@
 #include "CPlayLevel.h"
 #include "CBabe.h"
 #include "CAngel.h"
+#include "CSnow.h"
 
 CPlayer* CPlayer::MainPlayer = nullptr;
 float	 CPlayer::PlayTime = 0.f;
@@ -236,7 +237,7 @@ void CPlayer::Movecalculation(float _DeltaTime)
 
 	GravityCalculation(_DeltaTime);
 
-	//WindCaculation(_DeltaTime);
+	WindCaculation(_DeltaTime);
 
 	UpdateState(_DeltaTime);
 
@@ -465,12 +466,24 @@ void CPlayer::WindCaculation(float _DeltaTime)
 	else
 	{
 		m_Wind.m_fTime += _DeltaTime;
-
+		m_MoveDir.x += m_Wind.m_fPower;
+		CSnow::MainSnow->SetMove({ m_Wind.m_fPower ,0 });
 		if (m_Wind.m_fTime >= 5.f)
 		{
-			if (true)
+			m_Wind.m_fPower *= -1;
+			m_Wind.m_fTime = 0.f;
+		}
+		if (abs(m_MoveDir.x)> m_Wind.m_fPowerLimit)
+		{
+			if (0 > m_MoveDir.x)
 			{
-
+				m_MoveDir.x = -m_Wind.m_fPowerLimit;
+				CSnow::MainSnow->SetMove(float4{ -m_Wind.m_fPower ,0 }*_DeltaTime);
+			}
+			else
+			{
+				m_MoveDir.x = m_Wind.m_fPowerLimit;
+				CSnow::MainSnow->SetMove(float4{ m_Wind.m_fPower ,0 }*_DeltaTime);
 			}
 		}
 	}

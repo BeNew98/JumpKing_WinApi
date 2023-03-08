@@ -5,7 +5,8 @@
 
 struct Wind 
 {
-	float m_fPower = 100.f;
+	float m_fPower = 5.f;
+	float m_fPowerLimit = 400.f;
 	float4 m_DirLeft = float4::Left;
 	float4 m_DirRight = float4::Right;
 	float m_fTime = 0.f;

@@ -6,6 +6,8 @@
 #include "CPlayer.h"
 #include "EnumHeader.h"
 
+CSnow* CSnow::MainSnow = nullptr;
+
 CSnow::CSnow() 
 {
 }
@@ -16,34 +18,24 @@ CSnow::~CSnow()
 
 void CSnow::Start()
 {
+	MainSnow = this;
 	SetSnow();
 	SetPos(float4::Zero);
 }
 
 void CSnow::Update(float _DeltaTime)
 {
-	//float4 PlayerPos = CPlayer::MainPlayer->GetPos();
-	//float4 SnowPos = GetPos();
-	//if (false == (PlayerPos.y > 7920.f && PlayerPos.y < 12960.f))
-	//{
-	//	SetSnowPos();
-	//	return;
-	//}
-	//
-	//if (PlayerPos.y > 7920.f && PlayerPos.y < 12960.f)
-	//{
-	//	m_ReverseTime += _DeltaTime;
-	//
-	//	if (m_ReverseTime >= m_ReverseTimeLimit)
-	//	{
-	//		m_WindSpeed *= -1.f;
-	//		m_ReverseTime = 0.f;
-	//	}
-	//	PlayerPos += {m_WindSpeed * _DeltaTime,0};
-	//	SnowPos += {m_WindSpeed * _DeltaTime, 0	};
-	//}
-	//	SetMove(SnowPos);
-	//	CPlayer::MainPlayer->AddMoveDir(PlayerPos);
+	float4 PlayerPos = CPlayer::MainPlayer->GetPos();
+	float4 SnowPos = GetPos();
+	if (false == (PlayerPos.y > 7920.f && PlayerPos.y < 12960.f))
+	{
+		SetPos(float4::Zero);
+		return;
+	}
+	
+	if (PlayerPos.y > 7920.f && PlayerPos.y < 12960.f)
+	{
+	}
 }
 
 void CSnow::SetSnow()
@@ -107,18 +99,4 @@ void CSnow::SetSnow()
 		pSnow6->ChangeAnimation("snow");
 		PlusPos.y += 720.f;
 	}
-}
-
-
-void CSnow::SetSnowPos()
-{
-	
-	if (GetPos() == float4::Zero)
-	{
-		return;
-	}
-	
-
-	SetPos(float4::Zero);
-	m_ReverseTime = 0.f;
 }
