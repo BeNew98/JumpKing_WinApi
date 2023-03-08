@@ -387,9 +387,8 @@ void  CPlayer::JumpUpdate(float _Time)
 		SetPos(GetPos() + float4::Down);
 		pPosUpdate();
 	}
-	WallCalibration();
 
-	
+	WallCalibration();	
 
 
 	//오른쪽으로 점프중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
