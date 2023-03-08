@@ -25,17 +25,18 @@ void CSnow::Start()
 
 void CSnow::Update(float _DeltaTime)
 {
-	float4 PlayerPos = CPlayer::MainPlayer->GetPos();
-	float4 SnowPos = GetPos();
-	if (false == (PlayerPos.y > 7920.f && PlayerPos.y < 12960.f))
-	{
-		SetPos(float4::Zero);
-		return;
-	}
-	
-	if (PlayerPos.y > 7920.f && PlayerPos.y < 12960.f)
-	{
-	}
+	//float4 PlayerPos = CPlayer::MainPlayer->GetPos();
+	//float4 SnowPos = GetPos();
+	//if (PlayerPos.y < 7920.f || PlayerPos.y > 12960.f)
+	//{
+	//	SetPos(float4::Zero);
+	//	m_MoveDir = float4::Zero;
+	//	return;
+	//}	
+	//if (PlayerPos.y > 7920.f && PlayerPos.y < 12960.f)
+	//{
+	//	SetMove(m_MoveDir * _DeltaTime);
+	//}
 }
 
 void CSnow::SetSnow()
@@ -97,6 +98,133 @@ void CSnow::SetSnow()
 		pSnow6->SetAlpha(150);
 		pSnow6->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 		pSnow6->ChangeAnimation("snow");
-		PlusPos.y += 720.f;
+
+		PlusPos.x += -1440.f;
+		{
+			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
+			pSnow->SetScale({ 1440,720 });
+			pSnow->SetPosition(PlusPos);
+			pSnow->SetAlpha(150);
+			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
+			pSnow->ChangeAnimation("snow");
+			PlusPos.y -= 720.f;
+		}
+		{
+			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
+			pSnow->SetScale({ 1440,720 });
+			pSnow->SetPosition(PlusPos);
+			pSnow->SetAlpha(150);
+			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
+			pSnow->ChangeAnimation("snow");
+			PlusPos.y -= 720.f;
+		}
+		{
+			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
+			pSnow->SetScale({ 1440,720 });
+			pSnow->SetPosition(PlusPos);
+			pSnow->SetAlpha(150);
+			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
+			pSnow->ChangeAnimation("snow");
+			PlusPos.y -= 720.f;
+		}
+		{
+			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
+			pSnow->SetScale({ 1440,720 });
+			pSnow->SetPosition(PlusPos);
+			pSnow->SetAlpha(150);
+			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
+			pSnow->ChangeAnimation("snow");
+			PlusPos.y -= 720.f;
+		}
+		{
+			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
+			pSnow->SetScale({ 1440,720 });
+			pSnow->SetPosition(PlusPos);
+			pSnow->SetAlpha(150);
+			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
+			pSnow->ChangeAnimation("snow");
+			PlusPos.y -= 720.f;
+		}
+		{
+			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
+			pSnow->SetScale({ 1440,720 });
+			pSnow->SetPosition(PlusPos);
+			pSnow->SetAlpha(150);
+			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
+			pSnow->ChangeAnimation("snow");
+			PlusPos.y -= 720.f;
+		}
+		{
+			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
+			pSnow->SetScale({ 1440,720 });
+			pSnow->SetPosition(PlusPos);
+			pSnow->SetAlpha(150);
+			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
+			pSnow->ChangeAnimation("snow");
+		}
+		PlusPos.x += 2880.f;
+		{
+			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
+			pSnow->SetScale({ 1440,720 });
+			pSnow->SetPosition(PlusPos);
+			pSnow->SetAlpha(150);
+			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
+			pSnow->ChangeAnimation("snow");
+			PlusPos.y += 720.f;
+		}
+		{
+			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
+			pSnow->SetScale({ 1440,720 });
+			pSnow->SetPosition(PlusPos);
+			pSnow->SetAlpha(150);
+			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
+			pSnow->ChangeAnimation("snow");
+			PlusPos.y += 720.f;
+		}
+		{
+			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
+			pSnow->SetScale({ 1440,720 });
+			pSnow->SetPosition(PlusPos);
+			pSnow->SetAlpha(150);
+			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
+			pSnow->ChangeAnimation("snow");
+			PlusPos.y += 720.f;
+		}
+		{
+			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
+			pSnow->SetScale({ 1440,720 });
+			pSnow->SetPosition(PlusPos);
+			pSnow->SetAlpha(150);
+			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
+			pSnow->ChangeAnimation("snow");
+			PlusPos.y += 720.f;
+		}
+		{
+			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
+			pSnow->SetScale({ 1440,720 });
+			pSnow->SetPosition(PlusPos);
+			pSnow->SetAlpha(150);
+			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
+			pSnow->ChangeAnimation("snow");
+			PlusPos.y += 720.f;
+		}
+		{
+			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
+			pSnow->SetScale({ 1440,720 });
+			pSnow->SetPosition(PlusPos);
+			pSnow->SetAlpha(150);
+			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
+			pSnow->ChangeAnimation("snow");
+			PlusPos.y -= 720.f;
+		}
+		{
+			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
+			pSnow->SetScale({ 1440,720 });
+			pSnow->SetPosition(PlusPos);
+			pSnow->SetAlpha(150);
+			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
+			pSnow->ChangeAnimation("snow");
+			PlusPos.y += 720.f;
+		}
 	}
 }

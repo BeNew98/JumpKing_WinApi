@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
+#include <string_view>
 
 // Ό³Έν :
 class GameEngineSoundPlayer;
@@ -27,6 +28,7 @@ protected:
 
 private:
 	int m_iMapNumber = 0;
+	int m_iPrevMapNumber = 0;
 	float EndingEnd = 173.f;
 
 	void SetCandle(float _X, float _Y);
@@ -36,5 +38,7 @@ private:
 	void SoundLoad();
 	void ImageLoad();
 	void KeyLoad();
+
+	void BGMPlay(int _Start, int _End, const std::string_view& _BGM);
 };
 

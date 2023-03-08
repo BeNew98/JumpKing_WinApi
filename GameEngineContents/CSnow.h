@@ -16,6 +16,7 @@ public:
 	CSnow& operator=(CSnow&& _Other) noexcept = delete;
 
 	static CSnow* MainSnow;
+	float4 m_MoveDir = float4::Zero;
 
 protected:
 	virtual void Start() override;

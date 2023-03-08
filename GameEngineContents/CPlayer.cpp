@@ -237,9 +237,11 @@ void CPlayer::Movecalculation(float _DeltaTime)
 
 	GravityCalculation(_DeltaTime);
 
+	UpdateState(_DeltaTime);
+
 	WindCaculation(_DeltaTime);
 
-	UpdateState(_DeltaTime);
+	FrictionCalculation(_DeltaTime);
 
 	EndingScene(_DeltaTime);
 
@@ -381,6 +383,29 @@ void CPlayer::FloorCalibration()
 	}
 }
 
+void CPlayer::FrictionCalculation(float _DeltaTime)
+{
+	if (ColDownAll(m_Sky) && 0 != m_MoveDir.x)
+	{
+		float4 Friction = -m_MoveDir;
+		if (!Friction.IsZero())
+		{
+			Friction.Normalize();
+			Friction *= (m_fMoveSpeed * 2.0f) * _DeltaTime;
+		}
+
+		if (m_MoveDir.Size() <= Friction.Size())
+		{
+			m_MoveDir = float4(0.f, 0.f);
+		}
+		else
+		{
+			// 현재 속도 반대방향으로 마찰의 의한 속도 감소
+			m_MoveDir += Friction;
+		}
+	}
+}
+
 void CPlayer::WallCalibration() 
 {
 	// 벽에 박힌거 빼기
@@ -431,27 +456,6 @@ void CPlayer::GravityCalculation(float _DeltaTime)
 		{
 			m_MoveDir.y = 0.f;
 		}
-
-		if (ColDownAll(m_Sky) && 0 != m_MoveDir.x)
-		{
-			float4 Friction = -m_MoveDir;
-			if (!Friction.IsZero())
-			{
-				Friction.Normalize();
-				Friction *= (m_fMoveSpeed * 2.0f) * _DeltaTime;
-			}
-
-			if (m_MoveDir.Size() <= Friction.Size())
-			{
-				m_MoveDir = float4(0.f, 0.f);
-			}
-			else
-			{
-				// 현재 속도 반대방향으로 마찰의 의한 속도 감소
-				m_MoveDir += Friction;
-			}
-		}
-
 	}
 }
 
@@ -459,32 +463,35 @@ void CPlayer::WindCaculation(float _DeltaTime)
 {
 	float4 Pos = GetPos();
 
-	if (false == (Pos.y > 7920.f && Pos.y < 12960.f))
+	if (Pos.y < 7920.f || Pos.y > 12960.f)
 	{
+		m_Wind.m_fTime = 0.f;
+		CSnow::MainSnow->SetPos(float4::Zero);
 		return;
 	}
 	else
 	{
 		m_Wind.m_fTime += _DeltaTime;
-		m_MoveDir.x += m_Wind.m_fPower;
-		CSnow::MainSnow->SetMove({ m_Wind.m_fPower ,0 });
-		if (m_Wind.m_fTime >= 5.f)
-		{
-			m_Wind.m_fPower *= -1;
-			m_Wind.m_fTime = 0.f;
-		}
+		m_MoveDir.x += m_Wind.m_fPower * _DeltaTime;
+		CSnow::MainSnow->SetMove(float4{ m_Wind.m_fPower ,0 }*_DeltaTime);
+		
 		if (abs(m_MoveDir.x)> m_Wind.m_fPowerLimit)
 		{
 			if (0 > m_MoveDir.x)
 			{
 				m_MoveDir.x = -m_Wind.m_fPowerLimit;
-				CSnow::MainSnow->SetMove(float4{ -m_Wind.m_fPower ,0 }*_DeltaTime);
+				CSnow::MainSnow->m_MoveDir.x= -m_Wind.m_fPowerLimit;
 			}
 			else
 			{
 				m_MoveDir.x = m_Wind.m_fPowerLimit;
-				CSnow::MainSnow->SetMove(float4{ m_Wind.m_fPower ,0 }*_DeltaTime);
+				CSnow::MainSnow->m_MoveDir.x = m_Wind.m_fPowerLimit;
 			}
+		}
+		if (m_Wind.m_fTime >= 5.f)
+		{
+			m_Wind.m_fPower *= -1;
+			m_Wind.m_fTime = 0.f;
 		}
 	}
 	
@@ -763,12 +770,34 @@ bool CPlayer::ColRightDown(Color _Color)
 
 bool CPlayer::ColLeftAll(Color _Color)
 {
-	return ColLeftUp(_Color) || ColLeftDown(_Color);
+	int iStart = pPos.fLeftUpPos.iy();
+	int iEnd = pPos.fLeftDownPos.iy() + 1;
+	float XPos = pPos.fLeftUpPos.x;
+
+	for (; iStart < iEnd; ++iStart)
+	{
+		if (RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(float4{ XPos,static_cast<float>(iStart) }, RGB(_Color.R, _Color.G, _Color.B)))
+		{
+			return true;
+		}
+	};
+	return false;
 }
 
 bool CPlayer::ColRightAll(Color _Color)
 {
-	return ColRightUp(_Color) || ColRightDown(_Color);
+	int iStart = pPos.fRightUpPos.iy();
+	int iEnd = pPos.fRightDownPos.iy() + 1;
+	float XPos = pPos.fRightUpPos.x;
+
+	for (; iStart < iEnd; ++iStart)
+	{
+		if (RGB(_Color.R, _Color.G, _Color.B) == m_pColImage->GetPixelColor(float4{ XPos,static_cast<float>(iStart) }, RGB(_Color.R, _Color.G, _Color.B)))
+		{
+			return true;
+		}
+	};
+	return false;
 }
 
 bool CPlayer::ColUpAll(Color _Color)
@@ -776,7 +805,6 @@ bool CPlayer::ColUpAll(Color _Color)
 	int iStart = pPos.fUpLPos.ix();
 	int iEnd = pPos.fUpRPos.ix() + 1;
 	float YPos = pPos.fUpLPos.y;
-	bool Col = false;
 
 	for (; iStart < iEnd; ++iStart)
 	{
@@ -793,7 +821,6 @@ bool CPlayer::ColDownAll(Color _Color)
 	int iStart = pPos.fDownLPos.ix();
 	int iEnd = pPos.fDownRPos.ix() + 1;
 	float YPos = pPos.fDownLPos.y;
-	bool Col = false;
 
 	for (; iStart < iEnd; ++iStart)
 	{

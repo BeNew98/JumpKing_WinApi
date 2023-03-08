@@ -273,6 +273,11 @@ void CPlayer::JumpReadyStart()
 
 void CPlayer::JumpReadyUpdate(float _Time)
 {
+	if (false == ColDownAll(m_Sky))
+	{
+		m_MoveDir.x = 0.0f;
+	}
+
 	if (m_MoveDir.y > 0)
 	{
 		ChangeState(PlayerState::DOWN);
@@ -615,6 +620,8 @@ void CPlayer::FallUpdate(float _Time)
 {
 	FloorCalibration();
 
+	m_MoveDir.x = 0;
+
 	//녹다운시 1초뒤에 움직이는것이 가능
 	m_fKnockTime += _Time;
 	if (m_fKnockTime < 1.f)
@@ -635,6 +642,7 @@ void CPlayer::FallUpdate(float _Time)
 		ChangeState(PlayerState::JUMP_READY);
 		return;
 	}
+
 }
 
 void CPlayer::FallEnd()

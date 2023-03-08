@@ -442,15 +442,50 @@ void CPlayLevel::Update(float _DeltaTime)
 		}
 
 		float4 fPlayerPos = CPlayer::MainPlayer->GetPos();
+		m_iPrevMapNumber = m_iMapNumber;
 		m_iMapNumber = fPlayerPos.iy()/ GameEngineWindow::GetScreenSize().iy();
 		SetCameraPos(float4{ 0,(m_iMapNumber * GameEngineWindow::GetScreenSize().y) });
+	}	
+
+	if (!CPlayer::MainPlayer->IsEnd())
+	{
+		BGMPlay(5, 5, "");
+		BGMPlay(6, 14, "Sewer.wav");
+		BGMPlay(15, 22, "Bad Vibe.mp3");
+		BGMPlay(23, 26, "snowy windy.wav");
+		BGMPlay(27, 32, "Despair.mp3");
+		BGMPlay(33, 36, "Masse.mp3");
+		BGMPlay(37, 39, "Sky Blue.mp3");
+		BGMPlay(40, 42, "Coronation.mp3");
+		BGMPlay(43, 43, "");
 	}
 
 }
 
+void CPlayLevel::BGMPlay(int _Start, int _End, const std::string_view& _BGM)
+{
+	
+	if (m_iPrevMapNumber != m_iMapNumber)
+	{
+		if (m_iMapNumber <= 43 - _Start && m_iMapNumber >= 43 - _End)
+		{
+			if (m_iPrevMapNumber <= 43 - _Start && m_iPrevMapNumber >= 43 - _End)
+			{
+				return;
+			}
+			BGMPlayer.Stop();
+			if (_BGM == "")
+			{
+				return;
+			}
+			BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl(_BGM);
+		}
+	}
+}
+
 void CPlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	GameEngineResources::GetInst().SoundPlay("opening theme.wav");
+	BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl("opening theme.wav");
 	CBlackScreen* BS = CreateActor<CBlackScreen>();
 	BS->SetPos(float4{ 0,(42 * GameEngineWindow::GetScreenSize().y) });
 	BS->SetFadeIn();

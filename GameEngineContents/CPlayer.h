@@ -5,8 +5,8 @@
 
 struct Wind 
 {
-	float m_fPower = 5.f;
-	float m_fPowerLimit = 400.f;
+	float m_fPower = 300.f;
+	float m_fPowerLimit = 600.f;
 	float4 m_DirLeft = float4::Left;
 	float4 m_DirRight = float4::Right;
 	float m_fTime = 0.f;
@@ -227,6 +227,7 @@ private:
 	void Movecalculation(float _DeltaTime);
 	void GravityCalculation(float _DeltaTime);
 	void FloorCalibration();
+	void FrictionCalculation(float _DeltaTime);
 	void pPosUpdate();
 	void WallCalibration();
 	void WindCaculation(float _DeltaTime);
