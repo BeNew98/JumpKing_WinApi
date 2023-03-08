@@ -21,7 +21,6 @@ public:
 protected:
 	virtual void Start() override;
 	virtual void Update(float _DeltaTime) override;
-
 private:
 	GameEngineRender* m_pColMap = nullptr;
 

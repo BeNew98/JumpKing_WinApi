@@ -51,7 +51,7 @@ public:
 
 	float4 GetImageScale() const
 	{
- 		return float4{ static_cast<float>(Info.bmWidth),static_cast<float>(Info.bmHeight) };
+		return float4{ static_cast<float>(Info.bmWidth),static_cast<float>(Info.bmHeight) };
 	}
 
 	bool IsImageCutting()

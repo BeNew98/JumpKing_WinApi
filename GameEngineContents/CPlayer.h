@@ -106,6 +106,11 @@ protected:
 	void Render(float _DeltaTime) override;
 
 private:
+	static float	PlayTime;
+	static int		JumpCount;
+	static int		FallCount;
+
+
 	EndingAct	Act;
 	PlayerPos	pPos;
 	Wind		m_Wind;
@@ -124,7 +129,8 @@ private:
 	bool		m_bWall				= false; // 나중에 삭제하기
 	bool		m_bGround			= false; // 나중에 삭제하기
 									
-	bool		m_iCollide			= false;
+	bool		m_bCollide			= false;
+	int			m_iCollide			= 0;
 	float		m_fJumpSpeed		= 1000.f; /* 1090.0f;*/
 	float		m_fJumpPressTime	= 0.f;
 	float		m_fKnockTime		= 0.f;

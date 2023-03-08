@@ -9,9 +9,6 @@
     <ClInclude Include="CTitleLevel.h">
       <Filter>TitleLevel</Filter>
     </ClInclude>
-    <ClInclude Include="CTitleLogo.h">
-      <Filter>TitleLevel</Filter>
-    </ClInclude>
     <ClInclude Include="CBackGround.h">
       <Filter>PlayLevel\BackGround</Filter>
     </ClInclude>
@@ -45,6 +42,24 @@
     <ClInclude Include="CColMap.h">
       <Filter>PlayLevel\BackGround</Filter>
     </ClInclude>
+    <ClInclude Include="CEndLevel.h">
+      <Filter>EndLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CEndGround.h">
+      <Filter>EndLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CBlackScreen.h">
+      <Filter>TitleLevel\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="CCompanyLogo.h">
+      <Filter>TitleLevel\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="CTitleLogo.h">
+      <Filter>TitleLevel\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="CPressStart.h">
+      <Filter>TitleLevel\BackGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JumpKingCore.cpp" />
@@ -52,12 +67,6 @@
       <Filter>PlayLevel</Filter>
     </ClCompile>
     <ClCompile Include="CTitleLevel.cpp">
-      <Filter>TitleLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlayState.cpp">
-      <Filter>PlayLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="CTitleLogo.cpp">
       <Filter>TitleLevel</Filter>
     </ClCompile>
     <ClCompile Include="CBackGround.cpp">
@@ -93,6 +102,27 @@
     <ClCompile Include="CColMap.cpp">
       <Filter>PlayLevel\BackGround</Filter>
     </ClCompile>
+    <ClCompile Include="CEndLevel.cpp">
+      <Filter>EndLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CEndGround.cpp">
+      <Filter>EndLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CBlackScreen.cpp">
+      <Filter>TitleLevel\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="CCompanyLogo.cpp">
+      <Filter>TitleLevel\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="CTitleLogo.cpp">
+      <Filter>TitleLevel\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="CPressStart.cpp">
+      <Filter>TitleLevel\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayState.cpp">
+      <Filter>PlayLevel\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PlayLevel">
@@ -112,6 +142,12 @@
     </Filter>
     <Filter Include="PlayLevel\Object">
       <UniqueIdentifier>{2cf83272-1163-4ae1-a809-5a42026e262f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EndLevel">
+      <UniqueIdentifier>{242b576e-dc96-4636-aeda-c090ed45f8a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TitleLevel\BackGround">
+      <UniqueIdentifier>{e879a877-d186-4eef-80de-eca6c200a941}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

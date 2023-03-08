@@ -18,8 +18,8 @@ public:
 	CBackGround& operator=(CBackGround&& _Other) noexcept = delete;
 	
 protected:
-
 	void Start() override;
+	virtual void Update(float _DeltaTime) override;
 
 private:
 	GameEngineRender* EndBG = nullptr;

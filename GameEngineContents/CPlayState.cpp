@@ -297,6 +297,7 @@ void CPlayer::JumpReadyEnd()
 
 void  CPlayer::JumpStart()
 {
+	++JumpCount;
 	DirCheck("Jump");
 	CJump::JumpParticle->AnimChange("IdleParticle", float4::Zero);
 
@@ -383,7 +384,7 @@ void  CPlayer::JumpUpdate(float _Time)
 	if (m_MoveDir.x > 0 && ColRightAll())
 	{
 		m_MoveDir.x *= -m_fRecoilCoeff;
-		m_iCollide = true;
+		m_bCollide = true;
 		AnimChange("Collide");
 		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 		return;
@@ -392,7 +393,7 @@ void  CPlayer::JumpUpdate(float _Time)
 	if (m_MoveDir.x < 0 && ColLeftAll())
 	{
 		m_MoveDir.x *= -m_fRecoilCoeff;
-		m_iCollide = true;
+		m_bCollide = true;
 		AnimChange("Collide");
 		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 		return;
@@ -402,7 +403,7 @@ void  CPlayer::JumpUpdate(float _Time)
 	if (ColCurDownAll(m_Red) || ColCurDownAll(m_Blue))
 	{
 		m_MoveDir.x *= 0.f;
-		m_iCollide = true;
+		m_bCollide = true;
 		AnimChange("Collide");
 		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 	}
@@ -412,7 +413,7 @@ void  CPlayer::JumpUpdate(float _Time)
 	//빨간 픽셀이면 오른쪽으로 
 	if (ColCurUpAll(m_Red))
 	{
-		m_iCollide = true;
+		m_bCollide = true;
 		AnimChange("Collide");
 		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 		m_MoveDir.x += -m_MoveDir.y;
@@ -427,7 +428,7 @@ void  CPlayer::JumpUpdate(float _Time)
 	//파란 픽셀이면 오른쪽으로
 	else if (ColCurUpAll(m_Blue))
 	{
-		m_iCollide = true;
+		m_bCollide = true;
 		AnimChange("Collide");
 		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 		m_MoveDir.x += m_MoveDir.y;
@@ -461,7 +462,7 @@ void CPlayer::DownStart()
 	m_HighestPos = GetPos();
 
 	//이전에 충돌한적 없으면 Down으로 이미지 전환
-	if (m_iCollide)
+	if (m_bCollide)
 	{
 		AnimChange("Collide");
 	}
@@ -469,7 +470,6 @@ void CPlayer::DownStart()
 	{
 		AnimChange("Down");
 	}
-
 }
 
 void CPlayer::DownUpdate(float _Time)
@@ -482,27 +482,31 @@ void CPlayer::DownUpdate(float _Time)
 	if (m_MoveDir.x > 0 && ColRightAll())
 	{
 		m_MoveDir.x *= -m_fRecoilCoeff;
-		m_iCollide = true;
+		m_bCollide = true;
 		AnimChange("Collide");
-		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
+		++m_iCollide;
+
+		GameEngineResources::GetInst().SoundPlay("king_bump.wav");		
 	}
 
 	//왼쪽으로 하강중 왼쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x < 0 && ColLeftAll())
 	{
 		m_MoveDir.x *= -m_fRecoilCoeff;
-		m_iCollide = true;
+		m_bCollide = true;
 		AnimChange("Collide");
-		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
+		++m_iCollide;
+
+		GameEngineResources::GetInst().SoundPlay("king_bump.wav");		
 	}
 
 	//빨간 픽셀이면 왼쪽으로
 	if (ColCurDownAll(m_Red))
 	{
 		m_MoveDir.x *= 0.f;
-		m_iCollide = true;
+		m_bCollide = true;
 		AnimChange("Collide");
-		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
+		++m_iCollide;
 
 		m_MoveDir.x += float4::Left.x * m_fJumpMoveLimit;
 
@@ -512,15 +516,19 @@ void CPlayer::DownUpdate(float _Time)
 		}
 		m_MoveDir.y = -m_MoveDir.x;
 
+		if (1 == m_iCollide)
+		{
+			GameEngineResources::GetInst().SoundPlay("king_bump.wav");
+		}
+
 		return;
 	}
 	//파란 픽셀이면 오른쪽으로
 	else if (ColCurDownAll(m_Blue))
 	{
 		m_MoveDir.x *= 0.f;
-		m_iCollide = true;
+		m_bCollide = true;
 		AnimChange("Collide");
-		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 
 		m_MoveDir.x += float4::Right.x * m_fJumpMoveLimit;
 
@@ -529,12 +537,15 @@ void CPlayer::DownUpdate(float _Time)
 			m_MoveDir.x = m_fJumpMoveLimit;
 		}
 		m_MoveDir.y = m_MoveDir.x;
+		++m_iCollide;
+
+		if (1 == m_iCollide)
+		{
+			GameEngineResources::GetInst().SoundPlay("king_bump.wav");
+		}
 
 		return;
 	}
-	
-
-
 
 
 	//바닥에 안착시
@@ -543,7 +554,8 @@ void CPlayer::DownUpdate(float _Time)
 		// (점프시 최대 높이 - 내 현재 높이)가 화면 사이즈 절반보다 크다면 Fall로 전환
 		if (m_HighestPos.y - GetPos().y < -GameEngineWindow::GetScreenSize().hy())
 		{
-			m_iCollide = false;
+			m_bCollide = false;
+			m_iCollide =0;
 			GameEngineResources::GetInst().SoundPlay("king_splat.wav");
 			ChangeState(PlayerState::FALL);
 			return;
@@ -552,7 +564,8 @@ void CPlayer::DownUpdate(float _Time)
 		// 아닐시 idle로 전환
 		else
 		{
-			m_iCollide = false;
+			m_bCollide = false;
+			m_iCollide = 0;
 			GameEngineResources::GetInst().SoundPlay("king_land.wav");
 			ChangeState(PlayerState::IDLE);
 			return;
@@ -567,6 +580,7 @@ void CPlayer::DownEnd()
 
 void CPlayer::FallStart()
 {
+	++FallCount;
 	m_fKnockTime = 0;
 	m_MoveDir.x = 0.f;
 	AnimChange("Fall");

@@ -1,15 +1,19 @@
 #include "CPlayer.h"
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineRender.h>
-#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCore.h>
+#include "CPlayLevel.h"
 #include "CBabe.h"
 #include "CAngel.h"
 
 CPlayer* CPlayer::MainPlayer = nullptr;
+float	 CPlayer::PlayTime = 0.f;
+int		 CPlayer::JumpCount = 0;
+int		 CPlayer::FallCount = 0;
 
 CPlayer::CPlayer() 
 {
@@ -423,9 +427,10 @@ void CPlayer::EndingScene(float _DeltaTime)
 {
 	if (true == m_pBodyCollision->Collision({ .TargetGroup = static_cast<int>(CollisionOrder::ENDING) }) && false == m_Ending)
 	{
+		CPlayLevel::BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl("ending.wav");
+		PlayTime = GetLiveTime();
 		m_EndingPos = GetPos();
 		ChangeState(PlayerState::IDLE);
-		GameEngineResources::GetInst().SoundPlay("ending.wav");
 		m_Ending = true;
 	}
 	if (false == m_Ending)

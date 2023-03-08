@@ -5,6 +5,7 @@
 
 #include "CColMap.h"
 #include "EnumHeader.h"
+#include "CPlayer.h"
 
 CBackGround::CBackGround() 
 {
@@ -175,6 +176,13 @@ void CBackGround::Start()
 	EndBG->GameEngineRender::SetImageToScaleToImage("bg43.bmp");
 	EndBG->SetMove(BG->GetScale().half());
 	EndBG->SetMove(float4{ 0,AllMapSize.y - ImgYSize * 43 });
-	EndBG->EffectCameraOff();
+}
+
+void CBackGround::Update(float _DeltaTime)
+{
+	if (CPlayer::MainPlayer->IsEnd())
+	{
+		EndBG->EffectCameraOff();
+	}
 }
 

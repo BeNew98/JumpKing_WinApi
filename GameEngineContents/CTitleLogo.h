@@ -24,5 +24,10 @@ private:
 	GameEngineRender* pLogoRender = nullptr;
 	GameEngineRender* pBlackScreenRender = nullptr;
 	GameEngineRender* pStartRender = nullptr;
+	int Alpha = 0;
+	float m_Time = 0.f;
+	bool m_bShock = false;
+	float m_fShockTime = 0.f;
+	float4 ShockPos = float4::Zero;
 };
 

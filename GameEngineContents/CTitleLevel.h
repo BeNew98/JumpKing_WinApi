@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineResources.h>
+#include "EnumHeader.h"
 
 // Ό³Έν :
 class CTitleLevel : public GameEngineLevel
@@ -16,6 +17,8 @@ public:
 	CTitleLevel& operator=(const CTitleLevel& _Other) = delete;
 	CTitleLevel& operator=(CTitleLevel&& _Other) noexcept = delete;
 
+	static GameEngineSoundPlayer BGMPlayer;
+
 protected:
 	void Loading()override;
 	void Update(float _DeltaTime) override;
@@ -24,9 +27,11 @@ protected:
 	virtual void LevelChangeEnd(GameEngineLevel* _NextLevel);
 
 
-	GameEngineSoundPlayer BGMPlayer;
 
 private:
+	EndingAct Act;
+	GameEngineActor* Nexile = nullptr;
 	GameEngineSound* Intro = nullptr;
+	float m_Time = 0.f;
 };
 

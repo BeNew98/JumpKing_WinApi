@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 
 // Ό³Έν :
+class GameEngineSoundPlayer;
 class CPlayLevel : public GameEngineLevel
 {
 public:
@@ -14,16 +15,19 @@ public:
 	CPlayLevel(CPlayLevel&& _Other) noexcept = delete;
 	CPlayLevel& operator=(const CPlayLevel& _Other) = delete;
 	CPlayLevel& operator=(CPlayLevel&& _Other) noexcept = delete;
+	static GameEngineSoundPlayer BGMPlayer;
 	
 protected:
 	void Loading() override;
 	void Update(float _DeltaTime) override;
 
-	virtual void LevelChangeStart(GameEngineLevel* _PrevLevel) override {}
+	virtual void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	virtual void LevelChangeEnd(GameEngineLevel* _NextLevel) override {}
+
 
 private:
 	int m_iMapNumber = 0;
+	float EndingEnd = 173.f;
 
 	void SetCandle(float _X, float _Y);
 	void SetCandleMiddle(float _X, float _Y);

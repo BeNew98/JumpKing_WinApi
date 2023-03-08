@@ -1,8 +1,8 @@
 #include "CColMap.h"
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineRender.h>
-#include "CPlayer.h"
 #include "EnumHeader.h"
+#include "CPlayer.h"
 
 float4 CColMap::m_MapSize = float4::Zero;
 

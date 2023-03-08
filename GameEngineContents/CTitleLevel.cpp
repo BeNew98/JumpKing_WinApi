@@ -10,7 +10,11 @@
 #include <GameEngineCore/GameEngineResources.h>
 
 #include "CTitleLogo.h"
-#include "CBackGround.h"
+#include "CBlackScreen.h"
+#include "CCompanyLogo.h"
+#include "CPressStart.h"
+
+GameEngineSoundPlayer CTitleLevel::BGMPlayer;
 
 CTitleLevel::CTitleLevel() 
 {
@@ -48,28 +52,28 @@ void CTitleLevel::Loading()
 		GameEngineResources::GetInst().ImageLoad(Files[i].GetFullPath());
 	}
 
-
-	CreateActor<CTitleLogo>();
+	Nexile = CreateActor<CCompanyLogo>();
 	
-	//GameEngineInput::MouseCursorOff();
-
 
 	GameEngineInput::CreateKey("Space", ' ');
 }
 
 void CTitleLevel::Update(float _DeltaTime)
 {
-	if (true == GameEngineInput::IsDown("Space"))
+	m_Time += _DeltaTime;
+	if (m_Time>2.f&& Act.Act0 == false)
 	{
-		GameEngineCore::GetInst()->ChangeLevel("Play");
+		BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl("menu_intro.wav");
+		Nexile->Off();
+		m_Time = 0.f;
+		CreateActor<CBlackScreen>();
+		CreateActor<CTitleLogo>();
+		Act.Act0 = true;
 	}
-
-
 }
 
 void CTitleLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl("menu_intro.wav");
 }
 
 void CTitleLevel::LevelChangeEnd(GameEngineLevel* _NextLevel)

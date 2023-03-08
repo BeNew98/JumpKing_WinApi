@@ -31,6 +31,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="CBlackScreen.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CCandle.h">
       <SubType>
       </SubType>
@@ -39,6 +43,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="CCompanyLogo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CEndGround.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CEndLevel.h" />
     <ClInclude Include="CFlag.h">
       <SubType>
       </SubType>
@@ -60,6 +73,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="CPlayLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CPressStart.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -94,6 +111,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="CBlackScreen.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CCandle.cpp">
       <SubType>
       </SubType>
@@ -102,6 +123,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="CCompanyLogo.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CEndGround.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CEndLevel.cpp" />
     <ClCompile Include="CFlag.cpp">
       <SubType>
       </SubType>
@@ -127,6 +157,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="CPlayState.cpp" />
+    <ClCompile Include="CPressStart.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CSnow.cpp">
       <SubType>
       </SubType>

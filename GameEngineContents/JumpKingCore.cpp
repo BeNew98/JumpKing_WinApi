@@ -3,6 +3,7 @@
 
 #include "CPlayLevel.h"
 #include "CTitleLevel.h"
+#include "CEndLevel.h"
 
 JumpKingCore::JumpKingCore()
 {
@@ -18,7 +19,8 @@ void JumpKingCore::Start()
 
 	CreateLevel<CTitleLevel>("Title");
 	CreateLevel<CPlayLevel>("Play");
-	ChangeLevel("Play");
+	CreateLevel<CEndLevel>("End");
+	ChangeLevel("Title");
 }
 
 void JumpKingCore::Update()

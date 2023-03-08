@@ -1,10 +1,10 @@
 #include "CPlayLevel.h"
+#include <GameEngineBase/GameEngineFile.h>
 #include <GameEngineBase/GameEngineDirectory.h>
+#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
-#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
-#include <GameEngineBase/GameEngineFile.h>
 
 #include "CPlayer.h"
 #include "CMidGround.h"
@@ -18,7 +18,9 @@
 #include "CBabe.h"
 #include "CAngel.h"
 #include "EnumHeader.h"
+#include "CBlackScreen.h"
 
+GameEngineSoundPlayer CPlayLevel::BGMPlayer;
 
 CPlayLevel::CPlayLevel() 
 {
@@ -280,6 +282,11 @@ void CPlayLevel::KeyLoad()
 		GameEngineInput::CreateKey("RightArrow", 'D');
 	}
 
+	if (false == GameEngineInput::IsKey("Space"))
+	{
+		GameEngineInput::CreateKey("Space", ' ');
+	}
+
 
 	if (false == GameEngineInput::IsKey("Number1"))
 	{
@@ -365,7 +372,7 @@ void CPlayLevel::Update(float _DeltaTime)
 	{
 		DebugRenderSwitch(); 
 		GameEngineCore::GetInst()->DebugSwitch();
-	}	
+	}
 
 	if (GameEngineCore::GetInst()->IsDebug())
 	{
@@ -409,25 +416,36 @@ void CPlayLevel::Update(float _DeltaTime)
 			CPlayer::MainPlayer->SetPos(float4{ 300,286 });
 		}
 
-		if (CPlayer::MainPlayer->IsEnd())
-		{
-			float4 CenterPos = { 200,-200 };
-			float4 CamPos = GetCameraPos();
-			SetCameraMove({ (CenterPos - CamPos) * 1.f * _DeltaTime });
-		}
-		else
-		{
+		if (!CPlayer::MainPlayer->IsEnd())
+		{		
 			SetCameraPos(float4{ 0,(m_iMapNumber * GameEngineWindow::GetScreenSize().y) });
 		}
 	}
 	else
 	{
+		if (CPlayer::MainPlayer->bAct().Act9)
+		{
+			if (GameEngineInput::IsDown("space"))
+			{
+				GameEngineCore::GetInst()->ChangeLevel("End");
+			}
+		}
 		if (CPlayer::MainPlayer->IsEnd())
 		{
 			return;
 		}
+
 		float4 fPlayerPos = CPlayer::MainPlayer->GetPos();
 		m_iMapNumber = fPlayerPos.iy()/ GameEngineWindow::GetScreenSize().iy();
 		SetCameraPos(float4{ 0,(m_iMapNumber * GameEngineWindow::GetScreenSize().y) });
 	}
+
+}
+
+void CPlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
+{
+	GameEngineResources::GetInst().SoundPlay("opening theme.wav");
+	CBlackScreen* BS = CreateActor<CBlackScreen>();
+	BS->SetPos(float4{ 0,(42 * GameEngineWindow::GetScreenSize().y) });
+	BS->SetFadeIn();
 }
