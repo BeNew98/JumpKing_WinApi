@@ -105,7 +105,7 @@ void GameEngineCore::CoreStart(HINSTANCE _instance)
 		GameEngineInput::CreateKey("EngineMouseRight", VK_RBUTTON);
 	}
 
-	GameEngineWindow::WindowCreate(_instance, "MainWindow", { 960, 720 }, { 200, 200 });
+	GameEngineWindow::WindowCreate(_instance, "JumpKing", { 960, 720 }, { 200, 200 });
 	GameEngineWindow::WindowLoop(GameEngineCore::GlobalStart, GameEngineCore::GlobalUpdate, GameEngineCore::GlobalEnd);
 }
 

@@ -300,6 +300,9 @@ void CPlayLevel::KeyLoad()
 	{
 		GameEngineInput::CreateKey("Number3", '3');
 	}
+
+
+
 }
 void CPlayLevel::Loading()
 {	
@@ -415,6 +418,9 @@ void CPlayLevel::Update(float _DeltaTime)
 		{
 			CPlayer::MainPlayer->SetPos(float4{ 300,286 });
 		}
+
+
+
 
 		if (!CPlayer::MainPlayer->IsEnd())
 		{		

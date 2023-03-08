@@ -32,8 +32,30 @@ void CPlayer::Start()
 	GameEngineInput::CreateKey("RightMove", VK_RIGHT);
 	GameEngineInput::CreateKey("Jump", VK_SPACE);
 
-	//Jump = GameEngineResources::GetInst().SoundPlayToControl("king_land.wav");
-	//Jump.Stop();
+	if (false == GameEngineInput::IsKey("Ten1"))
+	{
+		GameEngineInput::CreateKey("Ten1", VK_NUMPAD1);
+	}
+	if (false == GameEngineInput::IsKey("Ten2"))
+	{
+		GameEngineInput::CreateKey("Ten2", VK_NUMPAD2);
+	}
+	if (false == GameEngineInput::IsKey("Ten3"))
+	{
+		GameEngineInput::CreateKey("Ten3", VK_NUMPAD3);
+	}
+	if (false == GameEngineInput::IsKey("Ten4"))
+	{
+		GameEngineInput::CreateKey("Ten4", VK_NUMPAD4);
+	}
+	if (false == GameEngineInput::IsKey("Ten5"))
+	{
+		GameEngineInput::CreateKey("Ten5", VK_NUMPAD5);
+	}
+	if (false == GameEngineInput::IsKey("Ten6"))
+	{
+		GameEngineInput::CreateKey("Ten6", VK_NUMPAD6);
+	}
 
 	m_pAnimationRender = CreateRender(RenderOrder::PLAYER);
 
@@ -95,10 +117,10 @@ void CPlayer::Start()
 	m_pAnimationRender->CreateAnimation({ .AnimationName = "R_KBM",.ImageName = "KingBabe.bmp",.Start = 6,.End = 8,.InterTime = 0.1f });
 
 	//KingBabeFlyReady
-	m_pAnimationRender->CreateAnimation({ .AnimationName = "FlyReady",.ImageName = "Fly.bmp",.Start = 0,.End = 0});
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "FlyReady",.ImageName = "Fly.bmp",.Start = 0,.End = 0 });
 
 	//KingBabeFlyIdle
-	m_pAnimationRender->CreateAnimation({ .AnimationName = "FlyIdle",.ImageName = "Fly.bmp",.Start = 1,.End = 3 ,.InterTime = 0.2f});
+	m_pAnimationRender->CreateAnimation({ .AnimationName = "FlyIdle",.ImageName = "Fly.bmp",.Start = 1,.End = 3 ,.InterTime = 0.2f });
 
 	//KingBabeLookUp
 	m_pAnimationRender->CreateAnimation({ .AnimationName = "FlyLookUp",.ImageName = "Fly.bmp",.Start = 4,.End = 7 ,.InterTime = 0.4f });
@@ -121,6 +143,38 @@ void CPlayer::Start()
 void CPlayer::Update(float _DeltaTime)
 {
 	Movecalculation(_DeltaTime);
+
+
+	if (GameEngineInput::IsDown("Ten1"))
+	{
+		m_fJumpPressTime = 0.1f;
+		ChangeState(PlayerState::JUMP);
+	}
+	if (GameEngineInput::IsDown("Ten2"))
+	{
+		m_fJumpPressTime = 0.2f;
+		ChangeState(PlayerState::JUMP);
+	}
+	if (GameEngineInput::IsDown("Ten3"))
+	{
+		m_fJumpPressTime = 0.3f;
+		ChangeState(PlayerState::JUMP);
+	}
+	if (GameEngineInput::IsDown("Ten4"))
+	{
+		m_fJumpPressTime = 0.4f;
+		ChangeState(PlayerState::JUMP);
+	}
+	if (GameEngineInput::IsDown("Ten5"))
+	{
+		m_fJumpPressTime = 0.5f;
+		ChangeState(PlayerState::JUMP);
+	}
+	if (GameEngineInput::IsDown("Ten6"))
+	{
+		m_fJumpPressTime = 0.6f;
+		ChangeState(PlayerState::JUMP);
+	}
 }
 
 void CPlayer::DirCheck(const std::string_view& _AnimationName)
@@ -269,6 +323,7 @@ void CPlayer::ColRender()
 			pPos.fUpRPos.ix() + 2,
 			pPos.fUpRPos.iy() + 2);
 	}
+
 }
 
 void CPlayer::TestRender()
@@ -477,6 +532,7 @@ void CPlayer::EndingScene(float _DeltaTime)
 
 	if (Act.Act2==true&& true==m_pBodyCollision->Collision({ .TargetGroup = static_cast<int>(CollisionOrder::ANGEL) })&&Act.Act3 == false)
 	{
+		GameEngineResources::GetInst().SoundPlay("plink.wav");
 		EndAnimChange("CrownJump");
 		m_pAnimationRender->SetScale({ 256,256 });
 
