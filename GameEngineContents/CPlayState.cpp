@@ -370,15 +370,10 @@ void  CPlayer::JumpUpdate(float _Time)
 		SetPos(GetPos() + float4::Down);
 		pPosUpdate();
 	}
-
-	//점프시 천장 막힘
-	if (ColUpAll() && false == ColCurDownAll())
-	{
-		m_MoveDir.y = 0.f;
-		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
-	}
-
 	WallCalibration();
+
+	
+
 
 	//오른쪽으로 점프중 오른쪽이 충돌했을 시 x값 반전해서 튕겨나가기
 	if (m_MoveDir.x > 0 && ColRightAll())
@@ -399,6 +394,7 @@ void  CPlayer::JumpUpdate(float _Time)
 		return;
 	}
 
+
 	//바닥이 사선일시 x값 0으로 해서 멈추게하기
 	if (ColCurDownAll(m_Red) || ColCurDownAll(m_Blue))
 	{
@@ -411,13 +407,14 @@ void  CPlayer::JumpUpdate(float _Time)
 	// 위가 사선일때
 
 	//빨간 픽셀이면 오른쪽으로 
-	if (ColCurUpAll(m_Red))
+	if (ColCurUpAll(m_Red)&& m_MoveDir.y<0)
 	{
 		m_bCollide = true;
 		AnimChange("Collide");
 		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 		m_MoveDir.x += -m_MoveDir.y;
-
+		m_MoveDir.y = 0.f;
+		++m_iCollide;
 		if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
 		{
 			m_MoveDir.x = m_fJumpMoveLimit;
@@ -426,13 +423,14 @@ void  CPlayer::JumpUpdate(float _Time)
 		return;
 	}
 	//파란 픽셀이면 오른쪽으로
-	else if (ColCurUpAll(m_Blue))
+	else if (ColCurUpAll(m_Blue) && m_MoveDir.y < 0)
 	{
 		m_bCollide = true;
 		AnimChange("Collide");
 		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
 		m_MoveDir.x += m_MoveDir.y;
-
+		m_MoveDir.y = 0.f;
+		++m_iCollide;
 		if (m_fJumpMoveLimit <= abs(m_MoveDir.x))
 		{
 			m_MoveDir.x = -m_fJumpMoveLimit;
@@ -441,10 +439,25 @@ void  CPlayer::JumpUpdate(float _Time)
 		return;
 	}
 
+	//점프시 천장 막힘
+	if (ColUpAll() && false == ColCurDownAll())
+	{
+		if (m_MoveDir.y < 0)
+		{
+			m_MoveDir.y += -m_MoveDir.y;
+		}
+		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
+	}
+
+	if (1 == m_iCollide)
+	{
+		GameEngineResources::GetInst().SoundPlay("king_bump.wav");
+	}
 
 	//점프중에 아래로 떨어지기 시작할시 down으로 전환
 	if (m_MoveDir.y >= 0)
 	{
+		m_iCollide = 0;
 		ChangeState(PlayerState::DOWN);
 		return;
 	}

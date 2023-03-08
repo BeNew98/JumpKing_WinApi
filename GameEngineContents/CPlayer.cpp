@@ -34,27 +34,27 @@ void CPlayer::Start()
 
 	if (false == GameEngineInput::IsKey("Ten1"))
 	{
-		GameEngineInput::CreateKey("Ten1", VK_NUMPAD1);
+		GameEngineInput::CreateKey("Ten1", 't');
 	}
 	if (false == GameEngineInput::IsKey("Ten2"))
 	{
-		GameEngineInput::CreateKey("Ten2", VK_NUMPAD2);
+		GameEngineInput::CreateKey("Ten2", 'y');
 	}
 	if (false == GameEngineInput::IsKey("Ten3"))
 	{
-		GameEngineInput::CreateKey("Ten3", VK_NUMPAD3);
+		GameEngineInput::CreateKey("Ten3", 'u');
 	}
 	if (false == GameEngineInput::IsKey("Ten4"))
 	{
-		GameEngineInput::CreateKey("Ten4", VK_NUMPAD4);
+		GameEngineInput::CreateKey("Ten4", 'i');
 	}
 	if (false == GameEngineInput::IsKey("Ten5"))
 	{
-		GameEngineInput::CreateKey("Ten5", VK_NUMPAD5);
+		GameEngineInput::CreateKey("Ten5", 'o');
 	}
 	if (false == GameEngineInput::IsKey("Ten6"))
 	{
-		GameEngineInput::CreateKey("Ten6", VK_NUMPAD6);
+		GameEngineInput::CreateKey("Ten6", 'p');
 	}
 
 	m_pAnimationRender = CreateRender(RenderOrder::PLAYER);
