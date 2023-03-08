@@ -46,7 +46,7 @@ void CSnow::SetSnow()
 
 		pSnow0 = CreateRender(RenderOrder::PARTICLE);
 		pSnow0->SetScale({ 1440,720 });
-		pSnow0->SetPosition(PlusPos);
+		pSnow0->SetMove(PlusPos);
 		pSnow0->SetAlpha(150);
 		pSnow0->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 		pSnow0->ChangeAnimation("snow");
@@ -54,7 +54,7 @@ void CSnow::SetSnow()
 
 		pSnow1 = CreateRender(RenderOrder::PARTICLE);
 		pSnow1->SetScale({ 1440,720 });
-		pSnow1->SetPosition(PlusPos);
+		pSnow1->SetMove(PlusPos);
 		pSnow1->SetAlpha(150);
 		pSnow1->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 		pSnow1->ChangeAnimation("snow");
@@ -62,7 +62,7 @@ void CSnow::SetSnow()
 
 		pSnow2 = CreateRender(RenderOrder::PARTICLE);
 		pSnow2->SetScale({ 1440,720 });
-		pSnow2->SetPosition(PlusPos);
+		pSnow2->SetMove(PlusPos);
 		pSnow2->SetAlpha(150);
 		pSnow2->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 		pSnow2->ChangeAnimation("snow");
@@ -70,7 +70,7 @@ void CSnow::SetSnow()
 
 		pSnow3 = CreateRender(RenderOrder::PARTICLE);
 		pSnow3->SetScale({ 1440,720 });
-		pSnow3->SetPosition(PlusPos);
+		pSnow3->SetMove(PlusPos);
 		pSnow3->SetAlpha(150);
 		pSnow3->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 		pSnow3->ChangeAnimation("snow");
@@ -78,7 +78,7 @@ void CSnow::SetSnow()
 
 		pSnow4 = CreateRender(RenderOrder::PARTICLE);
 		pSnow4->SetScale({ 1440,720 });
-		pSnow4->SetPosition(PlusPos);
+		pSnow4->SetMove(PlusPos);
 		pSnow4->SetAlpha(150);
 		pSnow4->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 		pSnow4->ChangeAnimation("snow");
@@ -86,7 +86,7 @@ void CSnow::SetSnow()
 
 		pSnow5 = CreateRender(RenderOrder::PARTICLE);
 		pSnow5->SetScale({ 1440,720 });
-		pSnow5->SetPosition(PlusPos);
+		pSnow5->SetMove(PlusPos);
 		pSnow5->SetAlpha(150);
 		pSnow5->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 		pSnow5->ChangeAnimation("snow");
@@ -94,7 +94,7 @@ void CSnow::SetSnow()
 
 		pSnow6 = CreateRender(RenderOrder::PARTICLE);
 		pSnow6->SetScale({ 1440,720 });
-		pSnow6->SetPosition(PlusPos);
+		pSnow6->SetMove(PlusPos);
 		pSnow6->SetAlpha(150);
 		pSnow6->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 		pSnow6->ChangeAnimation("snow");
@@ -103,7 +103,7 @@ void CSnow::SetSnow()
 		{
 			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
 			pSnow->SetScale({ 1440,720 });
-			pSnow->SetPosition(PlusPos);
+			pSnow->SetMove(PlusPos);
 			pSnow->SetAlpha(150);
 			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 			pSnow->ChangeAnimation("snow");
@@ -112,7 +112,7 @@ void CSnow::SetSnow()
 		{
 			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
 			pSnow->SetScale({ 1440,720 });
-			pSnow->SetPosition(PlusPos);
+			pSnow->SetMove(PlusPos);
 			pSnow->SetAlpha(150);
 			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 			pSnow->ChangeAnimation("snow");
@@ -121,7 +121,7 @@ void CSnow::SetSnow()
 		{
 			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
 			pSnow->SetScale({ 1440,720 });
-			pSnow->SetPosition(PlusPos);
+			pSnow->SetMove(PlusPos);
 			pSnow->SetAlpha(150);
 			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 			pSnow->ChangeAnimation("snow");
@@ -130,7 +130,7 @@ void CSnow::SetSnow()
 		{
 			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
 			pSnow->SetScale({ 1440,720 });
-			pSnow->SetPosition(PlusPos);
+			pSnow->SetMove(PlusPos);
 			pSnow->SetAlpha(150);
 			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 			pSnow->ChangeAnimation("snow");
@@ -139,7 +139,7 @@ void CSnow::SetSnow()
 		{
 			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
 			pSnow->SetScale({ 1440,720 });
-			pSnow->SetPosition(PlusPos);
+			pSnow->SetMove(PlusPos);
 			pSnow->SetAlpha(150);
 			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 			pSnow->ChangeAnimation("snow");
@@ -148,7 +148,7 @@ void CSnow::SetSnow()
 		{
 			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
 			pSnow->SetScale({ 1440,720 });
-			pSnow->SetPosition(PlusPos);
+			pSnow->SetMove(PlusPos);
 			pSnow->SetAlpha(150);
 			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 			pSnow->ChangeAnimation("snow");
@@ -157,7 +157,7 @@ void CSnow::SetSnow()
 		{
 			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
 			pSnow->SetScale({ 1440,720 });
-			pSnow->SetPosition(PlusPos);
+			pSnow->SetMove(PlusPos);
 			pSnow->SetAlpha(150);
 			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 			pSnow->ChangeAnimation("snow");
@@ -166,7 +166,7 @@ void CSnow::SetSnow()
 		{
 			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
 			pSnow->SetScale({ 1440,720 });
-			pSnow->SetPosition(PlusPos);
+			pSnow->SetMove(PlusPos);
 			pSnow->SetAlpha(150);
 			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 			pSnow->ChangeAnimation("snow");
@@ -175,7 +175,7 @@ void CSnow::SetSnow()
 		{
 			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
 			pSnow->SetScale({ 1440,720 });
-			pSnow->SetPosition(PlusPos);
+			pSnow->SetMove(PlusPos);
 			pSnow->SetAlpha(150);
 			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 			pSnow->ChangeAnimation("snow");
@@ -184,7 +184,7 @@ void CSnow::SetSnow()
 		{
 			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
 			pSnow->SetScale({ 1440,720 });
-			pSnow->SetPosition(PlusPos);
+			pSnow->SetMove(PlusPos);
 			pSnow->SetAlpha(150);
 			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 			pSnow->ChangeAnimation("snow");
@@ -193,7 +193,7 @@ void CSnow::SetSnow()
 		{
 			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
 			pSnow->SetScale({ 1440,720 });
-			pSnow->SetPosition(PlusPos);
+			pSnow->SetMove(PlusPos);
 			pSnow->SetAlpha(150);
 			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 			pSnow->ChangeAnimation("snow");
@@ -202,7 +202,7 @@ void CSnow::SetSnow()
 		{
 			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
 			pSnow->SetScale({ 1440,720 });
-			pSnow->SetPosition(PlusPos);
+			pSnow->SetMove(PlusPos);
 			pSnow->SetAlpha(150);
 			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 			pSnow->ChangeAnimation("snow");
@@ -211,7 +211,7 @@ void CSnow::SetSnow()
 		{
 			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
 			pSnow->SetScale({ 1440,720 });
-			pSnow->SetPosition(PlusPos);
+			pSnow->SetMove(PlusPos);
 			pSnow->SetAlpha(150);
 			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 			pSnow->ChangeAnimation("snow");
@@ -220,7 +220,7 @@ void CSnow::SetSnow()
 		{
 			GameEngineRender* pSnow = CreateRender(RenderOrder::PARTICLE);
 			pSnow->SetScale({ 1440,720 });
-			pSnow->SetPosition(PlusPos);
+			pSnow->SetMove(PlusPos);
 			pSnow->SetAlpha(150);
 			pSnow->CreateAnimation({ .AnimationName = "snow",.ImageName = "snow.bmp" ,.Start = 0, .End = 3 , .InterTime = 0.2f });
 			pSnow->ChangeAnimation("snow");

@@ -23,7 +23,7 @@ protected:
 	virtual void Update(float _DeltaTime) override;
 
 private:
-	float4 m_StartPos = { 480,8280 };
+	float4 m_StartPos = float4::Zero;
 
 	GameEngineRender* pSnow0 = nullptr;
 	GameEngineRender* pSnow1 = nullptr;

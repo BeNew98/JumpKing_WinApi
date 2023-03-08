@@ -355,7 +355,7 @@ void CPlayLevel::Loading()
 	pFlag2->SetPos({ 487, 13141 });
 
 	CSnow* pSnow = CreateActor<CSnow>();
-	//pSnow->SetPos(float4{ CMidGround::m_MapSize.hx(),CMidGround::m_MapSize.y - 270 });
+	pSnow->SetPos(float4::Zero);
 
 	CPlayer* pActor = CreateActor<CPlayer>();
 
@@ -479,6 +479,7 @@ void CPlayLevel::BGMPlay(int _Start, int _End, const std::string_view& _BGM)
 				return;
 			}
 			BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl(_BGM);
+			BGMPlayer.Volume(0.1f);
 		}
 	}
 }
