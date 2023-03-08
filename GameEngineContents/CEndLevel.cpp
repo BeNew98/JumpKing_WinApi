@@ -42,7 +42,6 @@ void CEndLevel::Update(float _DeltaTime)
 	if (GameEngineInput::IsDown("space"))
 	{
 		CPlayLevel::BGMPlayer.Stop();
-		GameEngineCore::GetInst()->ChangeLevel("Title");
 	}
 }
 

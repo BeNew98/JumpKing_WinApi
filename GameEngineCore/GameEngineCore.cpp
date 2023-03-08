@@ -35,8 +35,6 @@ void GameEngineCore::GlobalUpdate()
 		{
 			PrevLevel->LevelChangeEnd(NextLevel);
 			PrevLevel->ActorLevelChangeEnd(NextLevel);
-
-			delete PrevLevel;
 		}
 
 		Core->MainLevel = NextLevel;
