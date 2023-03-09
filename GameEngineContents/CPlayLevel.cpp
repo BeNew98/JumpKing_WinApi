@@ -479,7 +479,8 @@ void CPlayLevel::BGMPlay(int _Start, int _End, const std::string_view& _BGM)
 				return;
 			}
 			BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl(_BGM);
-			BGMPlayer.Volume(0.1f);
+			BGMPlayer.LoopCount(999);
+			//BGMPlayer.Volume(0.1f);
 		}
 	}
 }
