@@ -388,12 +388,12 @@ void CPlayLevel::Update(float _DeltaTime)
 
 		if (GameEngineInput::IsDown("UpArrow"))
 		{
-			--m_iMapNumber;
+			--m_iDebugMapNumber;
 		}
 
 		if (GameEngineInput::IsDown("DownArrow"))
 		{			
-			++m_iMapNumber;
+			++m_iDebugMapNumber;
 		}
 
 		//if (GameEngineInput::IsPress("LeftArrow"))
@@ -424,7 +424,7 @@ void CPlayLevel::Update(float _DeltaTime)
 
 		if (!CPlayer::MainPlayer->IsEnd())
 		{		
-			SetCameraPos(float4{ 0,(m_iMapNumber * GameEngineWindow::GetScreenSize().y) });
+			SetCameraPos(float4{ 0,(m_iDebugMapNumber * GameEngineWindow::GetScreenSize().y) });
 		}
 	}
 	else
@@ -443,6 +443,7 @@ void CPlayLevel::Update(float _DeltaTime)
 
 		float4 fPlayerPos = CPlayer::MainPlayer->GetPos();
 		m_iPrevMapNumber = m_iMapNumber;
+		m_iDebugMapNumber = m_iMapNumber;
 		m_iMapNumber = fPlayerPos.iy()/ GameEngineWindow::GetScreenSize().iy();
 		SetCameraPos(float4{ 0,(m_iMapNumber * GameEngineWindow::GetScreenSize().y) });
 	}	

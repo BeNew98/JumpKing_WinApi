@@ -28,6 +28,7 @@ protected:
 
 private:
 	int m_iMapNumber = 0;
+	int m_iDebugMapNumber = 0;
 	int m_iPrevMapNumber = 0;
 	float EndingEnd = 173.f;
 
