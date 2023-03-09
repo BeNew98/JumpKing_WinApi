@@ -74,6 +74,8 @@ void CTitleLevel::Update(float _DeltaTime)
 
 void CTitleLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
+	Act = {};
+	Nexile->On();
 }
 
 void CTitleLevel::LevelChangeEnd(GameEngineLevel* _NextLevel)
