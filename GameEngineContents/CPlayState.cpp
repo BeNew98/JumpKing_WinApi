@@ -128,7 +128,7 @@ void CPlayer::IdleUpdate(float _Time)
 {
 	FloorCalibration();
 
-	// move 상태에서 떨어지게 되었을때 down으로 전환
+	// idle 상태에서 떨어지게 되었을때 down으로 전환
 	if (m_MoveDir.y > 0)
 	{
 		ChangeState(PlayerState::DOWN);
@@ -621,12 +621,21 @@ void CPlayer::FallUpdate(float _Time)
 
 	m_MoveDir.x = 0;
 
+
+	if (m_MoveDir.y > 0)
+	{
+		ChangeState(PlayerState::DOWN);
+		return;
+	}
+
 	//녹다운시 1초뒤에 움직이는것이 가능
 	m_fKnockTime += _Time;
 	if (m_fKnockTime < 1.f)
 	{
 		return;
 	}
+
+
 
 	//방향키 누르면 move로 전환
 	if (GameEngineInput::IsPress("LeftMove") || GameEngineInput::IsPress("RightMove"))

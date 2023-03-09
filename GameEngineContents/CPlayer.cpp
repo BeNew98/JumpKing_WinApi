@@ -467,6 +467,7 @@ void CPlayer::WindCaculation(float _DeltaTime)
 	{
 		m_Wind.m_fTime = 0.f;
 		CSnow::MainSnow->SetPos(float4::Zero);
+		float4 snow = CSnow::MainSnow->GetPos();
 		return;
 	}
 	else
