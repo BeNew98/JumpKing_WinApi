@@ -449,7 +449,7 @@ void CPlayLevel::Update(float _DeltaTime)
 
 	if (!CPlayer::MainPlayer->IsEnd())
 	{
-		BGMPlay(5, 5, "");
+		//BGMPlay(5, 5, "");
 		BGMPlay(6, 14, "Sewer.wav");
 		BGMPlay(15, 22, "Bad Vibe.mp3");
 		BGMPlay(23, 26, "snowy windy.wav");
@@ -487,6 +487,7 @@ void CPlayLevel::BGMPlay(int _Start, int _End, const std::string_view& _BGM)
 void CPlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl("opening theme.wav");
+	BGMPlayer.LoopCount(1);
 	CBlackScreen* BS = CreateActor<CBlackScreen>();
 	BS->SetPos(float4{ 0,(42 * GameEngineWindow::GetScreenSize().y) });
 	BS->SetFadeIn();
