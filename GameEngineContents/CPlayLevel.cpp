@@ -449,7 +449,7 @@ void CPlayLevel::Update(float _DeltaTime)
 
 	if (!CPlayer::MainPlayer->IsEnd())
 	{
-		//BGMPlay(5, 5, "");
+		BGMPlay(5, 5, "");
 		BGMPlay(6, 14, "Sewer.wav");
 		BGMPlay(15, 22, "Bad Vibe.mp3");
 		BGMPlay(23, 26, "snowy windy.wav");
