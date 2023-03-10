@@ -300,6 +300,30 @@ void CPlayLevel::KeyLoad()
 	{
 		GameEngineInput::CreateKey("Number3", '3');
 	}
+	if (false == GameEngineInput::IsKey("Number4"))
+	{
+		GameEngineInput::CreateKey("Number4", '4');
+	}
+	if (false == GameEngineInput::IsKey("Number5"))
+	{
+		GameEngineInput::CreateKey("Number5", '5');
+	}
+	if (false == GameEngineInput::IsKey("Number6"))
+	{
+		GameEngineInput::CreateKey("Number6", '6');
+	}
+	if (false == GameEngineInput::IsKey("Number7"))
+	{
+		GameEngineInput::CreateKey("Number7", '7');
+	}
+	if (false == GameEngineInput::IsKey("Number8"))
+	{
+		GameEngineInput::CreateKey("Number8", '8');
+	}
+	if (false == GameEngineInput::IsKey("Number9"))
+	{
+		GameEngineInput::CreateKey("Number9", '9');
+	}
 
 
 
@@ -396,25 +420,39 @@ void CPlayLevel::Update(float _DeltaTime)
 			++m_iDebugMapNumber;
 		}
 
-		//if (GameEngineInput::IsPress("LeftArrow"))
-		//{
-		//	SetCameraMove(float4{ -300.f,0.f }*_DeltaTime);
-		//}
-		//
-		//if (GameEngineInput::IsPress("RightArrow"))
-		//{
-		//	SetCameraMove(float4{ 300.f,0.f }*_DeltaTime);
-		//}
-
 		if (GameEngineInput::IsDown("Number1"))
 		{
-			CPlayer::MainPlayer->SetPos(float4{ 486,12860 });
+			CPlayer::MainPlayer->SetPos(float4{ 112,27534 });
 		}
 		if (GameEngineInput::IsDown("Number2"))
 		{
-			CPlayer::MainPlayer->SetPos(float4{ 202,7486 });
+			CPlayer::MainPlayer->SetPos(float4{ 49,26254 });
 		}
 		if (GameEngineInput::IsDown("Number3"))
+		{
+			CPlayer::MainPlayer->SetPos(float4{ 588,22574 });
+		}
+		if (GameEngineInput::IsDown("Number4"))
+		{
+			CPlayer::MainPlayer->SetPos(float4{ 213,13070 });
+		}
+		if (GameEngineInput::IsDown("Number5"))
+		{
+			CPlayer::MainPlayer->SetPos(float4{ 330,10425 });
+		}
+		if (GameEngineInput::IsDown("Number6"))
+		{
+			CPlayer::MainPlayer->SetPos(float4{ 228,7888 });
+		}
+		if (GameEngineInput::IsDown("Number7"))
+		{
+			CPlayer::MainPlayer->SetPos(float4{ 372,4510 });
+		}
+		if (GameEngineInput::IsDown("Number8"))
+		{
+			CPlayer::MainPlayer->SetPos(float4{ 300,687 });
+		}
+		if (GameEngineInput::IsDown("Number9"))
 		{
 			CPlayer::MainPlayer->SetPos(float4{ 300,286 });
 		}
@@ -452,7 +490,7 @@ void CPlayLevel::Update(float _DeltaTime)
 	{
 		BGMPlay(5, 5, "");
 		BGMPlay(6, 14, "Sewer.wav");
-		BGMPlay(15, 22, "Bad Vibe.mp3");
+		BGMPlay(15, 22, "Fallen King.mp3");
 		BGMPlay(23, 26, "snowy windy.wav");
 		BGMPlay(27, 32, "Despair.mp3");
 		BGMPlay(33, 36, "Masse.mp3");

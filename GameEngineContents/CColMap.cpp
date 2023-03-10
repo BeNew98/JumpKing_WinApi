@@ -1,4 +1,5 @@
 #include "CColMap.h"
+#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineRender.h>
 #include "EnumHeader.h"
@@ -36,7 +37,11 @@ void CColMap::Update(float _DeltaTime)
 	}
 	if (true == GameEngineCore::GetInst()->IsDebug())
 	{
+
+		if (GameEngineInput::IsDown("RightArrow"))
+		{
 		m_pColMap->SetOrder(static_cast<int>(RenderOrder::DEBUG));
+		}
 	}
 	else
 	{

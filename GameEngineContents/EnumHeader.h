@@ -2,16 +2,16 @@
 
 enum class RenderOrder
 {
-	COLLIDEMAP,// 삭제예정
+	COLLIDEMAP,
 
 	BACKGROUND,
 	MIDGROUND,
 	PROPS,
-	DEBUG, // 삭제예정
 	PLAYER,
 	BABE,
 	FOREGROUND,
 	PARTICLE,
+	DEBUG, 
 };
 
 enum class CollisionOrder
